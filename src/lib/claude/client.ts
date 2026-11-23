@@ -96,30 +96,29 @@ function createGeminiClaudeLike(
                 body.tools = [{ googleSearch: {} }];
               }
 
-              const genUrl = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent?key=${encodeURIComponent(apiKey)}`;
-              let res = await fetchFn(genUrl, {
+              const vtxUrl = `https://aiplatform.googleapis.com/v1/publishers/google/models/${encodeURIComponent(model)}:generateContent`;
+              const genUrl = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent`;
+              const firstUrl = apiKey.startsWith("AQ.") ? vtxUrl : genUrl;
+              const secondUrl = apiKey.startsWith("AQ.") ? genUrl : vtxUrl;
+
+              let res = await fetchFn(firstUrl, {
                 method: "POST",
-                headers: { "Content-Type": "application/json" },
+                headers: { "Content-Type": "application/json", "x-goog-api-key": apiKey },
                 body: JSON.stringify(body),
               });
-              if (!res.ok && apiKey.startsWith("AQ.")) {
-                const genErr = await res.text().catch(() => "");
-                const vtxUrl = `https://aiplatform.googleapis.com/v1/publishers/google/models/${encodeURIComponent(model)}:generateContent?key=${encodeURIComponent(apiKey)}`;
-                const vtxRes = await fetchFn(vtxUrl, {
+              if (!res.ok) {
+                const firstErr = await res.text().catch(() => "");
+                const altRes = await fetchFn(secondUrl, {
                   method: "POST",
-                  headers: { "Content-Type": "application/json" },
+                  headers: { "Content-Type": "application/json", "x-goog-api-key": apiKey },
                   body: JSON.stringify(body),
                 });
-                if (vtxRes.ok) {
-                  res = vtxRes;
+                if (altRes.ok) {
+                  res = altRes;
                 } else {
-                  const vtxErr = await vtxRes.text().catch(() => "");
-                  throw new Error(`Gemini HTTP ${res.status}: ${genErr.slice(0, 250)} | Vertex HTTP ${vtxRes.status}: ${vtxErr.slice(0, 250)}`);
+                  const secondErr = await altRes.text().catch(() => "");
+                  throw new Error(`Gemini HTTP ${res.status}: ${firstErr.slice(0, 250)} | Alt HTTP ${altRes.status}: ${secondErr.slice(0, 250)}`);
                 }
-              }
-              if (!res.ok) {
-                const errText = await res.text().catch(() => "");
-                throw new Error(`Gemini HTTP ${res.status}: ${errText.slice(0, 300)}`);
               }
               const data = (await res.json()) as {
                 candidates?: Array<{
@@ -237,10 +236,10 @@ export function createClaude(
   apiKey: string,
   opts?: { geminiModel?: string; fetchFn?: typeof fetch },
 ): ClaudeLike {
-  if (!apiKey || apiKey === "offline-local-demo" || apiKey.startsWith("AQ.")) {
+  if (!apiKey || apiKey === "offline-local-demo") {
     return createOfflineDemoClaudeLike();
   }
-  if (apiKey.startsWith("AIza")) {
+  if (apiKey.startsWith("AIza") || apiKey.startsWith("AQ.")) {
     return createGeminiClaudeLike(apiKey, opts);
   }
   return new Anthropic({ apiKey });

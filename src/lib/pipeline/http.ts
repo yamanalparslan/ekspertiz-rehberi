@@ -1,3 +1,4 @@
+import { existsSync, readFileSync } from "node:fs";
 import firmsJson from "../../../kb/firms.json";
 import genericPricesJson from "../../../kb/generic-prices.json";
 import bmwG20Json from "../../../kb/vehicles/bmw-3-serisi-g20.json";
@@ -60,6 +61,20 @@ export function ndjsonResponse(
 }
 
 /** Yapılandırma eksikse null döner ve yalnızca değişken adını günlüğe yazar. */
+function readDevVars(): Record<string, string> {
+  try {
+    if (!existsSync(".dev.vars")) return {};
+    const out: Record<string, string> = {};
+    for (const line of readFileSync(".dev.vars", "utf8").split(/\r?\n/)) {
+      const m = /^\s*([A-Z0-9_]+)\s*=\s*(.*?)\s*$/.exec(line);
+      if (m && m[2]) out[m[1]] = m[2].replace(/^["']|["']$/g, "");
+    }
+    return out;
+  } catch {
+    return {};
+  }
+}
+
 export function buildDeps(usd: { total: number }): PipelineDeps | null {
   const isDev = process.env.NODE_ENV === "development";
   let env: Partial<ServerEnv> = {};
@@ -68,11 +83,14 @@ export function buildDeps(usd: { total: number }): PipelineDeps | null {
   } catch {
     if (!isDev) return null;
   }
+  const devVars = isDev ? readDevVars() : {};
   const apiKey =
     env.ANTHROPIC_API_KEY ||
     env.GEMINI_API_KEY ||
     process.env.ANTHROPIC_API_KEY ||
     process.env.GEMINI_API_KEY ||
+    devVars.ANTHROPIC_API_KEY ||
+    devVars.GEMINI_API_KEY ||
     (isDev ? "offline-local-demo" : undefined);
   if (!apiKey) {
     console.log(JSON.stringify({ event: "config_missing", name: "ANTHROPIC_API_KEY" }));
