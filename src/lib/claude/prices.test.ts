@@ -73,10 +73,10 @@ test("kaynaksız ve ters aralıklı fiyatlar atılır", async () => {
       row({ itemId: "c", title: "Ters aralık", minTry: 9000, maxTry: 100 }),
     ]),
   ]);
-  const out = await lookupPrices(client, { vehicle, needs: needs(3) }, NOW);
+  const out = await lookupPrices(client, { vehicle, needs: needs(3), vehicleKey: "bmw|320i" }, NOW);
   expect(out.prices).toHaveLength(1);
   expect(out.prices[0]).toEqual({
-    id: "live-arka-camurluk-boyama-tek-panel-2026-11-23",
+    id: "live-bmw-320i-arka-camurluk-boyama-tek-panel-2026-11-23",
     title: "Arka çamurluk boyama (tek panel)",
     partType: "belirtilmemis",
     laborIncluded: true,
@@ -101,6 +101,15 @@ test("http olmayan adres, sıfır değer ve bilinmeyen itemId atılır", async (
   ]);
   const out = await lookupPrices(client, { vehicle, needs: needs(1) }, NOW);
   expect(out.prices).toEqual([]);
+});
+
+test("farklı araç anahtarı, aynı başlık ve gün: kimlikler farklı", async () => {
+  const run = async (vehicleKey: string) =>
+    (await lookupPrices(seq([toolMsg([row()])]).client, { vehicle, needs: needs(1), vehicleKey }, NOW)).prices[0].id;
+  const [a, b] = [await run("bmw|320i"), await run("audi|a3")];
+  expect(a).not.toBe(b);
+  expect(a).toBe("live-bmw-320i-arka-camurluk-boyama-tek-panel-2026-11-23");
+  expect(b).toBe("live-audi-a3-arka-camurluk-boyama-tek-panel-2026-11-23");
 });
 
 test("aynı başlık iki kez gelirse kimlikler benzersiz kalır", async () => {

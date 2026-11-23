@@ -76,7 +76,7 @@ export async function savePriceCache(db: D1Like, vehicleKey: string, prices: Pri
   for (const p of prices) {
     await db
       .prepare(
-        "INSERT INTO price_cache (id, vehicle_id, json, as_of) VALUES (?, ?, ?, ?) ON CONFLICT(id) DO UPDATE SET vehicle_id = excluded.vehicle_id, json = excluded.json, as_of = excluded.as_of",
+        "INSERT INTO price_cache (id, vehicle_id, json, as_of) VALUES (?, ?, ?, ?) ON CONFLICT(id) DO UPDATE SET json = excluded.json, as_of = excluded.as_of",
       )
       .bind(p.id, vehicleKey, JSON.stringify(p), p.asOf)
       .run();

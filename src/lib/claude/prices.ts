@@ -106,7 +106,8 @@ function domainOf(url: string): string | null {
   }
 }
 
-function toPrices(rawRows: unknown[], ids: Set<string>, asOf: string): LivePrice[] {
+function toPrices(rawRows: unknown[], ids: Set<string>, asOf: string, vehicleKey: string | null): LivePrice[] {
+  const scope = slug(vehicleKey ?? "") || "genel";
   const out: LivePrice[] = [];
   const used = new Set<string>();
   for (const raw of rawRows) {
@@ -119,7 +120,7 @@ function toPrices(rawRows: unknown[], ids: Set<string>, asOf: string): LivePrice
     if (row.minTry <= 0 || row.maxTry <= 0 || row.minTry > row.maxTry) continue;
     const title = row.title.trim();
     if (slug(title) === "") continue;
-    const base = `live-${slug(title)}-${asOf}`;
+    const base = `live-${scope}-${slug(title)}-${asOf}`;
     let id = base;
     for (let n = 2; used.has(id); n++) id = `${base}-${n}`;
     used.add(id);
@@ -141,7 +142,12 @@ function toPrices(rawRows: unknown[], ids: Set<string>, asOf: string): LivePrice
 
 export async function lookupPrices(
   client: ClaudeLike,
-  input: { vehicle: Extraction["vehicle"]; needs: { itemId: string; need: string }[] },
+  input: {
+    vehicle: Extraction["vehicle"];
+    needs: { itemId: string; need: string }[];
+    /** price_cache anahtarı; fiyat kimliğine girer, böylece araçlar arası çakışma olmaz. */
+    vehicleKey?: string | null;
+  },
   now: Date,
 ): Promise<{ prices: LivePrice[]; usd: number }> {
   const needs = input.needs.slice(0, MAX_NEEDS);
@@ -184,7 +190,7 @@ export async function lookupPrices(
       if (b.type === "tool_use" && b.name === TOOL_NAME) {
         const parsed = InputSchema.safeParse(b.input);
         if (!parsed.success) throw new AnalysisError("invalid_output", usd, "bad tool input");
-        const prices = toPrices(parsed.data.fiyatlar, new Set(needs.map((n) => n.itemId)), istanbulDay(now));
+        const prices = toPrices(parsed.data.fiyatlar, new Set(needs.map((n) => n.itemId)), istanbulDay(now), input.vehicleKey ?? null);
         return { prices, usd };
       }
     }

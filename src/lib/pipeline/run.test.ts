@@ -211,7 +211,7 @@ test("hat: priceNeed olan madde canlı fiyatla dolar ve harcama eklenir", async 
   expect(sc.calls).toHaveLength(3);
   // Önbellek anahtarı: KB eşleşmesi yok -> "marka|model".
   expect(savePrices).toHaveBeenCalledWith("bmw|320i", [
-    expect.objectContaining({ id: "live-arka-camurluk-boyama-tek-panel-2026-11-23" }),
+    expect.objectContaining({ id: "live-bmw-320i-arka-camurluk-boyama-tek-panel-2026-11-23" }),
   ]);
   expect(JSON.stringify(savePrices.mock.calls[0])).not.toContain("forItemId");
 });

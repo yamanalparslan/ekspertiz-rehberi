@@ -108,7 +108,11 @@ async function addLivePrices(
 
   try {
     const { prices } = await tracked(d, () =>
-      lookupPrices(d.claude, { vehicle: extraction.vehicle, needs }, d.now()),
+      lookupPrices(
+        d.claude,
+        { vehicle: extraction.vehicle, needs, vehicleKey: priceCacheKey(knowledge.vehicleId, extraction.vehicle) },
+        d.now(),
+      ),
     );
     if (prices.length === 0) return { interpretation, knowledge };
 

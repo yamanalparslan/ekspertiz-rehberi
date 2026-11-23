@@ -49,6 +49,35 @@ test("loadKnowledge: marka yoksa önbellek sorgulanmaz", async () => {
   expect(log.some((l) => l.sql.includes("price_cache"))).toBe(false);
 });
 
+test("savePriceCache: iki araç iki ayrı satır; aynı aracın yeniden yazımı yerinde günceller, vehicle_id değişmez", async () => {
+  // Bellekte price_cache benzetimi: INSERT ... ON CONFLICT(id) DO UPDATE SET json, as_of.
+  const rows = new Map<string, { vehicle_id: string; json: string }>();
+  const db: D1Like = {
+    prepare: (sql) => ({
+      bind: (...a) => ({
+        all: async () => ({ results: [] as never[] }),
+        run: async () => {
+          expect(sql).not.toMatch(/DO UPDATE SET[^;]*vehicle_id/);
+          const [id, vid, json] = a as string[];
+          const ex = rows.get(id);
+          rows.set(id, { vehicle_id: ex ? ex.vehicle_id : vid, json });
+          return {};
+        },
+      }),
+    }),
+  };
+  const bmw = { ...price, id: "live-bmw-320i-x-2026-11-01" };
+  const audi = { ...price, id: "live-audi-a3-x-2026-11-01" };
+  await savePriceCache(db, "bmw|320i", [bmw]);
+  await savePriceCache(db, "audi|a3", [audi]);
+  expect(rows.size).toBe(2);
+  await savePriceCache(db, "bmw|320i", [{ ...bmw, minTry: 7 }]);
+  expect(rows.size).toBe(2);
+  expect(JSON.parse(rows.get(bmw.id)!.json).minTry).toBe(7);
+  expect(rows.get(bmw.id)!.vehicle_id).toBe("bmw|320i");
+  expect(rows.get(audi.id)!.vehicle_id).toBe("audi|a3");
+});
+
 test("savePriceCache: upsert, parametreli", async () => {
   const { db, log } = fakeDb([]);
   await savePriceCache(db, "bmw|320i", [price]);
