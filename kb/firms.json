@@ -4,6 +4,11 @@
       "name": "Otorapor",
       "verifyUrl": "https://otorapor.com/rapor/sorgula",
       "note": "Geçmiş ekspertiz sorgulama ekranı. Aracın plakası veya şasi numarası girilir (plaka/motor değişmiş olabileceği için şasi no önerilir). Bilgiler uyuşmazsa veya \"Rapor Bulunamadı\" çıkarsa rapor şüpheli sayılır; gerçek Otorapor raporlarının her sayfasının altında gümüş hologramlı logo bulunur."
+    },
+    {
+      "name": "RaporTürk",
+      "verifyUrl": "https://www.raporturk.com",
+      "note": "RaporTürk Oto Ekspertiz sorgulama sayfası. Rapor üzerindeki iş emri numarası veya QR kod (RaporTürk mobil uygulaması) ile raporun değiştirilmemiş olduğu teyit edilebilir; her sayfada gümüş hologram ve altın yıldızlı RaporTürk logosu bulunmalıdır."
     }
   ]
 }

@@ -49,12 +49,14 @@ export function ndjsonResponse(
 /** Yapılandırma eksikse null döner ve yalnızca değişken adını günlüğe yazar. */
 export function buildDeps(usd: { total: number }): PipelineDeps | null {
   const env = getServerEnv();
-  const apiKey = env.ANTHROPIC_API_KEY || env.GEMINI_API_KEY;
+  const isDev = process.env.NODE_ENV !== "production";
+  const apiKey = env.ANTHROPIC_API_KEY || env.GEMINI_API_KEY || (isDev ? "offline-local-demo" : undefined);
   if (!apiKey) {
     console.log(JSON.stringify({ event: "config_missing", name: "ANTHROPIC_API_KEY" }));
     return null;
   }
-  if (!env.EXTRACTION_HMAC_SECRET) {
+  const secret = env.EXTRACTION_HMAC_SECRET || (isDev ? "local-dev-hmac-secret-ekspertiz-rehberi-2026" : undefined);
+  if (!secret) {
     console.log(JSON.stringify({ event: "config_missing", name: "EXTRACTION_HMAC_SECRET" }));
     return null;
   }
@@ -71,7 +73,7 @@ export function buildDeps(usd: { total: number }): PipelineDeps | null {
     loadKnowledge: (q) => loadKnowledge(env.DB, q, new Date()),
     savePrices: (key, prices) => savePriceCache(env.DB, key, prices),
     spend,
-    secret: env.EXTRACTION_HMAC_SECRET as string,
+    secret,
     now: () => new Date(),
     capUsd: parseCap(env.DAILY_SPEND_CAP_USD),
   };

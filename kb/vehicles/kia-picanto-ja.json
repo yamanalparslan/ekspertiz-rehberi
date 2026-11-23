@@ -1,0 +1,122 @@
+{
+  "vehicle": {
+    "id": "kia-picanto-ja",
+    "brand": "Kia",
+    "model": "Picanto",
+    "generation": "Picanto III (JA, 2017-2026)",
+    "aliases": [
+      "Picanto",
+      "Kia Picanto",
+      "Picanto 1.0",
+      "Picanto 1.0 Live",
+      "Picanto 1.0 AMT",
+      "Picanto 1.25",
+      "Picanto 1.1 LX"
+    ],
+    "yearFrom": 2017,
+    "yearTo": 2026,
+    "engines": [
+      {
+        "code": "1.0 DPI / MPI (G3LD / G3LA)",
+        "cc": 998,
+        "fuel": "benzin"
+      },
+      {
+        "code": "1.25 MPI (G4LA)",
+        "cc": 1248,
+        "fuel": "benzin"
+      }
+    ],
+    "segment": "a_b"
+  },
+  "chronicIssues": [
+    {
+      "id": "picantoja-amt-kavrama-silkeleme",
+      "system": "sanziman",
+      "title": "1.0 AMT (yarı otomatik) şanzımanda kalkışta silkeleme ve baskı-balata erken aşınması",
+      "description": "Araclo Kia Picanto (JA) sayfası tek kavramalı robotize AMT otomatik şanzımanda dur-kalk trafikte ısınma, 1-2 vites geçişlerinde silkeleme/kararsızlık ve debriyaj aktüatörü kalibrasyon ihtiyacını orta önemde listeliyor. Rampada kalkış ve vites geçişleri test edilmelidir. Tek kaynaklı bilgidir. Fiyat kalemi yalnızca debriyaj seti işçiliğidir, parça dahil değildir.",
+      "symptoms": [
+        "kalkışta silkeleme",
+        "1-2 vites geçişinde sarsıntı",
+        "dur-kalk trafikte ısınma uyarısı"
+      ],
+      "matchKeywords": [
+        "AMT",
+        "debriyaj",
+        "kavrama",
+        "silkeleme",
+        "yarı otomatik"
+      ],
+      "obdCodes": [],
+      "engineCodes": [
+        "1.0 DPI / MPI (G3LD / G3LA)"
+      ],
+      "priceItemId": "generic-debriyaj-seti-iscilik",
+      "sources": [
+        {
+          "url": "https://www.araclo.com/vehicles/kia-picanto/ja/kronik-sorunlar",
+          "title": "Kia Picanto (JA) Kronik Sorunlar ve Bilinen Arızalar (Araclo)",
+          "domain": "araclo.com"
+        }
+      ],
+      "researchedAt": "2026-11-23"
+    },
+    {
+      "id": "picantoja-direksiyon-eps-tikirti",
+      "system": "direksiyon",
+      "title": "Elektrikli direksiyon kolonundan (MDPS) bozuk yolda tıkırtı",
+      "description": "Araclo Kia Picanto (JA) sayfası elektrikli direksiyon kolonundaki (MDPS) esnek kaplinin zamanla boşluk yaparak park manevralarında ve bozuk zeminde tıkırtı sesi üretebildiğini düşük-orta önemde listeliyor. Tek kaynaklı bilgidir.",
+      "symptoms": [
+        "direksiyon çevirirken tıkırtı",
+        "bozuk yolda direksiyon kolonundan ses"
+      ],
+      "matchKeywords": [
+        "direksiyon",
+        "MDPS",
+        "tıkırtı",
+        "direksiyon kolonu"
+      ],
+      "obdCodes": [],
+      "engineCodes": null,
+      "priceItemId": null,
+      "sources": [
+        {
+          "url": "https://www.araclo.com/vehicles/kia-picanto/ja/kronik-sorunlar",
+          "title": "Kia Picanto (JA) Kronik Sorunlar ve Bilinen Arızalar (Araclo)",
+          "domain": "araclo.com"
+        }
+      ],
+      "researchedAt": "2026-11-23"
+    },
+    {
+      "id": "picantoja-10mpi-rolanti-titresim",
+      "system": "motor",
+      "title": "3 silindirli 1.0 motorda rölanti titreşimi ve motor kulağı yorulması",
+      "description": "Araclo Kia Picanto (JA) sayfası 3 silindirli 1.0 litrelik (G3LA/G3LD) motorun doğal yapısı gereği rölantide titreşimli çalıştığını, motor ve şanzıman takozları yorulduğunda kabin içi sarsıntının arttığını düşük önemde listeliyor. Tek kaynaklı bilgidir.",
+      "symptoms": [
+        "rölantide kabin titreşimi",
+        "klima açıkken artan sarsıntı"
+      ],
+      "matchKeywords": [
+        "motor takozu",
+        "rölanti titreşimi",
+        "vuruntu",
+        "1.0"
+      ],
+      "obdCodes": [],
+      "engineCodes": [
+        "1.0 DPI / MPI (G3LD / G3LA)"
+      ],
+      "priceItemId": null,
+      "sources": [
+        {
+          "url": "https://www.araclo.com/vehicles/kia-picanto/ja/kronik-sorunlar",
+          "title": "Kia Picanto (JA) Kronik Sorunlar ve Bilinen Arızalar (Araclo)",
+          "domain": "araclo.com"
+        }
+      ],
+      "researchedAt": "2026-11-23"
+    }
+  ],
+  "priceItems": []
+}

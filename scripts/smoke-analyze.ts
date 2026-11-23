@@ -92,6 +92,8 @@ async function main() {
 }
 
 main().catch((e) => {
-  console.error(`smoke failed: ${e instanceof Error ? e.name + " " + (e as { code?: string }).code : "error"}`);
+  const cause = e && typeof e === "object" && "cause" in e ? (e as { cause?: unknown }).cause : undefined;
+  const causeMsg = cause instanceof Error ? cause.message : String(cause ?? "");
+  console.error(`smoke failed: ${e instanceof Error ? e.name + " " + (e as { code?: string }).code + " " + e.message + " | " + causeMsg : "error"}`);
   process.exit(1);
 });
