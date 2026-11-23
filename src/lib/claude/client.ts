@@ -31,6 +31,155 @@ function stripJsonFence(raw: string): string {
   return m ? m[1].trim() : t;
 }
 
+const VALID_SECTIONS = new Set([
+  "kaporta_boya", "mor_isik", "sasi", "ust_motor", "motor_alt_mekanik",
+  "ic_dis_donanim", "conta_kacak", "airbag", "obd", "test_hatti",
+  "km_sorgusu", "hasar_sorgusu", "diger",
+]);
+const VALID_STATUS = new Set([
+  "orijinal", "saglam", "orijinalinde_yok", "lokal_boyali", "boyali",
+  "tadilat_boyali", "degisen", "sokulup_takilmis", "deforme", "asinmis",
+  "terleme", "sizinti", "zayif", "bakim_onerilir", "degisim_gerekli",
+  "ariza", "calisiyor", "kontrol_onerilir", "diger",
+]);
+const VALID_OBD = new Set([
+  "motor", "sanziman", "fren", "airbag", "klima", "direksiyon",
+  "multimedya", "govde_elektronik", "surus_destek", "gosterge", "diger",
+]);
+const VALID_TESTS = new Set([
+  "fren_sapma_on", "fren_sapma_arka", "el_freni_sapma",
+  "yanal_kayma_on", "yanal_kayma_arka", "suspansiyon_tutunma", "dinamometre_guc",
+]);
+const VALID_FUELS = new Set(["benzin", "dizel", "lpg", "hibrit", "elektrik"]);
+const VALID_TRANS = new Set(["manuel", "otomatik", "yari_otomatik"]);
+const VALID_GROUPS = new Set(["normal", "belirsiz", "kronik", "dikkat"]);
+const VALID_FAULT_TYPES = new Set(["intermittent", "permanent", "unknown"]);
+
+function coerceGeminiJson(input: unknown): unknown {
+  if (!input || typeof input !== "object" || Array.isArray(input)) return input;
+  const o = input as Record<string, unknown>;
+
+  // Interpretation çıktısı:
+  if ("summary" in o || "checkList" in o) {
+    const rawItems = Array.isArray(o.items) ? o.items : [];
+    const rawCheck = Array.isArray(o.checkList) ? o.checkList : [];
+    return {
+      summary: String(o.summary ?? ""),
+      items: rawItems
+        .filter((it): it is Record<string, unknown> => Boolean(it && typeof it === "object"))
+        .map((it) => ({
+          itemId: String(it.itemId ?? it.id ?? ""),
+          group: VALID_GROUPS.has(String(it.group)) ? String(it.group) : "belirsiz",
+          title: String(it.title ?? ""),
+          meaning: String(it.meaning ?? ""),
+          whyItMatters: String(it.whyItMatters ?? ""),
+          askSeller: typeof it.askSeller === "string" ? it.askSeller : null,
+          priceItemId: typeof it.priceItemId === "string" ? it.priceItemId : null,
+          priceNeed: typeof it.priceNeed === "string" ? it.priceNeed : null,
+          chronicIssueId: typeof it.chronicIssueId === "string" ? it.chronicIssueId : null,
+          generalUnverified: Boolean(it.generalUnverified ?? false),
+        })),
+      checkList: rawCheck
+        .filter((c): c is Record<string, unknown> => Boolean(c && typeof c === "object"))
+        .map((c) => ({
+          title: String(c.title ?? ""),
+          why: String(c.why ?? ""),
+          chronicIssueId: typeof c.chronicIssueId === "string" ? c.chronicIssueId : null,
+        })),
+    };
+  }
+
+  // RawExtraction çıktısı:
+  if ("isReport" in o || "vehicle" in o || "sectionsPresent" in o) {
+    const v = (o.vehicle && typeof o.vehicle === "object" ? o.vehicle : {}) as Record<string, unknown>;
+    const r = (o.report && typeof o.report === "object" ? o.report : {}) as Record<string, unknown>;
+    const obd = (o.obd && typeof o.obd === "object" ? o.obd : {}) as Record<string, unknown>;
+    const numOrNull = (x: unknown): number | null =>
+      typeof x === "number" && Number.isFinite(x) ? x : null;
+    const strOrNull = (x: unknown): string | null =>
+      typeof x === "string" && x.trim() !== "" ? x : null;
+
+    return {
+      isReport: Boolean(o.isReport ?? true),
+      notReportReason: strOrNull(o.notReportReason),
+      vehicle: {
+        brand: strOrNull(v.brand),
+        model: strOrNull(v.model),
+        variant: strOrNull(v.variant),
+        year: numOrNull(v.year),
+        engineCc: numOrNull(v.engineCc),
+        powerHp: numOrNull(v.powerHp),
+        fuel: VALID_FUELS.has(String(v.fuel)) ? String(v.fuel) : null,
+        transmission: VALID_TRANS.has(String(v.transmission)) ? String(v.transmission) : null,
+        km: numOrNull(v.km),
+      },
+      report: {
+        firm: strOrNull(r.firm),
+        reportNo: strOrNull(r.reportNo),
+        date: strOrNull(r.date),
+        package: strOrNull(r.package),
+        platform: strOrNull(r.platform),
+        onlineReportQrPresent: Boolean(r.onlineReportQrPresent ?? false),
+      },
+      sectionsPresent: (Array.isArray(o.sectionsPresent) ? o.sectionsPresent : [])
+        .map(String)
+        .filter((s) => VALID_SECTIONS.has(s)),
+      items: (Array.isArray(o.items) ? o.items : [])
+        .filter((it): it is Record<string, unknown> => Boolean(it && typeof it === "object"))
+        .map((it) => ({
+          section: VALID_SECTIONS.has(String(it.section)) ? String(it.section) : "diger",
+          part: String(it.part ?? "Bilinmeyen Parça"),
+          rawStatus: String(it.rawStatus ?? ""),
+          statusKind: VALID_STATUS.has(String(it.statusKind)) ? String(it.statusKind) : "diger",
+          note: strOrNull(it.note),
+        })),
+      measurements: (Array.isArray(o.measurements) ? o.measurements : [])
+        .filter((m): m is Record<string, unknown> => Boolean(m && typeof m === "object" && VALID_TESTS.has(String(m.test))))
+        .map((m) => ({
+          test: String(m.test),
+          position: strOrNull(m.position),
+          value: numOrNull(m.value),
+          unit: strOrNull(m.unit),
+          performed: Boolean(m.performed ?? true),
+          printedPassMin: numOrNull(m.printedPassMin),
+          printedPassMax: numOrNull(m.printedPassMax),
+        })),
+      obd: {
+        summary: (Array.isArray(obd.summary) ? obd.summary : [])
+          .filter((s): s is Record<string, unknown> => Boolean(s && typeof s === "object"))
+          .map((s) => ({
+            system: VALID_OBD.has(String(s.system)) ? String(s.system) : "diger",
+            unitName: String(s.unitName ?? ""),
+            hasFault: Boolean(s.hasFault ?? false),
+          })),
+        rawFaults: (Array.isArray(obd.rawFaults) ? obd.rawFaults : [])
+          .filter((f): f is Record<string, unknown> => Boolean(f && typeof f === "object"))
+          .map((f) => ({
+            system: VALID_OBD.has(String(f.system)) ? String(f.system) : "diger",
+            unitName: String(f.unitName ?? ""),
+            code: String(f.code ?? ""),
+            description: String(f.description ?? ""),
+            type: VALID_FAULT_TYPES.has(String(f.type)) ? String(f.type) : "unknown",
+          })),
+      },
+      kmHistory: (Array.isArray(o.kmHistory) ? o.kmHistory : [])
+        .filter((k): k is Record<string, unknown> => Boolean(k && typeof k === "object" && typeof k.date === "string" && typeof k.km === "number"))
+        .map((k) => ({ date: String(k.date), km: Number(k.km) })),
+      damageRecords: (Array.isArray(o.damageRecords) ? o.damageRecords : [])
+        .filter((d): d is Record<string, unknown> => Boolean(d && typeof d === "object"))
+        .map((d) => ({
+          date: strOrNull(d.date),
+          cause: strOrNull(d.cause),
+          amountTry: numOrNull(d.amountTry),
+        })),
+      expertNotes: (Array.isArray(o.expertNotes) ? o.expertNotes : []).map(String),
+      unreadable: (Array.isArray(o.unreadable) ? o.unreadable : []).map(String),
+    };
+  }
+
+  return input;
+}
+
 function createGeminiClaudeLike(
   apiKey: string,
   opts?: { geminiModel?: string; fetchFn?: typeof fetch },
@@ -98,12 +247,10 @@ function createGeminiClaudeLike(
 
               const candidateModels = [
                 model,
+                "gemini-3.8-flash-lite-preview",
                 "gemini-3.8-flash-lite",
+                "gemini-2.5-flash-lite",
                 "gemini-3.8-pro",
-                "gemini-3.5-flash",
-                "gemini-3.5-pro",
-                "gemini-3.0-flash",
-                "gemini-2.5-pro",
               ];
               // Tekrarları kaldır.
               const modelsToTry = Array.from(new Set(candidateModels));
@@ -113,24 +260,29 @@ function createGeminiClaudeLike(
 
               for (const mName of modelsToTry) {
                 const genUrl = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(mName)}:generateContent`;
-                for (let attempt = 0; attempt < 2; attempt++) {
-                  const r = await fetchFn(genUrl, {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json", "x-goog-api-key": apiKey },
-                    body: JSON.stringify(body),
-                  });
-                  if (r.ok) {
-                    res = r;
+                for (let attempt = 0; attempt < 3; attempt++) {
+                  try {
+                    const r = await fetchFn(genUrl, {
+                      method: "POST",
+                      headers: { "Content-Type": "application/json", "x-goog-api-key": apiKey },
+                      body: JSON.stringify(body),
+                      signal: AbortSignal.timeout(55_000),
+                    });
+                    if (r.ok) {
+                      res = r;
+                      break;
+                    }
+                    const errTxt = await r.text().catch(() => "");
+                    errors.push(`${mName}#${attempt + 1}(${r.status}): ${errTxt.slice(0, 140)}`);
+                    if (r.status === 503 && attempt < 2) {
+                      await new Promise((resolve) => setTimeout(resolve, 1200 * (attempt + 1)));
+                      continue;
+                    }
+                    break;
+                  } catch (fetchErr) {
+                    errors.push(`${mName}#${attempt + 1}(ERR): ${fetchErr instanceof Error ? fetchErr.message : "timeout"}`);
                     break;
                   }
-                  const errTxt = await r.text().catch(() => "");
-                  errors.push(`${mName}#${attempt + 1}(${r.status}): ${errTxt.slice(0, 140)}`);
-                  // Yalnızca 503 (yoğunluk) durumunda aynı modeli 1 kez daha dene; 404/429 ise hemen sonraki modele geç.
-                  if (r.status === 503 && attempt === 0) {
-                    await new Promise((resolve) => setTimeout(resolve, 800));
-                    continue;
-                  }
-                  break;
                 }
                 if (res) break;
               }
@@ -192,10 +344,19 @@ function createGeminiClaudeLike(
                 };
               }
 
+              let finalText = cleanText;
+              if (cleanText) {
+                try {
+                  finalText = JSON.stringify(coerceGeminiJson(JSON.parse(cleanText)));
+                } catch {
+                  finalText = cleanText;
+                }
+              }
+
               return {
                 stop_reason: "end_turn",
                 usage,
-                content: cleanText ? [{ type: "text", text: cleanText }] : [],
+                content: finalText ? [{ type: "text", text: finalText }] : [],
               };
             },
           };
@@ -301,6 +462,7 @@ export async function runStructured<T>(
       })
       .finalMessage();
   } catch (e) {
+    console.error("[runStructured call error]", e instanceof Error ? e.message : e);
     throw new AnalysisError("internal", 0, "claude call failed", { cause: e });
   }
 
