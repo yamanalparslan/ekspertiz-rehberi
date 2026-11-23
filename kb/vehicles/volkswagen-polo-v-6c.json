@@ -184,41 +184,6 @@
       "researchedAt": "2026-11-23"
     },
     {
-      "id": "polo6c-dsg7-mekatronik",
-      "system": "sanziman",
-      "title": "7 ileri DSG mekatronik (şanzıman beyni) arızası",
-      "description": "Araclo Polo V (6C) sayfası 7 ileri DSG mekatronik ünitesi arızasını kritik, yüksek maliyetli sorun olarak listeliyor: vites boşa düşer, araç hareket etmez veya güç kaybeder, şanzıman uyarı lambası yanar. Sayfa sorunu 2008-2013 yıllarına bağlıyor; bu aralık bu makyajlı neslin (2014-2017) öncesini kapsıyor, bu yüzden kapsam araç bazında sorulmalıdır. Araclo'nun Polo blog yazısı da 7 ileri kuru kavramalı DSG'yi (DQ200) kullanıcıların en çok şikayet ettiği konu olarak anlatıyor (kullanıcı bildirimi, aynı site). Yetkili serviste şasi numarasıyla mekatronik değişimi ve yağ kampanyası kaydı sorulmalıdır.",
-      "symptoms": [
-        "vitesin boşa düşmesi",
-        "aracın hareket etmemesi",
-        "güç kaybı",
-        "şanzıman uyarı lambası"
-      ],
-      "matchKeywords": [
-        "DSG",
-        "mekatronik",
-        "şanzıman beyni",
-        "vites boşa düşüyor",
-        "DQ200"
-      ],
-      "obdCodes": [],
-      "engineCodes": null,
-      "priceItemId": null,
-      "sources": [
-        {
-          "url": "https://www.araclo.com/vehicles/volkswagen-polo/6r-makyajli/kronik-sorunlar",
-          "title": "Volkswagen Polo V (6C) makyajlı Kronik Sorunlar (Araclo)",
-          "domain": "araclo.com"
-        },
-        {
-          "url": "https://www.araclo.com/blog/volkswagen-polo-1.0-tsi-alinir-mi-detayli-inceleme-kullanici-yorumlari-ve-yillara-gore-karsilastirma",
-          "title": "Volkswagen Polo 1.0 TSI alınır mı? Kullanıcı yorumları (Araclo blog)",
-          "domain": "araclo.com"
-        }
-      ],
-      "researchedAt": "2026-11-23"
-    },
-    {
       "id": "polo6c-dsg7-kavrama-titreme",
       "system": "sanziman",
       "title": "7 ileri DSG kuru kavrama titremesi ve erken aşınma",

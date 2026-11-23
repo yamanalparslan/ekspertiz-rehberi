@@ -21,7 +21,7 @@ Not: Yalnızca 1-4 numaralı kaynaklarda adı geçen modeller 1-14. sıralarda l
 | 4 | Honda Civic (FC5: 2016-2021) | 1, 2 | yazıldı: `honda-civic-fc5` |
 | 5 | Renault Megane (Megane 4) | 1, 2, 3, 4 | yazıldı: `renault-megane-4` |
 | 6 | Volkswagen Polo | 1, 2 | yazıldı: `volkswagen-polo-v-6c` (Polo VI AW henüz yok) |
-| 7 | Ford Fiesta | 1, 2 | yazıldı: `ford-fiesta-mk7` (Mk6 henüz yok) |
+| 7 | Ford Fiesta | 1, 2 | yazıldı: `ford-fiesta-mk8` (2017-2021; eski nesiller henüz yok) |
 | 8 | Volkswagen Golf (1.6 TDI) | 1, 2 | yazıldı: `volkswagen-golf-7` |
 | 9 | Fiat Linea | 1, 2 | yazıldı: `fiat-linea` |
 | 10 | Hyundai Getz | 1, 2 | sırada (eski model) |

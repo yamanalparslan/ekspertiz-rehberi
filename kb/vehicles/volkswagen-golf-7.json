@@ -109,7 +109,7 @@
       "id": "golf7-on-kapi-su-alma",
       "system": "kaporta",
       "title": "Ön kapılardan su alma ve hoparlör yuvası çatlakları (2012-2015)",
-      "description": "Araclo Golf VII sayfası 2012-2015 araçlarda ön kapılardan suyun halıyı ıslatmasını, ön hoparlörlerde çıtırtı ve hoparlör yuvasında çatlak kaynaklı küf kokusunu orta önemde listeliyor. DonanımHaber forum listesi de 2012 ve 2013 modellerde kabine su girmesini anıyor (forum kullanıcı derlemesi). Eşik yanlarındaki halı nem açısından kontrol edilmeli.",
+      "description": "Araclo Golf VII sayfası 2012-2015 araçlarda ön kapılardan suyun halıyı ıslatmasını, ön hoparlörlerde çıtırtı ve hoparlör yuvasında çatlak kaynaklı küf kokusunu orta önemde listeliyor. Eşik yanlarındaki halı nem açısından kontrol edilmeli. Tek kaynaklı bilgidir.",
       "symptoms": [
         "halı ıslaklığı",
         "küf kokusu",
@@ -129,11 +129,6 @@
           "url": "https://www.araclo.com/vehicles/volkswagen-golf/mk7/kronik-sorunlar",
           "title": "Volkswagen Golf VII Kronik Sorunlar ve Bilinen Arızalar (Araclo)",
           "domain": "araclo.com"
-        },
-        {
-          "url": "https://forum.donanimhaber.com/golf-7-nin-kronik-sorunlari-27-kronik-sorun--139238714",
-          "title": "Golf 7'nin kronik sorunları - 27 kronik sorun (DonanımHaber forum)",
-          "domain": "forum.donanimhaber.com"
         }
       ],
       "researchedAt": "2026-11-23"
@@ -294,35 +289,6 @@
       "researchedAt": "2026-11-23"
     },
     {
-      "id": "golf7-dsg7-mekatronik",
-      "system": "sanziman",
-      "title": "7 ileri DSG mekatronik ünitesi arızası",
-      "description": "Araclo Golf VII sayfası 7 ileri DSG mekatronik ünitesi arızasını kritik, yüksek maliyetli sorun olarak listeliyor: vites boşa düşer, araç hareket etmez veya güç keser, şanzıman uyarı lambası yanar. Sayfa sorunu 2008-2013 yıllarına bağlıyor; bu aralık Golf VII'nin üretim başlangıcından (2012) öncesini de kapsıyor, kapsam araç bazında sorulmalıdır. Yetkili serviste şasi numarasıyla mekatronik değişimi ve yağ kampanyası kaydı sorulmalıdır. Tek kaynaklı bilgidir.",
-      "symptoms": [
-        "vitesin boşa düşmesi",
-        "aracın hareket etmemesi",
-        "güç kesilmesi",
-        "şanzıman uyarı lambası"
-      ],
-      "matchKeywords": [
-        "DSG",
-        "mekatronik",
-        "şanzıman beyni",
-        "vites boşa düşüyor"
-      ],
-      "obdCodes": [],
-      "engineCodes": null,
-      "priceItemId": null,
-      "sources": [
-        {
-          "url": "https://www.araclo.com/vehicles/volkswagen-golf/mk7/kronik-sorunlar",
-          "title": "Volkswagen Golf VII Kronik Sorunlar ve Bilinen Arızalar (Araclo)",
-          "domain": "araclo.com"
-        }
-      ],
-      "researchedAt": "2026-11-23"
-    },
-    {
       "id": "golf7-dsg7-kavrama",
       "system": "sanziman",
       "title": "7 ileri DSG kuru kavrama titremesi ve erken aşınma",
@@ -401,7 +367,7 @@
       "id": "golf7-elektronik-park-freni",
       "system": "fren",
       "title": "Elektronik park freni ve auto hold arızası",
-      "description": "Araclo Golf VII sayfası elektronik park freninin geç bırakmasını, yokuş kalkış desteğinin devre dışı kalmasını ve auto hold açıkken aracın geri kayabilmesini yüksek önemde listeliyor. DonanımHaber forum listesi de DSG'de auto hold kaymasını anıyor (forum kullanıcı derlemesi). Eğimde test ve park freni yazılım güncellemesi sorulmalıdır.",
+      "description": "Araclo Golf VII sayfası elektronik park freninin geç bırakmasını, yokuş kalkış desteğinin devre dışı kalmasını ve auto hold açıkken aracın geri kayabilmesini yüksek önemde listeliyor. Eğimde test ve park freni yazılım güncellemesi sorulmalıdır. Tek kaynaklı bilgidir.",
       "symptoms": [
         "park freni geç bırakıyor",
         "yokuşta geri kayma",
@@ -420,11 +386,6 @@
           "url": "https://www.araclo.com/vehicles/volkswagen-golf/mk7/kronik-sorunlar",
           "title": "Volkswagen Golf VII Kronik Sorunlar ve Bilinen Arızalar (Araclo)",
           "domain": "araclo.com"
-        },
-        {
-          "url": "https://forum.donanimhaber.com/golf-7-nin-kronik-sorunlari-27-kronik-sorun--139238714",
-          "title": "Golf 7'nin kronik sorunları - 27 kronik sorun (DonanımHaber forum)",
-          "domain": "forum.donanimhaber.com"
         }
       ],
       "researchedAt": "2026-11-23"
