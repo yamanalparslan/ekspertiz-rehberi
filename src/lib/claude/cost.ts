@@ -4,12 +4,16 @@ const OUTPUT_PER_MTOK = 20;
 const CACHE_READ_PER_MTOK = 0.2;
 // Önbellek yazımı: temel girdi fiyatının 1,25 katı (5 dk önbellek).
 const CACHE_WRITE_PER_MTOK = 5;
+// Claude web_search sunucu aracı: 1000 arama başına 10 $ (token ücretine ek).
+const CLAUDE_WEB_SEARCH_USD = 10 / 1000;
 
 export type Usage = {
   input_tokens: number;
   output_tokens: number;
   cache_read_input_tokens?: number | null;
   cache_creation_input_tokens?: number | null;
+  /** Claude sunucu araçları: web_search istek sayısı ayrıca faturalanır. */
+  server_tool_use?: { web_search_requests?: number | null } | null;
   /**
    * Gemini uyarlayıcısı doldurur: fiyat tablosu için model adı ve Google Search sorgu sayısı.
    * Bu durumda input_tokens = prompt + araç istemi, output_tokens = yanıt + düşünme tokenları.
@@ -24,7 +28,8 @@ export function usageToUsd(u: Usage): number {
       u.output_tokens * OUTPUT_PER_MTOK +
       (u.cache_read_input_tokens ?? 0) * CACHE_READ_PER_MTOK +
       (u.cache_creation_input_tokens ?? 0) * CACHE_WRITE_PER_MTOK) /
-    1_000_000
+      1_000_000 +
+    (u.server_tool_use?.web_search_requests ?? 0) * CLAUDE_WEB_SEARCH_USD
   );
 }
 

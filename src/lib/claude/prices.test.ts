@@ -253,6 +253,18 @@ test("Gemini: yalnız groundingChunks alan adlarındaki kaynaklar kalır; arama 
   expect(out.usd).toBeCloseTo((1000 * 1.5 + 100 * 7.5) / 1e6 + 0.014, 9);
 });
 
+test("Claude: web araması ücreti harcamaya girer (pause_turn dahil)", async () => {
+  const withSearches = (m: Record<string, unknown>, n: number) => ({
+    ...m,
+    usage: { ...USAGE, server_tool_use: { web_search_requests: n } },
+  });
+  const paused = { stop_reason: "pause_turn", content: [searchResult("https://example.com/x")] };
+  const { client } = seq([withSearches(paused, 2), withSearches(toolMsg([row()]), 3)]);
+  const out = await lookupPrices(client, { vehicle, needs: needs(1) }, NOW);
+  // İki tur x 0,006 $ token + 5 arama x 0,01 $.
+  expect(out.usd).toBeCloseTo(0.012 + 0.05, 9);
+});
+
 test("ihtiyaç yoksa çağrı yapılmaz", async () => {
   const { client, calls } = seq([]);
   expect(await lookupPrices(client, { vehicle, needs: [] }, NOW)).toEqual({ prices: [], usd: 0 });
