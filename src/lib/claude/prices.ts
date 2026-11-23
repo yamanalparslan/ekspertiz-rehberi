@@ -3,7 +3,7 @@ import type { BetaMessageParam, BetaToolUnion } from "@anthropic-ai/sdk/resource
 import type { Extraction } from "@/lib/schema/extraction";
 import type { PriceItem } from "@/lib/schema/kb";
 import { istanbulDay } from "@/lib/pipeline/spend";
-import { AnalysisError, MODEL, type ClaudeLike } from "./client";
+import { AnalysisError, failedCallUsd, logProviderError, MODEL, type ClaudeLike } from "./client";
 import { usageToUsd } from "./cost";
 
 const BETAS: ["server-side-fallback-2026-07-01"] = ["server-side-fallback-2026-07-01"];
@@ -175,7 +175,8 @@ export async function lookupPrices(
         })
         .finalMessage();
     } catch (e) {
-      throw new AnalysisError("internal", usd, "claude call failed", { cause: e });
+      logProviderError(e);
+      throw new AnalysisError("internal", usd + failedCallUsd(e), "claude call failed", { cause: e });
     }
     usd += usageToUsd(msg.usage);
     if (msg.stop_reason === "refusal") throw new AnalysisError("refusal", usd);

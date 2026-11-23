@@ -2,7 +2,8 @@ ANTHROPIC_API_KEY=
 # Anthropic anahtarı yoksa Gemini yolu (AIza… anahtarı) kullanılır.
 GEMINI_API_KEY=
 # GEMINI_MODEL=gemini-3.8-flash
-# GEMINI_FALLBACK_MODEL=gemini-3.6-flash
+# GEMINI_FALLBACK_MODEL=gemini-3.6-flash   (none: yedek yok)
+# GEMINI_MAX_OUTPUT_TOKENS=65536
 EXTRACTION_HMAC_SECRET=
 # Yalnız `next dev`: API çağrısı yapmayan çevrimdışı demo. Yalnız SHA-256 özeti aşağıda
 # verilen tek PDF'i tanır (shasum -a 256 dosya.pdf); başka her dosya "rapor değil" olur.

@@ -137,7 +137,12 @@ export async function buildDepsFrom(usd: { total: number }, ctx: DepsContext): P
       configMissing("ANTHROPIC_API_KEY");
       return null;
     }
-    claude = createClaude(apiKey, { geminiModel: pick("GEMINI_MODEL") });
+    const maxOut = Number(pick("GEMINI_MAX_OUTPUT_TOKENS"));
+    claude = createClaude(apiKey, {
+      geminiModel: pick("GEMINI_MODEL"),
+      geminiFallbackModel: pick("GEMINI_FALLBACK_MODEL"),
+      geminiMaxOutputTokens: Number.isFinite(maxOut) && maxOut > 0 ? maxOut : undefined,
+    });
   }
 
   const secret = pick("EXTRACTION_HMAC_SECRET") || (isDev ? DEV_HMAC_SECRET : undefined);
