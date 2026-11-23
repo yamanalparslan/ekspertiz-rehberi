@@ -15,10 +15,14 @@ export const MEDIA: Record<string, UploadFile["mediaType"]> = {
 
 export function loadApiKey(): string | undefined {
   if (process.env.ANTHROPIC_API_KEY) return process.env.ANTHROPIC_API_KEY;
+  if (process.env.GEMINI_API_KEY) return process.env.GEMINI_API_KEY;
   if (!existsSync(".dev.vars")) return undefined;
-  for (const line of readFileSync(".dev.vars", "utf8").split(/\r?\n/)) {
-    const m = /^\s*ANTHROPIC_API_KEY\s*=\s*(.*?)\s*$/.exec(line);
-    if (m) return m[1].replace(/^["']|["']$/g, "");
+  const text = readFileSync(".dev.vars", "utf8");
+  for (const keyName of ["ANTHROPIC_API_KEY", "GEMINI_API_KEY"]) {
+    for (const line of text.split(/\r?\n/)) {
+      const m = new RegExp(`^\\s*${keyName}\\s*=\\s*(.*?)\\s*$`).exec(line);
+      if (m && m[1]) return m[1].replace(/^["']|["']$/g, "");
+    }
   }
   return undefined;
 }

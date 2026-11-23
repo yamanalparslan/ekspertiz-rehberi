@@ -1,7 +1,7 @@
 import { APIConnectionError } from "@anthropic-ai/sdk";
 import { expect, test } from "vitest";
 import { z } from "zod";
-import { AnalysisError, runStructured } from "./client";
+import { AnalysisError, createClaude, runStructured } from "./client";
 import { fakeClient, textMsg } from "./testing";
 
 const schema = z.strictObject({ a: z.number() });
@@ -85,4 +85,22 @@ test("SDK hatası -> internal, cause korunur", async () => {
   expect(e.code).toBe("internal");
   expect(e.usd).toBe(0);
   expect(e.cause).toBe(err);
+});
+
+test("Gemini anahtarı (AIza...) ile createClaude: yapılandırılmış JSON yanıtı", async () => {
+  let calledUrl = "";
+  const fakeFetch: typeof fetch = async (input) => {
+    calledUrl = String(input);
+    return new Response(
+      JSON.stringify({
+        candidates: [{ finishReason: "STOP", content: { parts: [{ text: '```json\n{"a":42}\n```' }] } }],
+        usageMetadata: { promptTokenCount: 100, candidatesTokenCount: 10 },
+      }),
+      { status: 200, headers: { "Content-Type": "application/json" } },
+    );
+  };
+  const client = createClaude("AIzaSyTestKey123", { fetchFn: fakeFetch });
+  const r = await runStructured(client, base);
+  expect(r.data).toEqual({ a: 42 });
+  expect(calledUrl).toContain("generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent");
 });

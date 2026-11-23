@@ -49,11 +49,14 @@ export function ndjsonResponse(
 /** Yapılandırma eksikse null döner ve yalnızca değişken adını günlüğe yazar. */
 export function buildDeps(usd: { total: number }): PipelineDeps | null {
   const env = getServerEnv();
-  for (const name of ["ANTHROPIC_API_KEY", "EXTRACTION_HMAC_SECRET"] as const) {
-    if (!env[name]) {
-      console.log(JSON.stringify({ event: "config_missing", name }));
-      return null;
-    }
+  const apiKey = env.ANTHROPIC_API_KEY || env.GEMINI_API_KEY;
+  if (!apiKey) {
+    console.log(JSON.stringify({ event: "config_missing", name: "ANTHROPIC_API_KEY" }));
+    return null;
+  }
+  if (!env.EXTRACTION_HMAC_SECRET) {
+    console.log(JSON.stringify({ event: "config_missing", name: "EXTRACTION_HMAC_SECRET" }));
+    return null;
   }
   const inner = d1SpendStore(env.DB);
   const spend: SpendStore = {
@@ -64,7 +67,7 @@ export function buildDeps(usd: { total: number }): PipelineDeps | null {
     },
   };
   return {
-    claude: createClaude(env.ANTHROPIC_API_KEY as string),
+    claude: createClaude(apiKey),
     loadKnowledge: (q) => loadKnowledge(env.DB, q, new Date()),
     savePrices: (key, prices) => savePriceCache(env.DB, key, prices),
     spend,

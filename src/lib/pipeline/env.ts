@@ -6,6 +6,7 @@ import type { D1SpendDb } from "./spend";
 export interface ServerEnv {
   DB: D1Like & D1SpendDb;
   ANTHROPIC_API_KEY?: string;
+  GEMINI_API_KEY?: string;
   EXTRACTION_HMAC_SECRET?: string;
   DAILY_SPEND_CAP_USD?: string;
 }
