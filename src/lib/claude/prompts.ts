@@ -13,6 +13,14 @@ ARAÇ VE RAPOR
 
 DURUMLAR
 - Her satır için raporda basılı ham durumu olduğu gibi "rawStatus" alanına yaz ve anlamına en yakın "statusKind" değerine eşle. Satırdaki ek açıklama (ör. mikron değeri, "Boyasız Göçük Düzeltme") "note" alanına gider.
+- ÖNEMLİ statusKind eşlemeleri:
+  * "Orijinal", "Orijinal Boya", "Fabrika Değerlerinde" (ezik/çizik yoksa) -> "orijinal"
+  * "İyi", "Çok İyi", "Sağlam", "Sorunsuz", "Hasarsız", "Normal", "Temiz", "Uygun" -> "saglam"
+  * "Üfleme var mı? Hayır", "Duman var mı? Hayır", "Kaçak var mı? Hayır", "Arıza var mı? Hayır", "Ağır işlemli mi? Hayır", "Acil bakım gerekli mi? Hayır" gibi olumsuz sorularda sorun olmadığını belirten "Hayır" veya "Yok" yanıtları -> "saglam"
+  * Araçta donanım olarak bulunmayan özellikler ("Sunroof: Yok", "Turbo: Yok", "Airmatik: Yok", "Arazi Şanzımanı: Yok") -> "orijinalinde_yok"
+  * "Orijinal, Çizik", "Orijinal, Ezik Mevcut", "Plastik Parça, Çizik" -> "deforme"
+  * "Rot-Balans Gerekli mi? Evet" gibi bakım/ayar belirten yanıtlar -> "bakim_onerilir"
+  * "Airbag paketi seçilmedi", "Kontrol edilmedi" -> "kontrol_onerilir"
 - Aynı parça hem Kaporta-Boya hem Mor Işık sayfasında geçiyorsa, iki sayfada da ayrı satır olarak listele. Mor ışık panelleri, kaporta ile aynı olsa bile "mor_isik" bölümü altında listelenir.
 
 BÖLÜM EŞLEMESİ (sayfa başlığı -> section)

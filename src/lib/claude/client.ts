@@ -55,6 +55,55 @@ const VALID_TRANS = new Set(["manuel", "otomatik", "yari_otomatik"]);
 const VALID_GROUPS = new Set(["normal", "belirsiz", "kronik", "dikkat"]);
 const VALID_FAULT_TYPES = new Set(["intermittent", "permanent", "unknown"]);
 
+function inferStatusKind(rawKind: string, rawStatus: string, part: string): string {
+  const k = rawKind.trim().toLocaleLowerCase("tr-TR");
+  const s = rawStatus.trim().toLocaleLowerCase("tr-TR");
+  const p = part.trim().toLocaleLowerCase("tr-TR");
+
+  if (VALID_STATUS.has(k) && k !== "diger") return k;
+
+  if (s.includes("ezik") || s.includes("çizik") || s.includes("cizik") || s.includes("göçük")) {
+    return "deforme";
+  }
+  if (s.includes("seçilmedi") || s.includes("secilmedi") || s.includes("incelenmesi gerekli")) {
+    return "kontrol_onerilir";
+  }
+  if ((p.includes("gerekli mi") || p.includes("mevcut mu") || p.includes("var mı")) && s.startsWith("evet")) {
+    if (p.includes("conta kaçak") || p.includes("akrabanıza alır mısınız")) return "saglam";
+    if (p.includes("ezik") || p.includes("çizik")) return "deforme";
+    return "bakim_onerilir";
+  }
+  if (
+    s === "iyi" ||
+    s.startsWith("iyi ") ||
+    s.startsWith("iyi:") ||
+    s === "sorunsuz" ||
+    s === "hasarsız" ||
+    s === "hasarsiz" ||
+    s === "normal" ||
+    s === "사ğlam" ||
+    s === "sağlam" ||
+    s === "saglam" ||
+    s === "temiz" ||
+    s.startsWith("hayır") ||
+    s.startsWith("hayir") ||
+    s === "arıza kaydı yok" ||
+    s === "yanmıyor"
+  ) {
+    return "saglam";
+  }
+  if (s === "orijinal" || s.startsWith("orijinal :") || s.startsWith("orijinal:")) {
+    return "orijinal";
+  }
+  if (s === "yok" || s === "turbo yok") {
+    if (p.includes("arıza") || p.includes("sızdırmaz") || p.includes("yağ") || p.includes("boşluk")) {
+      return "saglam";
+    }
+    return "orijinalinde_yok";
+  }
+  return VALID_STATUS.has(k) ? k : "diger";
+}
+
 function coerceGeminiJson(input: unknown): unknown {
   if (!input || typeof input !== "object" || Array.isArray(input)) return input;
   const o = input as Record<string, unknown>;
@@ -126,13 +175,17 @@ function coerceGeminiJson(input: unknown): unknown {
         .filter((s) => VALID_SECTIONS.has(s)),
       items: (Array.isArray(o.items) ? o.items : [])
         .filter((it): it is Record<string, unknown> => Boolean(it && typeof it === "object"))
-        .map((it) => ({
-          section: VALID_SECTIONS.has(String(it.section)) ? String(it.section) : "diger",
-          part: String(it.part ?? "Bilinmeyen Parça"),
-          rawStatus: String(it.rawStatus ?? ""),
-          statusKind: VALID_STATUS.has(String(it.statusKind)) ? String(it.statusKind) : "diger",
-          note: strOrNull(it.note),
-        })),
+        .map((it) => {
+          const part = String(it.part ?? "Bilinmeyen Parça");
+          const rawStatus = String(it.rawStatus ?? "");
+          return {
+            section: VALID_SECTIONS.has(String(it.section)) ? String(it.section) : "diger",
+            part,
+            rawStatus,
+            statusKind: inferStatusKind(String(it.statusKind ?? ""), rawStatus, part),
+            note: strOrNull(it.note),
+          };
+        }),
       measurements: (Array.isArray(o.measurements) ? o.measurements : [])
         .filter((m): m is Record<string, unknown> => Boolean(m && typeof m === "object" && VALID_TESTS.has(String(m.test))))
         .map((m) => ({
