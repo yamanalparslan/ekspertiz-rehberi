@@ -238,6 +238,7 @@ function createGeminiClaudeLike(
                 contents,
                 generationConfig: {
                   maxOutputTokens: params.max_tokens,
+                  thinkingConfig: { thinkingBudget: 1024 },
                   ...(priceTool ? {} : { responseMimeType: "application/json" }),
                 },
               };
@@ -260,13 +261,14 @@ function createGeminiClaudeLike(
 
               for (const mName of modelsToTry) {
                 const genUrl = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(mName)}:generateContent`;
+                let reqBody = body;
                 for (let attempt = 0; attempt < 3; attempt++) {
                   try {
                     const r = await fetchFn(genUrl, {
                       method: "POST",
                       headers: { "Content-Type": "application/json", "x-goog-api-key": apiKey },
-                      body: JSON.stringify(body),
-                      signal: AbortSignal.timeout(55_000),
+                      body: JSON.stringify(reqBody),
+                      signal: AbortSignal.timeout(120_000),
                     });
                     if (r.ok) {
                       res = r;
@@ -274,6 +276,12 @@ function createGeminiClaudeLike(
                     }
                     const errTxt = await r.text().catch(() => "");
                     errors.push(`${mName}#${attempt + 1}(${r.status}): ${errTxt.slice(0, 140)}`);
+                    if (r.status === 400 && errTxt.includes("thinkingConfig") && attempt === 0) {
+                      const genCfg = { ...(reqBody.generationConfig as Record<string, unknown>) };
+                      delete genCfg.thinkingConfig;
+                      reqBody = { ...reqBody, generationConfig: genCfg };
+                      continue;
+                    }
                     if (r.status === 503 && attempt < 2) {
                       await new Promise((resolve) => setTimeout(resolve, 1200 * (attempt + 1)));
                       continue;
