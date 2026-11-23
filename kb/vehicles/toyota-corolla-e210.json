@@ -1,0 +1,86 @@
+{
+  "vehicle": {
+    "id": "toyota-corolla-e210",
+    "brand": "Toyota",
+    "model": "Corolla",
+    "generation": "E210 (2019 sonrası)",
+    "aliases": ["Corolla Sedan", "Corolla 1.6", "Corolla 1.8 Hybrid", "Corolla Hybrid"],
+    "yearFrom": 2019,
+    "yearTo": 2026,
+    "engines": [
+      { "code": "1.6 Valvematic", "cc": 1598, "fuel": "benzin" },
+      { "code": "1.8 Hybrid", "cc": 1798, "fuel": "hibrit" }
+    ],
+    "segment": "c"
+  },
+  "chronicIssues": [
+    {
+      "id": "corolla-e210-multimedya-donma",
+      "system": "elektronik",
+      "title": "Multimedya ekranında donma, yeniden başlama ve telefon bağlantısı kopmaları",
+      "description": "İki Türkçe kaynak, bazı Corolla ünitelerinde multimedya ekranının yavaşladığını, dondüğünü veya yeniden başladığını bildiriyor. Bir kaynak ayrıca Apple CarPlay, Android Auto, Bluetooth kopmalarını ve navigasyon gecikmelerini sayıyor; Toyota'nın birçok araçta bunu servislerde yazılım güncellemesiyle giderdiği belirtiliyor. Mekanik bir arıza değildir ama ekspertizde ekranın denenmesi ve yazılım güncelleme geçmişinin sorulması önerilir.",
+      "symptoms": ["ekran donması", "ekranın kendiliğinden yeniden başlaması", "CarPlay/Android Auto/Bluetooth kopması", "navigasyon gecikmesi"],
+      "matchKeywords": ["multimedya", "ekran donması", "carplay", "android auto", "bluetooth kopma", "navigasyon"],
+      "obdCodes": [],
+      "engineCodes": null,
+      "priceItemId": null,
+      "sources": [
+        {
+          "url": "https://automobilemagazine.com.tr/toyota-corolla-kronik-sorunlari-2019-2025-almayi-dusunenler-icin-bilmeniz-gerekenler",
+          "title": "Toyota Corolla Kronik Sorunları (2019-2025) (Automobile Magazine, 01.07.2026)",
+          "domain": "automobilemagazine.com.tr"
+        },
+        {
+          "url": "https://www.otomerkezi.net/alinir-mi/toyota-corolla-alinir-mi",
+          "title": "Toyota Corolla Alınır mı? 2026 Detaylı İnceleme (Oto Merkezi)",
+          "domain": "otomerkezi.net"
+        }
+      ],
+      "researchedAt": "2026-11-23"
+    },
+    {
+      "id": "corolla-e210-on-takim-amortisor",
+      "system": "suspansiyon",
+      "title": "Ön takım sesleri ve ön amortisör performans kaybı",
+      "description": "Bir kaynak bozuk yolda ön takımdan, amortisör takozlarından ve denge kolu bağlantılarından gelen tıkırtıları yoğun şehir kullanımında zamanla görülebilen bir şikayet olarak sayıyor. Diğer kaynak ön amortisörlerin 80.000 km sonrası performans kaybını ekspertizde kontrol edilecek noktalar arasında gösteriyor. Her araçta görülmez.",
+      "symptoms": ["bozuk yolda ön takımdan tıkırtı", "ön amortisör performansında düşüş"],
+      "matchKeywords": ["ön takım", "amortisör", "amortisör takozu", "denge kolu", "süspansiyon sesi", "tıkırtı"],
+      "obdCodes": [],
+      "engineCodes": null,
+      "priceItemId": null,
+      "sources": [
+        {
+          "url": "https://automobilemagazine.com.tr/toyota-corolla-kronik-sorunlari-2019-2025-almayi-dusunenler-icin-bilmeniz-gerekenler",
+          "title": "Toyota Corolla Kronik Sorunları (2019-2025) (Automobile Magazine, 01.07.2026)",
+          "domain": "automobilemagazine.com.tr"
+        },
+        {
+          "url": "https://www.otomerkezi.net/alinir-mi/toyota-corolla-alinir-mi",
+          "title": "Toyota Corolla Alınır mı? 2026 Detaylı İnceleme (Oto Merkezi)",
+          "domain": "otomerkezi.net"
+        }
+      ],
+      "researchedAt": "2026-11-23"
+    },
+    {
+      "id": "corolla-e210-fren-disk-balata-erken",
+      "system": "fren",
+      "title": "Fren disk ve balatalarının beklenenden erken değişmesi",
+      "description": "Tek bir kaynak, yetkili servis kayıtlarında ve kullanıcı geri bildirimlerinde bazı araçlarda fren disk ve balatalarının beklenenden önce değiştirildiğini, bunun kullanım tarzı ve yol koşullarından da etkilendiğini yazıyor. Başka kaynakla doğrulanmadı. Fiyat kalemi yalnızca ön disk değişimi işçiliğidir.",
+      "symptoms": ["fren disk ve balatalarının erken aşınması"],
+      "matchKeywords": ["fren diski", "fren balatası", "disk aşınması", "balata"],
+      "obdCodes": [],
+      "engineCodes": null,
+      "priceItemId": "generic-on-fren-disk-iscilik",
+      "sources": [
+        {
+          "url": "https://automobilemagazine.com.tr/toyota-corolla-kronik-sorunlari-2019-2025-almayi-dusunenler-icin-bilmeniz-gerekenler",
+          "title": "Toyota Corolla Kronik Sorunları (2019-2025) (Automobile Magazine, 01.07.2026)",
+          "domain": "automobilemagazine.com.tr"
+        }
+      ],
+      "researchedAt": "2026-11-23"
+    }
+  ],
+  "priceItems": []
+}

@@ -1,1 +1,259 @@
-{ "priceItems": [] }
+{
+  "priceItems": [
+    {
+      "id": "generic-lastik-4lu-a_b",
+      "title": "4 adet yaz lastiği, A-B segment (195/65 R15 ölçüsünde TEK ürün örneği: Michelin Primacy 4 liste fiyatı 3.925 TL x 4). Montaj/balans hariç. Tek ürün olduğu için aralık yok; ekonomik markalar daha ucuz olabilir.",
+      "partType": "belirtilmemis",
+      "laborIncluded": false,
+      "minTry": 15700,
+      "maxTry": 15700,
+      "segment": "a_b",
+      "source": {
+        "url": "https://www.ekonomim.com/foto-galeri/otomotiv/2026-yaz-lastigi-fiyatlari-marka-marka-en-ucuz-yazlik-lastik-fiyat-listesi-s1-galeri-900193",
+        "title": "2026 yaz lastiği fiyatları marka marka (Ekonomim, 16.06.2026)",
+        "domain": "ekonomim.com"
+      },
+      "asOf": "2026-06-16"
+    },
+    {
+      "id": "generic-lastik-4lu-c",
+      "title": "4 adet yaz lastiği, C segment (205/55 R16). Kaynaktaki adet fiyatı x 4: en ucuz Goodyear Eagle Sport 2 3.179,5 TL, en pahalı Michelin Primacy 5 Energy 5.542 TL. Montaj/balans hariç.",
+      "partType": "belirtilmemis",
+      "laborIncluded": false,
+      "minTry": 12718,
+      "maxTry": 22168,
+      "segment": "c",
+      "source": {
+        "url": "https://www.ekonomim.com/foto-galeri/otomotiv/2026-yaz-lastigi-fiyatlari-marka-marka-en-ucuz-yazlik-lastik-fiyat-listesi-s1-galeri-900193",
+        "title": "2026 yaz lastiği fiyatları marka marka (Ekonomim, 16.06.2026)",
+        "domain": "ekonomim.com"
+      },
+      "asOf": "2026-06-16"
+    },
+    {
+      "id": "generic-lastik-4lu-d",
+      "title": "4 adet yaz lastiği, D segment (225/45 R17, 215/55 R17, 215/50 R17 ölçülerinden örnekler). Kaynaktaki adet fiyatı x 4: en ucuz Continental 225/45 R17 3.312,45 TL, en pahalı Continental 215/50 R17 4.939,05 TL. Montaj/balans hariç.",
+      "partType": "belirtilmemis",
+      "laborIncluded": false,
+      "minTry": 13250,
+      "maxTry": 19756,
+      "segment": "d",
+      "source": {
+        "url": "https://www.ekonomim.com/foto-galeri/otomotiv/2026-yaz-lastigi-fiyatlari-marka-marka-en-ucuz-yazlik-lastik-fiyat-listesi-s1-galeri-900193",
+        "title": "2026 yaz lastiği fiyatları marka marka (Ekonomim, 16.06.2026)",
+        "domain": "ekonomim.com"
+      },
+      "asOf": "2026-06-16"
+    },
+    {
+      "id": "generic-lastik-4lu-e_premium",
+      "title": "4 adet yaz lastiği, premium segment (225/45 R18 ölçüsünde TEK ürün örneği: Laufenn Z Fit EQ LK03 4.585 TL x 4, Cimri 2026 kaydı). Ekonomik marka örneği; premium markalar belirgin şekilde daha pahalı olabilir (aynı ölçüde Goodyear Vector 4Seasons adet 8.935,61 TL). Montaj/balans hariç.",
+      "partType": "belirtilmemis",
+      "laborIncluded": false,
+      "minTry": 18340,
+      "maxTry": 18340,
+      "segment": "e_premium",
+      "source": {
+        "url": "https://www.cimri.com/lastikler/en-ucuz-laufenn-z-fit-eq-lk03-22545-zr18-95y-xl-yaz-lastigi-2026-fiyatlari,2602736448",
+        "title": "Laufenn Z Fit EQ LK03 225/45 ZR18 95Y XL yaz lastiği fiyatları (Cimri)",
+        "domain": "cimri.com"
+      },
+      "asOf": "2026-08-02"
+    },
+    {
+      "id": "generic-lastik-4lu-suv",
+      "title": "4 adet yaz lastiği, SUV segment (215/65 R16, 225/55 R18, 235/55 R18 ölçülerinden örnekler). Kaynaktaki adet fiyatı x 4: en ucuz Lassa Competus H/P 2 225/55 R18 3.910 TL, en pahalı Continental PremiumContact 7 235/55 R18 5.383,5 TL. Montaj/balans hariç.",
+      "partType": "belirtilmemis",
+      "laborIncluded": false,
+      "minTry": 15640,
+      "maxTry": 21534,
+      "segment": "suv",
+      "source": {
+        "url": "https://www.ekonomim.com/foto-galeri/otomotiv/2026-yaz-lastigi-fiyatlari-marka-marka-en-ucuz-yazlik-lastik-fiyat-listesi-s1-galeri-900193",
+        "title": "2026 yaz lastiği fiyatları marka marka (Ekonomim, 16.06.2026)",
+        "domain": "ekonomim.com"
+      },
+      "asOf": "2026-06-16"
+    },
+    {
+      "id": "generic-on-fren-balata-iscilik",
+      "title": "Ön fren balatası değişimi, SADECE İŞÇİLİK (parça hariç). Kaynakta 1., 2. ve 3. sınıf servis ortalama işçilik ücretleri: 1.750 / 2.250 / 3.000 TL.",
+      "partType": "belirtilmemis",
+      "laborIncluded": true,
+      "minTry": 1750,
+      "maxTry": 3000,
+      "segment": null,
+      "source": {
+        "url": "https://www.isinolsa.com/2026-oto-servis-iscilik-ucretleri-aciklandi/",
+        "title": "2026 Oto Servis İşçilik Ücretleri Açıklandı (İşinolsa, 17.04.2026)",
+        "domain": "isinolsa.com"
+      },
+      "asOf": "2026-04-17"
+    },
+    {
+      "id": "generic-arka-fren-balata-iscilik",
+      "title": "Arka fren balatası değişimi, SADECE İŞÇİLİK (parça hariç). Kaynakta 1., 2. ve 3. sınıf servis ortalama işçilik ücretleri: 1.750 / 2.250 / 3.000 TL.",
+      "partType": "belirtilmemis",
+      "laborIncluded": true,
+      "minTry": 1750,
+      "maxTry": 3000,
+      "segment": null,
+      "source": {
+        "url": "https://www.isinolsa.com/2026-oto-servis-iscilik-ucretleri-aciklandi/",
+        "title": "2026 Oto Servis İşçilik Ücretleri Açıklandı (İşinolsa, 17.04.2026)",
+        "domain": "isinolsa.com"
+      },
+      "asOf": "2026-04-17"
+    },
+    {
+      "id": "generic-on-fren-disk-iscilik",
+      "title": "Ön fren diski değişimi, SADECE İŞÇİLİK (disk ve balata parçası hariç). Kaynakta 1., 2. ve 3. sınıf servis ortalama işçilik ücretleri: 2.750 / 3.500 / 4.000 TL.",
+      "partType": "belirtilmemis",
+      "laborIncluded": true,
+      "minTry": 2750,
+      "maxTry": 4000,
+      "segment": null,
+      "source": {
+        "url": "https://www.isinolsa.com/2026-oto-servis-iscilik-ucretleri-aciklandi/",
+        "title": "2026 Oto Servis İşçilik Ücretleri Açıklandı (İşinolsa, 17.04.2026)",
+        "domain": "isinolsa.com"
+      },
+      "asOf": "2026-04-17"
+    },
+    {
+      "id": "generic-arka-fren-disk-iscilik",
+      "title": "Arka fren diski değişimi, SADECE İŞÇİLİK (disk ve balata parçası hariç). Kaynakta 1., 2. ve 3. sınıf servis ortalama işçilik ücretleri: 2.750 / 3.500 / 4.000 TL.",
+      "partType": "belirtilmemis",
+      "laborIncluded": true,
+      "minTry": 2750,
+      "maxTry": 4000,
+      "segment": null,
+      "source": {
+        "url": "https://www.isinolsa.com/2026-oto-servis-iscilik-ucretleri-aciklandi/",
+        "title": "2026 Oto Servis İşçilik Ücretleri Açıklandı (İşinolsa, 17.04.2026)",
+        "domain": "isinolsa.com"
+      },
+      "asOf": "2026-04-17"
+    },
+    {
+      "id": "generic-debriyaj-seti-iscilik",
+      "title": "Debriyaj seti değişimi, SADECE İŞÇİLİK (debriyaj seti parçası hariç). Kaynakta 1., 2. ve 3. sınıf servis ortalama işçilik ücretleri: 10.000 / 13.000 / 15.000 TL.",
+      "partType": "belirtilmemis",
+      "laborIncluded": true,
+      "minTry": 10000,
+      "maxTry": 15000,
+      "segment": null,
+      "source": {
+        "url": "https://www.isinolsa.com/2026-oto-servis-iscilik-ucretleri-aciklandi/",
+        "title": "2026 Oto Servis İşçilik Ücretleri Açıklandı (İşinolsa, 17.04.2026)",
+        "domain": "isinolsa.com"
+      },
+      "asOf": "2026-04-17"
+    },
+    {
+      "id": "generic-cift-kavrama-iscilik",
+      "title": "Çift kavramalı (DCT/EDC) debriyaj değişimi, SADECE İŞÇİLİK (parça hariç). Kaynakta 1., 2. ve 3. sınıf servis ortalama işçilik ücretleri: 15.000 / 18.000 / 22.000 TL.",
+      "partType": "belirtilmemis",
+      "laborIncluded": true,
+      "minTry": 15000,
+      "maxTry": 22000,
+      "segment": null,
+      "source": {
+        "url": "https://www.isinolsa.com/2026-oto-servis-iscilik-ucretleri-aciklandi/",
+        "title": "2026 Oto Servis İşçilik Ücretleri Açıklandı (İşinolsa, 17.04.2026)",
+        "domain": "isinolsa.com"
+      },
+      "asOf": "2026-04-17"
+    },
+    {
+      "id": "generic-aku-60ah-sulu",
+      "title": "Standart (sulu/SFB) 60 Ah akü, parça fiyatı: Varta Blue Dynamic D24 2.399-3.190 TL, Mutlu SFB Seri 3 2.579-3.700 TL. Kaynak 2025 fiyat aralıkları veriyor (eski olabilir). Takma işçiliği belirtilmemiş.",
+      "partType": "belirtilmemis",
+      "laborIncluded": false,
+      "minTry": 2399,
+      "maxTry": 3700,
+      "segment": null,
+      "source": {
+        "url": "https://www.gazetebirlik.com/fiyatlar/aku-fiyatlari/905407",
+        "title": "Akü fiyatları (Gazete Birlik)",
+        "domain": "gazetebirlik.com"
+      },
+      "asOf": "2025-09-21"
+    },
+    {
+      "id": "generic-aku-70ah-agm",
+      "title": "AGM start-stop 70 Ah akü, parça fiyatı (BMW gibi AGM akü kullanan premium araçlar için referans): Mutlu AGM Start-Stop 7.142-9.142 TL, Varta Silver Dynamic E39 AGM 7.349-10.500 TL. Kaynak 2025 fiyat aralıkları veriyor (eski olabilir). BMW akü tanıtma/kodlama ücreti için kaynak bulunamadı; bu kalem onu içermez.",
+      "partType": "belirtilmemis",
+      "laborIncluded": false,
+      "minTry": 7142,
+      "maxTry": 10500,
+      "segment": "e_premium",
+      "source": {
+        "url": "https://www.gazetebirlik.com/fiyatlar/aku-fiyatlari/905407",
+        "title": "Akü fiyatları (Gazete Birlik)",
+        "domain": "gazetebirlik.com"
+      },
+      "asOf": "2025-09-21"
+    },
+    {
+      "id": "generic-boya-tam-parca",
+      "title": "Tam parça boyama (kaput, tavan veya kapı gibi tek parçanın boyanması), kaporta atölyesi tahmini aralığı; kaynak işçilik durumunu ayrıca belirtmiyor, işçilik dahil varsayılmıştır.",
+      "partType": "belirtilmemis",
+      "laborIncluded": true,
+      "minTry": 4000,
+      "maxTry": 8000,
+      "segment": null,
+      "source": {
+        "url": "https://www.aksoytuning.com/sayfa/oto-kaporta-boya-fiyatlari-ve-uygulamasi",
+        "title": "Oto Kaporta Boya Fiyatları ve Uygulaması 2026 (Aksoy Tuning)",
+        "domain": "aksoytuning.com"
+      },
+      "asOf": "2026-11-23"
+    },
+    {
+      "id": "generic-boya-lokal",
+      "title": "Lokal boya, parça başı (çamurluk ağzı veya kapı altı gibi küçük alanlar), kaporta atölyesi tahmini aralığı; kaynak işçilik durumunu ayrıca belirtmiyor, işçilik dahil varsayılmıştır.",
+      "partType": "belirtilmemis",
+      "laborIncluded": true,
+      "minTry": 2500,
+      "maxTry": 4500,
+      "segment": null,
+      "source": {
+        "url": "https://www.aksoytuning.com/sayfa/oto-kaporta-boya-fiyatlari-ve-uygulamasi",
+        "title": "Oto Kaporta Boya Fiyatları ve Uygulaması 2026 (Aksoy Tuning)",
+        "domain": "aksoytuning.com"
+      },
+      "asOf": "2026-11-23"
+    },
+    {
+      "id": "generic-boya-tavan",
+      "title": "Tavan boyama (güneş yanığı veya hasar nedeniyle), kaporta atölyesi tahmini aralığı; kaynak işçilik durumunu ayrıca belirtmiyor, işçilik dahil varsayılmıştır.",
+      "partType": "belirtilmemis",
+      "laborIncluded": true,
+      "minTry": 6000,
+      "maxTry": 12000,
+      "segment": null,
+      "source": {
+        "url": "https://www.aksoytuning.com/sayfa/oto-kaporta-boya-fiyatlari-ve-uygulamasi",
+        "title": "Oto Kaporta Boya Fiyatları ve Uygulaması 2026 (Aksoy Tuning)",
+        "domain": "aksoytuning.com"
+      },
+      "asOf": "2026-11-23"
+    },
+    {
+      "id": "generic-rot-balans-paket",
+      "title": "Rot ayarı + balans birlikte paket (Samsun servis listesi, 2025 sonu; bölgesel fiyat, büyük şehirlerde daha yüksek olabilir). Ayrı ayrı: rot ayarı 450-850 TL, 4 tekerlek balans 400-700 TL.",
+      "partType": "belirtilmemis",
+      "laborIncluded": true,
+      "minTry": 800,
+      "maxTry": 1500,
+      "segment": null,
+      "source": {
+        "url": "https://www.habergazetesi.com.tr/samsun-rot-balans-fiyatlari",
+        "title": "Samsun Rot Balans Fiyatları 2026 (Haber Gazetesi, 27.12.2025)",
+        "domain": "habergazetesi.com.tr"
+      },
+      "asOf": "2025-12-27"
+    }
+  ]
+}

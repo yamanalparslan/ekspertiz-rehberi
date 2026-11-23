@@ -1,1 +1,9 @@
-{ "firms": [] }
+{
+  "firms": [
+    {
+      "name": "Otorapor",
+      "verifyUrl": "https://otorapor.com/rapor/sorgula",
+      "note": "Geçmiş ekspertiz sorgulama ekranı. Aracın plakası veya şasi numarası girilir (plaka/motor değişmiş olabileceği için şasi no önerilir). Bilgiler uyuşmazsa veya \"Rapor Bulunamadı\" çıkarsa rapor şüpheli sayılır; gerçek Otorapor raporlarının her sayfasının altında gümüş hologramlı logo bulunur."
+    }
+  ]
+}

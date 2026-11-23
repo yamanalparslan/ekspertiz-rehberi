@@ -1,0 +1,150 @@
+{
+  "vehicle": {
+    "id": "renault-clio-4",
+    "brand": "Renault",
+    "model": "Clio",
+    "generation": "Clio 4 (2012-2019)",
+    "aliases": ["Clio IV", "Clio 4", "Clio 1.5 dCi", "Clio 0.9 TCe", "Clio Hatchback", "Clio Sedan"],
+    "yearFrom": 2012,
+    "yearTo": 2019,
+    "engines": [
+      { "code": "K9K-1.5dCi", "cc": 1461, "fuel": "dizel" },
+      { "code": "0.9 TCe", "cc": 898, "fuel": "benzin" },
+      { "code": "H5Ft-1.2TCe", "cc": 1198, "fuel": "benzin" },
+      { "code": "D4F-1.2-16V", "cc": 1149, "fuel": "benzin" }
+    ],
+    "segment": "a_b"
+  },
+  "chronicIssues": [
+    {
+      "id": "clio4-dci-enjektor-yakit-pompasi",
+      "system": "yakit",
+      "title": "1.5 dCi enjektör ve yakıt pompası arızası (\"enjeksiyonu kontrol ettirin\")",
+      "description": "Araclo'nun Clio IV sayfası 1.5 dCi (K9K) için yakıt pompası talaşı ve enjektör arızasını 60.000 km sonrası yüksek önemde listeliyor; bir Clio 4 rehberi de \"enjeksiyonu kontrol ettirin\" uyarısını bu motorun en sık derdi olarak anlatıyor ve en çok suçlanan nedenin kalitesiz mazot ve tıkalı mazot filtresi olduğunu, ardından ray basınç sensörü, elektrovana ve enjektörlerin geldiğini yazıyor. Teşhis çoğu zaman parça değil zincir sorgulamasıdır. Kullanıcı ve servis bildirimleridir.",
+      "symptoms": ["zor çalışma", "siyah duman", "tekleme", "güç kaybı", "enjeksiyonu kontrol ettirin uyarısı", "düzensiz rölanti"],
+      "matchKeywords": ["enjektör", "enjeksiyon", "yakıt pompası", "enjeksiyonu kontrol", "mazot filtresi", "ray basınç"],
+      "obdCodes": [],
+      "engineCodes": ["K9K-1.5dCi"],
+      "priceItemId": null,
+      "sources": [
+        {
+          "url": "https://www.araclo.com/vehicles/renault-clio/clio4/kronik-sorunlar",
+          "title": "Renault Clio IV Kronik Sorunlar ve Bilinen Arızalar (Araclo)",
+          "domain": "araclo.com"
+        },
+        {
+          "url": "https://parcabizden.com/rehber/renault-clio-4-kronik-arizalar",
+          "title": "Renault Clio 4 Kronik Sorunları ve Hangi Parça Çözer? (Parçabizden)",
+          "domain": "parcabizden.com"
+        }
+      ],
+      "researchedAt": "2026-11-23"
+    },
+    {
+      "id": "clio4-dci-egr-dpf",
+      "system": "emisyon",
+      "title": "1.5 dCi EGR valfi ve partikül filtresi (DPF) tıkanması",
+      "description": "Araclo Clio IV sayfası EGR valfi ve partikül filtresi tıkanmasını 60.000 km sonrası, özellikle kısa şehir içi kullanılmış araçlarda orta önemde listeliyor; Parçabizden rehberi de güç kaybı ve arıza ışığı için EGR/DPF'yi 1.5 dCi'nin tipik nedenleri arasında anlatıyor. Arıza kayıtları cihazla okutulmalıdır.",
+      "symptoms": ["rölanti dalgalanması", "çekiş düşmesi", "partikül filtresi uyarısı", "arıza ışığı"],
+      "matchKeywords": ["EGR", "DPF", "partikül filtresi", "egr valfi", "çekiş düşük", "dpf uyarısı"],
+      "obdCodes": [],
+      "engineCodes": ["K9K-1.5dCi"],
+      "priceItemId": null,
+      "sources": [
+        {
+          "url": "https://www.araclo.com/vehicles/renault-clio/clio4/kronik-sorunlar",
+          "title": "Renault Clio IV Kronik Sorunlar ve Bilinen Arızalar (Araclo)",
+          "domain": "araclo.com"
+        },
+        {
+          "url": "https://parcabizden.com/rehber/renault-clio-4-kronik-arizalar",
+          "title": "Renault Clio 4 Kronik Sorunları ve Hangi Parça Çözer? (Parçabizden)",
+          "domain": "parcabizden.com"
+        }
+      ],
+      "researchedAt": "2026-11-23"
+    },
+    {
+      "id": "clio4-tce-zincir",
+      "system": "motor",
+      "title": "TCe benzinli motorlarda triger zinciri uzaması (soğukta zincir sesi)",
+      "description": "Araclo Clio IV sayfası 1.2 TCe (H5Ft) için triger zinciri uzamasını ve gergi arızasını, soğuk çalıştırmada veya hızlanırken zincir şakırtısı belirtisiyle listeliyor (ilerlerse zincir atlayabilir). Parçabizden rehberi de 0.9 / 1.2 TCe için soğukta \"tır tır\" zincir sesini anlatıyor. Soğuk motoru ilk saniyelerde dinlemek ve zincir/yağ bakım kayıtlarını sormak önerilir.",
+      "symptoms": ["soğuk çalıştırmada zincir şakırtısı", "hızlanırken zincir sesi"],
+      "matchKeywords": ["triger zinciri", "zincir sesi", "zincir uzaması", "tır tır", "zincir şakırtısı", "gergi"],
+      "obdCodes": [],
+      "engineCodes": ["H5Ft-1.2TCe", "0.9 TCe"],
+      "priceItemId": null,
+      "sources": [
+        {
+          "url": "https://www.araclo.com/vehicles/renault-clio/clio4/kronik-sorunlar",
+          "title": "Renault Clio IV Kronik Sorunlar ve Bilinen Arızalar (Araclo)",
+          "domain": "araclo.com"
+        },
+        {
+          "url": "https://parcabizden.com/rehber/renault-clio-4-kronik-arizalar",
+          "title": "Renault Clio 4 Kronik Sorunları ve Hangi Parça Çözer? (Parçabizden)",
+          "domain": "parcabizden.com"
+        }
+      ],
+      "researchedAt": "2026-11-23"
+    },
+    {
+      "id": "clio4-12tce-yag-tuketimi",
+      "system": "motor",
+      "title": "1.2 TCe'de aşırı yağ tüketimi (2012-2016)",
+      "description": "Araclo Clio IV sayfası H5Ft 1.2 TCe motorunda 40.000 km sonrası, 2012-2016 aralığında aşırı yağ tüketimini ve motor hasarını yüksek maliyetli kritik sorun olarak listeliyor; belirtileri hızlı yağ düşmesi, egzozdan mavi duman, çekiş kaybı. Tek kaynaklı bilgidir.",
+      "symptoms": ["yağ seviyesinin hızla düşmesi", "egzozdan mavi duman", "çekiş kaybı"],
+      "matchKeywords": ["yağ tüketimi", "yağ yakma", "yağ eksiltme", "mavi duman", "segman"],
+      "obdCodes": [],
+      "engineCodes": ["H5Ft-1.2TCe"],
+      "priceItemId": null,
+      "sources": [
+        {
+          "url": "https://www.araclo.com/vehicles/renault-clio/clio4/kronik-sorunlar",
+          "title": "Renault Clio IV Kronik Sorunlar ve Bilinen Arızalar (Araclo)",
+          "domain": "araclo.com"
+        }
+      ],
+      "researchedAt": "2026-11-23"
+    },
+    {
+      "id": "clio4-fren-hortumu-geri-cagirma",
+      "system": "fren",
+      "title": "Ön fren hortumu sürtünmesi ve arka kampana silindiri kaçağı (geri çağırma, 2012-2014)",
+      "description": "Araclo Clio IV sayfası, 2012-2014 araçlarda ön fren hortumlarının sürtünmesini ve arka kampana silindiri kaçağını geri çağırma kapsamında kritik sorun olarak listeliyor: fren hidroliği kaçabilir, pedal derine iner, en kötü durumda ön hortum patlayabilir. Sayfa, yetkili serviste şasi numarasıyla geri çağırma işleminin yapılıp yapılmadığını sormayı öneriyor. Tek kaynaklı bilgidir; kampanyanın Türkiye'deki kapsamı bu kaynakta ayrıca doğrulanmıyor.",
+      "symptoms": ["fren hidroliği kaçağı", "fren pedalının derine inmesi", "fren etkisinin azalması"],
+      "matchKeywords": ["fren hortumu", "fren hidroliği", "kampana silindiri", "geri çağırma", "fren kaçağı"],
+      "obdCodes": [],
+      "engineCodes": null,
+      "priceItemId": null,
+      "sources": [
+        {
+          "url": "https://www.araclo.com/vehicles/renault-clio/clio4/kronik-sorunlar",
+          "title": "Renault Clio IV Kronik Sorunlar ve Bilinen Arızalar (Araclo)",
+          "domain": "araclo.com"
+        }
+      ],
+      "researchedAt": "2026-11-23"
+    },
+    {
+      "id": "clio4-edc-kavrama",
+      "system": "sanziman",
+      "title": "6 ileri EDC şanzımanda kuru kavrama titremesi ve şanzıman beyni arızası (2011-2018)",
+      "description": "Araclo Clio IV sayfası EDC çift kavramalı şanzımanda kalkışta titreme ve sarsıntı, vites geçişlerinde vuruntu, kayma ve aniden boşa düşme belirtilerini yüksek maliyetli sorun olarak listeliyor; kavrama, keçe ve şanzıman beyni değişim kayıtlarının yetkili serviste şasi numarasıyla sorulmasını öneriyor. Tek kaynaklı bilgidir. Fiyat kalemi yalnızca çift kavrama işçiliğidir, parça dahil değildir.",
+      "symptoms": ["kalkışta titreme", "vites geçişlerinde vuruntu", "kayma", "aniden boşa düşme", "vitesi kontrol ettirin uyarısı"],
+      "matchKeywords": ["EDC", "çift kavrama", "kavrama titremesi", "otomatik şanzıman", "vitesi kontrol ettirin", "şanzıman beyni"],
+      "obdCodes": [],
+      "engineCodes": null,
+      "priceItemId": "generic-cift-kavrama-iscilik",
+      "sources": [
+        {
+          "url": "https://www.araclo.com/vehicles/renault-clio/clio4/kronik-sorunlar",
+          "title": "Renault Clio IV Kronik Sorunlar ve Bilinen Arızalar (Araclo)",
+          "domain": "araclo.com"
+        }
+      ],
+      "researchedAt": "2026-11-23"
+    }
+  ],
+  "priceItems": []
+}

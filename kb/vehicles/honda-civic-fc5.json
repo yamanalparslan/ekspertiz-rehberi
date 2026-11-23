@@ -1,0 +1,85 @@
+{
+  "vehicle": {
+    "id": "honda-civic-fc5",
+    "brand": "Honda",
+    "model": "Civic",
+    "generation": "FC5 sedan (2016-2021)",
+    "aliases": ["Civic Sedan", "Civic FC5", "FC5", "Civic 1.6", "Civic 1.6 i-VTEC"],
+    "yearFrom": 2016,
+    "yearTo": 2021,
+    "engines": [
+      { "code": "R16", "cc": 1598, "fuel": "benzin" }
+    ],
+    "segment": "c"
+  },
+  "chronicIssues": [
+    {
+      "id": "civic-fc5-cvt-zincir",
+      "system": "sanziman",
+      "title": "CVT şanzıman zinciri uzaması ve vuruntu",
+      "description": "Araclo rehberi ve bir otomotiv forumu, FC5 1.6 i-VTEC'te CVT şanzımanın zincir (palet) yapısının en çok konuşulan sorun olduğunu yazıyor: bakımı aksatılan araçlarda zincir uzaması ve vites geçişlerinde vuruntu bildiriliyor. Başlangıç kilometresi 80.000 ile hiç sorun yaşamayan 220.000 km arasında değişiyor; belirleyici faktör olarak orijinal CVT yağının zamanında (40.000-50.000 km) değişmesi gösteriliyor. Bunlar kullanıcı bildirimleridir, yaygınlık oranı bilinmiyor.",
+      "symptoms": ["vites geçişlerinde vuruntu", "CVT'de titreme"],
+      "matchKeywords": ["cvt", "şanzıman zinciri", "cvt zinciri", "vuruntu", "vites vuruntusu", "cvt yağı"],
+      "obdCodes": [],
+      "engineCodes": ["R16"],
+      "priceItemId": null,
+      "sources": [
+        {
+          "url": "https://www.araclo.com/blog/honda-civic-1.6-i-vtec-fc5-alinir-mi-sorunlar-yakit-tuketimi-ve-yorumlar-2026",
+          "title": "Honda Civic 1.6 i-VTEC (FC5) Alınır mı? Sorunlar ve Yakıt Tüketimi (Araclo, Haziran 2026)",
+          "domain": "araclo.com"
+        },
+        {
+          "url": "https://otopark.com/forum/threads/2016-2021-yillari-arasinda-uretilen-civic-lerde-cvt-sanziman-sorunu.16111/",
+          "title": "2016-2021 yılları arasında üretilen Civic'lerde CVT şanzıman sorunu (Otopark Forum)",
+          "domain": "otopark.com"
+        }
+      ],
+      "researchedAt": "2026-11-23"
+    },
+    {
+      "id": "civic-fc5-boya-kalkmasi",
+      "system": "kaporta-boya",
+      "title": "Tavan kenarı ve arka cam çevresinde boya kalkması",
+      "description": "Araclo rehberi, özellikle 2017-2019 üretimi araçlarda tavan kenarları, arka cam çevresi ve yağmur oluklarında boya kalkmasının çok sayıda kullanıcı tarafından bildirildiğini (beyaz renklerde daha sık) yazıyor; Şikayetvar'da tavan ve bagaj kapağında boya kalkması şikayetleri de görülüyor. Boya kalkması orijinal boya mı yoksa onarım boyası mı olduğu konusunda ekspertiz raporuyla birlikte değerlendirilmeli. Fiyat kalemi tavan boyamadır.",
+      "symptoms": ["tavan kenarında boya kalkması", "arka cam çevresinde boya kabarması", "bagaj kapağında boya kalkması"],
+      "matchKeywords": ["boya kalkması", "boya atması", "tavan boyası", "boya kabarma", "lokal boya", "tavan boyalı"],
+      "obdCodes": [],
+      "engineCodes": null,
+      "priceItemId": "generic-boya-tavan",
+      "sources": [
+        {
+          "url": "https://www.araclo.com/blog/honda-civic-1.6-i-vtec-fc5-alinir-mi-sorunlar-yakit-tuketimi-ve-yorumlar-2026",
+          "title": "Honda Civic 1.6 i-VTEC (FC5) Alınır mı? Sorunlar ve Yakıt Tüketimi (Araclo, Haziran 2026)",
+          "domain": "araclo.com"
+        },
+        {
+          "url": "https://www.sikayetvar.com/honda/civic/civic-fc5?page=2",
+          "title": "Honda Civic FC5 Şikayetleri (Şikayetvar)",
+          "domain": "sikayetvar.com"
+        }
+      ],
+      "researchedAt": "2026-11-23"
+    },
+    {
+      "id": "civic-fc5-vtec-kapak-contasi",
+      "system": "motor",
+      "title": "VTEC kapak contasından hafif yağ sızıntısı",
+      "description": "Tek bir rehber, 100.000 km'ye yaklaşan bazı araçlarda VTEC kapak contasından hafif yağ sızıntısı görülebildiğini, kullanıcılara göre tamirin görece basit ve düşük maliyetli olduğunu yazıyor. Başka kaynakla doğrulanmadı.",
+      "symptoms": ["supap kapağı çevresinde yağ sızıntısı"],
+      "matchKeywords": ["kapak contası", "vtec kapak", "supap kapağı", "yağ sızıntısı", "yağ sızdırıyor"],
+      "obdCodes": [],
+      "engineCodes": ["R16"],
+      "priceItemId": null,
+      "sources": [
+        {
+          "url": "https://www.araclo.com/blog/honda-civic-1.6-i-vtec-fc5-alinir-mi-sorunlar-yakit-tuketimi-ve-yorumlar-2026",
+          "title": "Honda Civic 1.6 i-VTEC (FC5) Alınır mı? Sorunlar ve Yakıt Tüketimi (Araclo, Haziran 2026)",
+          "domain": "araclo.com"
+        }
+      ],
+      "researchedAt": "2026-11-23"
+    }
+  ],
+  "priceItems": []
+}

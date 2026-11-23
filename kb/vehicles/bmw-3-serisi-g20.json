@@ -1,0 +1,148 @@
+{
+  "vehicle": {
+    "id": "bmw-3-serisi-g20",
+    "brand": "BMW",
+    "model": "3 Serisi",
+    "generation": "G20 (2019 sonrası)",
+    "aliases": ["3 Series", "3 Serisi G20", "G20", "320i", "3.20i", "3.20", "330i", "3.30i", "318i", "3.18i"],
+    "yearFrom": 2019,
+    "yearTo": 2026,
+    "engines": [
+      { "code": "B48B16A", "cc": 1597, "fuel": "benzin" },
+      { "code": "B48B16A", "cc": 1598, "fuel": "benzin" },
+      { "code": "B48B20", "cc": 1998, "fuel": "benzin" }
+    ],
+    "segment": "e_premium"
+  },
+  "chronicIssues": [
+    {
+      "id": "bmw-g20-yag-filtre-yuvasi-kacagi",
+      "system": "motor",
+      "title": "B46/B48 motorlarda plastik yağ filtre yuvası ve contası kaçağı",
+      "description": "B46/B48 benzinli motorlarda yağ filtresi yuvası plastiktir. Parça satıcısı yuvanın çatlayıp yağın dışarı veya içeri sızmasına yol açtığını, contanın da yaşlanınca sertleşip kaçak yaptığını belirtiyor. ABD'de B46, B48 ve B58 motorlu 2014-2021 model yılı 1, 2, 3, 4 ve 5 Serisi için açılan bir toplu davada (Şubat 2026) yuvanın ve contaların ısınma-soğuma döngüleriyle gevrekleştiği ve soğutma sıvısı kaçağına yol açabildiği iddia ediliyor; dava iddiadır, karara bağlanmış bir hüküm değildir. Aynı haberde BMW'nin SIB 11 10 25 numaralı bülteni, yuva contasının burç/ek parçaya fazla basınç uygulayıp harici soğutma sıvısı kaçağına neden olabileceğini söylüyor. G20 için yalnızca 2019-2021 model yılları bu dava aralığına giriyor. Türkiye'de G20'ye özel bir arıza oranı bu kaynaklarda yok.",
+      "symptoms": ["motor altında veya blok çevresinde yağ sızıntısı", "soğutma sıvısı seviyesinde düşme", "yağ filtresi yuvası çevresinde yağ lekesi"],
+      "matchKeywords": ["yağ filtre yuvası", "yağ filtresi yuvası", "yağ filtre kapağı", "yağ sızıntısı", "yağ kaçağı", "soğutma sıvısı kaçağı", "antifriz kaçağı", "motor yağ kaçırıyor"],
+      "obdCodes": [],
+      "engineCodes": ["B48B16A", "B48B20"],
+      "priceItemId": null,
+      "sources": [
+        {
+          "url": "https://www.carcomplaints.com/news/2026/bmw-oil-filter-housing-lawsuit-b46-b48-b58-engines.shtml",
+          "title": "BMW oil filter housing lawsuit: B46, B48, B58 engines (CarComplaints, 16.02.2026)",
+          "domain": "carcomplaints.com"
+        },
+        {
+          "url": "https://www.bimmerworld.com/Engine/BMW-Oil-System/URO-Oil-Filter-Housing-B46-B48.html",
+          "title": "Oil Filter Housing with Cap Filter and Gaskets - B46 B48 Engine (BimmerWorld)",
+          "domain": "bimmerworld.com"
+        }
+      ],
+      "researchedAt": "2026-11-23"
+    },
+    {
+      "id": "bmw-g20-arka-balata-erken-asinma",
+      "system": "fren",
+      "title": "Arka fren balatalarının erken aşınması",
+      "description": "Türkiye'deki kullanıcı şikayetlerine dayanan bir rehber, G20'de arka balataların 13.000-18.000 km gibi düşük kilometrede bittiğini bildiriyor (normal beklenti 40.000-50.000 km). Şikayetvar'da bir kullanıcı balataların garanti kapsamında iki kez değiştirildiğini ve sorunun 25.000 km'den önce tekrarladığını yazıyor. Bu kaynaklar kullanıcı bildirimidir; yaygınlık oranı bilinmiyor. Balata kalınlığı ve değişim geçmişi ekspertizde sorulmalı.",
+      "symptoms": ["arka balata uyarısı düşük kilometrede yanıyor", "balata kalınlığı kısa sürede azalıyor"],
+      "matchKeywords": ["arka balata", "arka fren balatası", "balata aşınması", "balata uyarısı", "fren balatası bitti"],
+      "obdCodes": [],
+      "engineCodes": null,
+      "priceItemId": "bmw-g20-arka-disk-balata-ozel-servis",
+      "sources": [
+        {
+          "url": "https://www.araclo.com/blog/bmw-g20-3-serisi-incelemesi-sorunlar-bakim-maliyetleri-ve-satin-alma-rehberi-2026",
+          "title": "BMW G20 3 Serisi İncelemesi: Sorunlar, Bakım ve Satın Alma Rehberi (Araclo, 2026)",
+          "domain": "araclo.com"
+        },
+        {
+          "url": "https://www.sikayetvar.com/en/bmw-us/chronic-brake-pad-problem-with-bmw-g20-waiting-for-fix",
+          "title": "Chronic brake pad problem with BMW G20, waiting for fix (Şikayetvar kullanıcı şikayeti)",
+          "domain": "sikayetvar.com"
+        }
+      ],
+      "researchedAt": "2026-11-23"
+    },
+    {
+      "id": "bmw-g20-su-pompasi",
+      "system": "motor",
+      "title": "B48 motorlu G20'de su pompası arızası bildirimleri",
+      "description": "Tek bir Türkçe rehber, B48 motorlu G20'lerde 45.000-55.000 km civarında su pompası arızası bildirimlerinin dikkat çektiğini, yetkili servislerde bu arızanın bazen kullanıcı kaynaklı sayılıp garanti dışı bırakıldığını yazıyor. Başka bir kaynakla doğrulanmadı; tek kaynaklı bilgidir.",
+      "symptoms": ["soğutma sıvısı kaybı", "motor ısınma uyarısı"],
+      "matchKeywords": ["su pompası", "devirdaim", "soğutma suyu pompası", "motor ısınıyor", "antifriz azalıyor"],
+      "obdCodes": [],
+      "engineCodes": ["B48B16A", "B48B20"],
+      "priceItemId": "bmw-g20-su-pompasi-ozel-servis",
+      "sources": [
+        {
+          "url": "https://www.araclo.com/blog/bmw-g20-3-serisi-incelemesi-sorunlar-bakim-maliyetleri-ve-satin-alma-rehberi-2026",
+          "title": "BMW G20 3 Serisi İncelemesi: Sorunlar, Bakım ve Satın Alma Rehberi (Araclo, 2026)",
+          "domain": "araclo.com"
+        }
+      ],
+      "researchedAt": "2026-11-23"
+    }
+  ],
+  "priceItems": [
+    {
+      "id": "bmw-g20-arka-disk-balata-ozel-servis",
+      "title": "BMW G20 320i arka fren disk + balata seti, özel BMW servisi tahmini (kaynak parça/işçilik ayrımını belirtmiyor)",
+      "partType": "belirtilmemis",
+      "laborIncluded": false,
+      "minTry": 8000,
+      "maxTry": 14000,
+      "segment": "e_premium",
+      "source": {
+        "url": "https://www.araclo.com/blog/bmw-g20-3-serisi-incelemesi-sorunlar-bakim-maliyetleri-ve-satin-alma-rehberi-2026",
+        "title": "BMW G20 3 Serisi İncelemesi: Sorunlar, Bakım ve Satın Alma Rehberi (Araclo, Mayıs 2026)",
+        "domain": "araclo.com"
+      },
+      "asOf": "2026-05-10"
+    },
+    {
+      "id": "bmw-g20-arka-disk-balata-yetkili-servis",
+      "title": "BMW G20 320i arka fren disk + balata seti, yetkili servis (Borusan) tahmini (kaynak parça/işçilik ayrımını belirtmiyor)",
+      "partType": "belirtilmemis",
+      "laborIncluded": false,
+      "minTry": 15000,
+      "maxTry": 22000,
+      "segment": "e_premium",
+      "source": {
+        "url": "https://www.araclo.com/blog/bmw-g20-3-serisi-incelemesi-sorunlar-bakim-maliyetleri-ve-satin-alma-rehberi-2026",
+        "title": "BMW G20 3 Serisi İncelemesi: Sorunlar, Bakım ve Satın Alma Rehberi (Araclo, Mayıs 2026)",
+        "domain": "araclo.com"
+      },
+      "asOf": "2026-05-10"
+    },
+    {
+      "id": "bmw-g20-su-pompasi-ozel-servis",
+      "title": "BMW G20 320i su pompası değişimi, özel BMW servisi tahmini (kaynak parça/işçilik ayrımını belirtmiyor)",
+      "partType": "belirtilmemis",
+      "laborIncluded": false,
+      "minTry": 12000,
+      "maxTry": 20000,
+      "segment": "e_premium",
+      "source": {
+        "url": "https://www.araclo.com/blog/bmw-g20-3-serisi-incelemesi-sorunlar-bakim-maliyetleri-ve-satin-alma-rehberi-2026",
+        "title": "BMW G20 3 Serisi İncelemesi: Sorunlar, Bakım ve Satın Alma Rehberi (Araclo, Mayıs 2026)",
+        "domain": "araclo.com"
+      },
+      "asOf": "2026-05-10"
+    },
+    {
+      "id": "bmw-g20-su-pompasi-yetkili-servis",
+      "title": "BMW G20 320i su pompası değişimi, yetkili servis (Borusan) tahmini (kaynak parça/işçilik ayrımını belirtmiyor)",
+      "partType": "belirtilmemis",
+      "laborIncluded": false,
+      "minTry": 25000,
+      "maxTry": 35000,
+      "segment": "e_premium",
+      "source": {
+        "url": "https://www.araclo.com/blog/bmw-g20-3-serisi-incelemesi-sorunlar-bakim-maliyetleri-ve-satin-alma-rehberi-2026",
+        "title": "BMW G20 3 Serisi İncelemesi: Sorunlar, Bakım ve Satın Alma Rehberi (Araclo, Mayıs 2026)",
+        "domain": "araclo.com"
+      },
+      "asOf": "2026-05-10"
+    }
+  ]
+}
