@@ -111,6 +111,20 @@ test("marka ve modeli büyük/küçük harften bağımsız eşler; yıl aralığ
   expect(otherBrand.vehicleId).toBeNull();
 });
 
+test("ASCII büyük harf I (320I, CLIO) noktasız ı'ya düşmeden eşleşir; İ ve firma adı da eşleşir", () => {
+  const m = (model: string) =>
+    matchKnowledge(kb(), { vehicle: vehicle({ model }), firm: null }, now).vehicleId;
+  expect(m("320I")).toBe("bmw-3-serisi-g20");
+  expect(m("320İ")).toBe("bmw-3-serisi-g20");
+  expect(m("320i")).toBe("bmw-3-serisi-g20");
+
+  const clio = { ...bmw, vehicle: { ...bmw.vehicle, id: "renault-clio", brand: "Renault", model: "Clio", aliases: [] } };
+  const k = { vehicles: [clio], generic: [], firms: [] };
+  const q = (model: string) => ({ vehicle: vehicle({ brand: "RENAULT", model }), firm: null });
+  expect(matchKnowledge(k, q("CLIO"), now).vehicleId).toBe("renault-clio");
+  expect(matchKnowledge(k, q("Clio"), now).vehicleId).toBe("renault-clio");
+});
+
 test("motor koduna bağlı kronik sorun yalnız o motorda gelir", () => {
   const ids = (cc: number | null) =>
     matchKnowledge(kb(), { vehicle: vehicle({ engineCc: cc }), firm: null }, now).chronicIssues.map((c) => c.id);

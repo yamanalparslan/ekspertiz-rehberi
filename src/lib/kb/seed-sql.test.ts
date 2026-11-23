@@ -40,9 +40,9 @@ test("tek tırnak iki katına çıkarılır ve JSON geri okunabilir", () => {
   expect(json.chronicIssues[0].description).toBe("BMW'nin motoru");
 });
 
-test("marka tr-TR küçük harfle yazılır", () => {
-  const sql = toSeedSql([vehicle("a", "IŞIK", "d")], { priceItems: [] });
-  expect(sql).toContain("VALUES ('a', 'ışık',");
+test("marka normalize edilir (tr-TR küçük harf, ı -> i)", () => {
+  const sql = toSeedSql([vehicle("a", "CIVIC İŞ", "d")], { priceItems: [] });
+  expect(sql).toContain("VALUES ('a', 'civic iş',");
 });
 
 test("her araç ve her genel fiyat için bir ifade; tablolar önce silinir; harcama tablolarına dokunulmaz", () => {

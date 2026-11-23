@@ -29,7 +29,12 @@ const STALE_DAYS = 90;
 const DAY_MS = 24 * 60 * 60 * 1000;
 
 export function norm(s: string): string {
-  return s.toLocaleLowerCase("tr-TR").trim().replace(/\s+/g, " ");
+  return s
+    .toLocaleLowerCase("tr-TR")
+    .replace(/ı/g, "i") // ASCII "I" lowercases to dotless ı under tr-TR
+    .replace(/̇/g, "")
+    .trim()
+    .replace(/\s+/g, " ");
 }
 
 function isStale(asOf: string, now: Date): boolean {
