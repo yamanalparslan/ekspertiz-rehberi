@@ -92,6 +92,32 @@ function toUsage(model: string, data: GeminiResponse): Usage & { cache_creation_
   };
 }
 
+const HOSTNAME = /^(?=.{1,253}$)([a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z]{2,63}$/;
+const REDIRECT_HOSTS = new Set(["vertexaisearch.cloud.google.com"]);
+
+/**
+ * groundingChunks -> Claude `web_search_tool_result` bloğu. Gemini `web.uri` çoğunlukla
+ * vertexaisearch yönlendirme adresidir ve `web.title` kaynak alan adıdır (belge örneği:
+ * "uefa.com"); alan adı `domain` alanına konur. Yönlendirme dışı uri'nin ana makinesi de geçerlidir.
+ */
+export function groundingBlock(g: GroundingMetadata | undefined) {
+  const results: { type: "web_search_result"; url: string; title: string; domain?: string }[] = [];
+  for (const chunk of g?.groundingChunks ?? []) {
+    const uri = chunk.web?.uri ?? "";
+    const title = (chunk.web?.title ?? "").trim().toLowerCase().replace(/^www\./, "");
+    let host: string | null = null;
+    try {
+      const h = new URL(uri).hostname.toLowerCase().replace(/^www\./, "");
+      host = REDIRECT_HOSTS.has(h) ? null : h;
+    } catch {
+      host = null;
+    }
+    const domain = HOSTNAME.test(title) ? title : host;
+    if (domain) results.push({ type: "web_search_result", url: uri, title, domain });
+  }
+  return { type: "web_search_tool_result", tool_use_id: "gemini_search", content: results };
+}
+
 function countPdfPages(b64: string): number {
   try {
     const bin = atob(b64);
@@ -288,7 +314,11 @@ export function createGeminiClient(apiKey: string, opts: GeminiOptions = {}): Cl
       return {
         stop_reason: "tool_use",
         usage,
-        content: [{ type: "tool_use", id: "gemini_tool_1", name: "fiyatlari_kaydet", input }],
+        content: [
+          // Temellendirme kaynakları Claude'un arama sonucu biçiminde: lookupPrices kaynak denetimi yapar.
+          groundingBlock(cand.groundingMetadata),
+          { type: "tool_use", id: "gemini_tool_1", name: "fiyatlari_kaydet", input },
+        ],
       };
     }
 

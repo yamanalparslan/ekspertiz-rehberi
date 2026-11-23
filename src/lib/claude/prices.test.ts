@@ -1,6 +1,6 @@
 import { expect, test } from "vitest";
 import type { ClaudeLike } from "./client";
-import { AnalysisError } from "./client";
+import { AnalysisError, createClaude } from "./client";
 import { lookupPrices } from "./prices";
 
 const NOW = new Date("2026-11-23T10:00:00Z");
@@ -53,11 +53,17 @@ const row = (over: Record<string, unknown> = {}) => ({
   ...over,
 });
 
-const toolMsg = (fiyatlar: unknown[]) => ({
+const searchResult = (...urls: string[]) => ({
+  type: "web_search_tool_result",
+  tool_use_id: "s1",
+  content: urls.map((url) => ({ type: "web_search_result", url, title: "t", encrypted_content: "x", page_age: null })),
+});
+const toolMsg = (fiyatlar: unknown[], grounding: unknown[] = [searchResult("https://www.example.com/liste")]) => ({
   stop_reason: "tool_use",
   usage: USAGE,
   content: [
     { type: "server_tool_use", id: "s1", name: "web_search", input: { query: "x" } },
+    ...grounding,
     { type: "tool_use", id: "t1", name: "fiyatlari_kaydet", input: { fiyatlar } },
   ],
 });
@@ -181,6 +187,70 @@ test("refusal, truncated, araç çağrısı yok ve SDK hatası AnalysisError olu
   expect(await run(trunc)).toMatchObject({ code: "truncated" });
   expect(await run(noTool)).toMatchObject({ code: "invalid_output" });
   expect(await run(new Error("ağ"))).toMatchObject({ code: "internal", usd: 0 });
+});
+
+test("Claude: kaynağı bu aramanın sonuçlarında görünmeyen satır atılır", async () => {
+  const { client } = seq([
+    toolMsg(
+      [
+        row(),
+        row({ itemId: "b", title: "Uydurma kaynak", sourceUrl: "https://uydurma-fiyat.com/a" }),
+        row({ itemId: "c", title: "Alt alan adı", sourceUrl: "https://shop.example.com/urun" }),
+      ],
+      [searchResult("https://www.example.com/liste"), { type: "web_search_tool_result", tool_use_id: "s2", content: { type: "web_search_tool_result_error", error_code: "unavailable" } }],
+    ),
+  ]);
+  const out = await lookupPrices(client, { vehicle, needs: needs(3) }, NOW);
+  expect(out.prices.map((p) => p.forItemId)).toEqual(["a", "c"]);
+});
+
+test("Claude: arama sonucu hiç yoksa hiçbir fiyat kabul edilmez", async () => {
+  const { client } = seq([toolMsg([row()], [])]);
+  expect((await lookupPrices(client, { vehicle, needs: needs(1) }, NOW)).prices).toEqual([]);
+});
+
+test("Claude: pause_turn öncesi turdaki arama sonuçları da sayılır", async () => {
+  const paused = {
+    stop_reason: "pause_turn",
+    usage: USAGE,
+    content: [
+      { type: "server_tool_use", id: "s1", name: "web_search", input: { query: "x" } },
+      searchResult("https://example.com/eski-tur"),
+    ],
+  };
+  const { client } = seq([paused, toolMsg([row()], [])]);
+  const out = await lookupPrices(client, { vehicle, needs: needs(1) }, NOW);
+  expect(out.prices).toHaveLength(1);
+});
+
+test("Gemini: yalnız groundingChunks alan adlarındaki kaynaklar kalır; arama sorgusu faturalanır", async () => {
+  const fiyatlar = [
+    row(),
+    row({ itemId: "b", title: "Uydurma", sourceUrl: "https://uydurma-fiyat.com/a" }),
+  ];
+  const fetchFn: typeof fetch = async () =>
+    new Response(
+      JSON.stringify({
+        candidates: [
+          {
+            finishReason: "STOP",
+            content: { parts: [{ text: "```json\n" + JSON.stringify({ fiyatlar }) + "\n```" }] },
+            groundingMetadata: {
+              webSearchQueries: ["arka çamurluk boya fiyatı"],
+              groundingChunks: [
+                { web: { uri: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/abc", title: "example.com" } },
+              ],
+            },
+          },
+        ],
+        usageMetadata: { promptTokenCount: 1000, candidatesTokenCount: 100 },
+      }),
+      { status: 200 },
+    );
+  const client = createClaude("AIzaTest", { fetchFn, geminiModel: "gemini-3.8-flash" });
+  const out = await lookupPrices(client, { vehicle, needs: needs(2) }, NOW);
+  expect(out.prices.map((p) => p.forItemId)).toEqual(["a"]);
+  expect(out.usd).toBeCloseTo((1000 * 1.5 + 100 * 7.5) / 1e6 + 0.014, 9);
 });
 
 test("ihtiyaç yoksa çağrı yapılmaz", async () => {

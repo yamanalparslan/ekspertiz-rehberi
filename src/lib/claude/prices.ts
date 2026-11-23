@@ -106,7 +106,40 @@ function domainOf(url: string): string | null {
   }
 }
 
-function toPrices(rawRows: unknown[], ids: Set<string>, asOf: string, vehicleKey: string | null): LivePrice[] {
+const HOST_RE = /^(?=.{1,253}$)([a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z]{2,63}$/;
+
+/**
+ * Bu aramada gerçekten dönen sonuçların alan adları: Claude `web_search_tool_result`
+ * blokları; Gemini uyarlayıcısı groundingChunks'ı aynı biçimde (alan adı `domain` alanında) verir.
+ */
+function collectGroundedDomains(content: readonly unknown[], into: Set<string>): void {
+  for (const block of content) {
+    const b = block as { type?: string; content?: unknown };
+    if (b.type !== "web_search_tool_result" || !Array.isArray(b.content)) continue;
+    for (const r of b.content as { type?: string; url?: unknown; domain?: unknown }[]) {
+      if (r.type !== "web_search_result") continue;
+      const fromField = typeof r.domain === "string" ? r.domain.trim().toLowerCase().replace(/^www\./, "") : null;
+      const d = fromField && HOST_RE.test(fromField) ? fromField : typeof r.url === "string" ? domainOf(r.url) : null;
+      if (d) into.add(d);
+    }
+  }
+}
+
+/** Satırın alan adı, arama sonuçlarındaki bir alan adıyla aynı ya da onun alt/üst alan adı mı? */
+function isGrounded(domain: string, grounded: ReadonlySet<string>): boolean {
+  for (const g of grounded) {
+    if (domain === g || domain.endsWith(`.${g}`) || g.endsWith(`.${domain}`)) return true;
+  }
+  return false;
+}
+
+function toPrices(
+  rawRows: unknown[],
+  ids: Set<string>,
+  asOf: string,
+  vehicleKey: string | null,
+  grounded: ReadonlySet<string>,
+): LivePrice[] {
   const scope = slug(vehicleKey ?? "") || "genel";
   const out: LivePrice[] = [];
   const used = new Set<string>();
@@ -116,6 +149,8 @@ function toPrices(rawRows: unknown[], ids: Set<string>, asOf: string, vehicleKey
     const row = r.data;
     const domain = domainOf(row.sourceUrl);
     if (domain === null || !ids.has(row.itemId)) continue;
+    // Kaynak bu turdaki arama sonuçlarında yoksa (uydurma/hafızadan) atılır ve önbelleğe girmez.
+    if (!isGrounded(domain, grounded)) continue;
     if (!Number.isFinite(row.minTry) || !Number.isFinite(row.maxTry)) continue;
     if (row.minTry <= 0 || row.maxTry <= 0 || row.minTry > row.maxTry) continue;
     const title = row.title.trim();
@@ -157,6 +192,7 @@ export async function lookupPrices(
     { role: "user", content: [{ type: "text", text: JSON.stringify({ vehicle: input.vehicle, needs }) }] },
   ];
   let usd = 0;
+  const grounded = new Set<string>();
 
   for (let turn = 0; turn < MAX_TURNS; turn++) {
     let msg;
@@ -179,6 +215,7 @@ export async function lookupPrices(
       throw new AnalysisError("internal", usd + failedCallUsd(e), "claude call failed", { cause: e });
     }
     usd += usageToUsd(msg.usage);
+    collectGroundedDomains(msg.content, grounded);
     if (msg.stop_reason === "refusal") throw new AnalysisError("refusal", usd);
     if (msg.stop_reason === "max_tokens") throw new AnalysisError("truncated", usd);
 
@@ -191,7 +228,13 @@ export async function lookupPrices(
       if (b.type === "tool_use" && b.name === TOOL_NAME) {
         const parsed = InputSchema.safeParse(b.input);
         if (!parsed.success) throw new AnalysisError("invalid_output", usd, "bad tool input");
-        const prices = toPrices(parsed.data.fiyatlar, new Set(needs.map((n) => n.itemId)), istanbulDay(now), input.vehicleKey ?? null);
+        const prices = toPrices(
+          parsed.data.fiyatlar,
+          new Set(needs.map((n) => n.itemId)),
+          istanbulDay(now),
+          input.vehicleKey ?? null,
+          grounded,
+        );
         return { prices, usd };
       }
     }

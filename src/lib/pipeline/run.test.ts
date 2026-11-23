@@ -220,10 +220,17 @@ const liveRow = (itemId: string, title = "Arka çamurluk boyama (tek panel)") =>
   sourceUrl: "https://www.example.com/fiyat",
   sourceTitle: "Örnek",
 });
-const priceMsg = (fiyatlar: unknown[]) => ({
+const priceMsg = (fiyatlar: unknown[], groundedUrl = "https://example.com/arama") => ({
   stop_reason: "tool_use",
   usage: { input_tokens: 5000, output_tokens: 500 },
-  content: [{ type: "tool_use", id: "t", name: "fiyatlari_kaydet", input: { fiyatlar } }],
+  content: [
+    {
+      type: "web_search_tool_result",
+      tool_use_id: "s",
+      content: [{ type: "web_search_result", url: groundedUrl, title: "t", encrypted_content: "x", page_age: null }],
+    },
+    { type: "tool_use", id: "t", name: "fiyatlari_kaydet", input: { fiyatlar } },
+  ],
 });
 
 test("hat: priceNeed olan madde canlı fiyatla dolar ve harcama eklenir", async () => {
@@ -283,6 +290,23 @@ test("hat: fiyat araması hata verirse result yine gelir, harcama yazılır", as
   expect(ev.some((e) => e.type === "error")).toBe(false);
   expect(spend.adds).toHaveLength(3);
   expect(spend.adds[2]).toBeCloseTo(0.02, 6);
+});
+
+test("hat: aramada görünmeyen kaynaklı fiyat ne gösterilir ne önbelleğe yazılır", async () => {
+  const savePrices = vi.fn(async () => {});
+  const { deps } = mkDeps({
+    savePrices,
+    msgs: [
+      textMsg(JSON.stringify(fixture)),
+      interpMsg([iItem(ids[0])]),
+      priceMsg([liveRow(ids[0])], "https://baska-site.com/sonuc"),
+    ],
+  });
+  const ev = await collect((emit) => runAnalysis(deps, [file], emit));
+  const res = ev.at(-1);
+  if (res?.type !== "result") throw new Error("no result");
+  expect(res.result.items.find((i) => i.itemId === ids[0])?.cost).toBeNull();
+  expect(savePrices).not.toHaveBeenCalled();
 });
 
 test("hat: önbellek yazımı hata verirse result yine gelir", async () => {
