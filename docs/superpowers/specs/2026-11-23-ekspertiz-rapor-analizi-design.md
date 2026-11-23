@@ -92,8 +92,8 @@ Kural: Model iki grup arasında kararsız kalırsa, daha ciddi olanı seçer.
 
 1. Açılış ekranında tek iş vardır: "Raporu yükle" (PDF seç veya fotoğraf çek).
 2. Yüklemeden önce kullanıcı sorumluluk notunu okuduğunu onaylar (kutu işaretleme).
-3. Yükleme sonrası ilerleme gösterilir: "Rapor okunuyor", "Araç bilgileri bulundu", "Maddeler yorumlanıyor". Analiz 30–120 saniye sürebilir. Kullanıcı ekrana bakarken boş bir bekleme görmemelidir.
-4. Araç bilgisi gösterilir. Kullanıcı yanlışı düzeltebilir (örneğin yanlış okunan motor tipi).
+3. Yükleme sonrası ilerleme gösterilir: "Rapor okunuyor", "Araç bilgileri bulundu", "Maddeler yorumlanıyor". Araç bilgisi okunur okunmaz ekranda görünür. Yorumlama, kullanıcıyı beklemeden başlar. Analiz 30–120 saniye sürebilir. Kullanıcı ekrana bakarken boş bir bekleme görmemelidir.
+4. Kullanıcı araç bilgisinde yanlış görürse düzeltir (örneğin yanlış okunan motor tipi). Düzeltmeden sonra yalnızca bilgi tabanı eşleme ve yorumlama yeniden çalışır. Rapor yeniden okunmaz. Her analizde bir düzeltme ücretsizdir ve günlük sınırdan düşmez. Sunucu veri saklamadığı için okuma adımının çıktısı tarayıcıya imzalı (HMAC) olarak gönderilir. Yeniden çalıştırma isteği bu imzayla gelir. Böylece bu uç nokta, rapor olmadan serbest bir Claude geçidi olarak kullanılamaz.
 5. Sonuç ekranı açılır.
 
 Sonuç ekranı taslağı (telefon):
@@ -144,7 +144,12 @@ Hat iki Claude çağrısından oluşur. Akışı kod yönetir (ajan değil):
    - Maddeler listesi: bölüm (kaporta-boya, motor, fren, süspansiyon, alt takım, OBD, yol testi, iç-dış, diğer), parça veya test adı, rapordaki ham ifade, ölçüm değeri ve birimi.
    - Okunamayan alanlar ve güvenilirlik işaretleri için ham veri (§11).
 2. **Bilgi tabanı eşleme (kod, yapay zeka yok).** Araç bilgisiyle D1'den ilgili kronik sorunlar ve fiyat aralıkları çekilir.
-3. **Yorumlama.** Girdi: 1. adımın JSON'u ve 2. adımın kayıtları. Çıktı: her madde için grup, sade açıklama, neden önemli, tahmini maliyet aralığı ve kaynağı, satıcıya sorulacak soru. Ayrıca "Kontrol ettir" listesi, kısa genel özet ve güvenilirlik işaretleri.
+3. **Kural katmanı (kod, yapay zeka yok).** Bazı maddelerin en düşük grubu sabit kurallarla belirlenir. Model bu grubu yükseltebilir ama altına indiremez:
+   - Taşıyıcı parçalarda (direk, şasi, podye, tavan, bagaj havuzu ve benzeri) "değişen" veya "işlem görmüş" bulgusu en az Dikkat olur.
+   - Ölçülen değerler sınırı aşarsa en az Dikkat olur: fren dengesizliği, yanal kayma, amortisör etkinliği gibi.
+   - Airbag, ABS ve ESP ile ilgili arıza kodları en az Dikkat olur.
+   - Sınır değerleri TÜVTÜRK muayene ölçütlerinden alınır ve uzman kontrolünden geçer (§17, soru 2). Değerler bir yapılandırma dosyasında tutulur.
+4. **Yorumlama.** Girdi: 1. adımın JSON'u, 2. adımın kayıtları ve 3. adımın en düşük grupları. Çıktı: her madde için grup, sade açıklama, neden önemli, tahmini maliyet aralığı ve kaynağı, satıcıya sorulacak soru. Ayrıca "Kontrol ettir" listesi, kısa genel özet ve güvenilirlik işaretleri.
 
 Claude çağrı ayarları:
 
@@ -156,7 +161,7 @@ Claude çağrı ayarları:
 - Bilgi tabanında olmayan araçlar için yorumlama adımı modelin kendi bilgisini kullanır. Bu bilgiler "genel bilgi, doğrulanmamış" etiketi alır.
 - Fiyat bilgi tabanında yoksa veya fiyat 90 günden eskiyse, yorumlama adımı web arama aracını (`web_search_20260209`) sınırlı sayıda (`max_uses`) kullanabilir. Bulunan fiyat kaynağıyla birlikte gösterilir.
 
-Tahmini maliyet: Rapor başına yaklaşık 0,2–0,3 $. Fotoğraflı raporlarda ve web araması yapıldığında daha yüksek olabilir. Gerçek değer ilk testlerde ölçülür.
+Tahmini maliyet: Rapor başına yaklaşık 0,2–0,5 $. Fotoğraflı raporlarda ve web araması yapıldığında daha yüksek olabilir. Gerçek değer ilk testlerde ölçülür.
 
 ### 10.3 Bilgi tabanı şeması (öneri)
 
@@ -199,11 +204,16 @@ Ayrıca her "Dikkat" maddesinde "Bir ustaya veya ekspertize danışın" yönlend
 - Kayıtlarda (log) plaka, şasi numarası ve kişi adı tutulmaz.
 - Sonuç tarayıcıda gösterilir. v1'de sonuç sunucuda saklanmaz. Sayfa kapanınca sonuç kaybolur.
 - Herkese açık yayından önce bir aydınlatma metni gerekir. Bu metin, verinin yurt dışındaki bir yapay zeka hizmetine gönderildiğini belirtmelidir.
+- Yükleme akışında, sorumluluk onayından ayrı bir açık rıza kutusu bulunur: "Raporumun analiz için yurt dışındaki bir yapay zeka hizmetine aktarılmasını kabul ediyorum."
+- 2024 değişikliğinden sonra KVKK'nın yurt dışı aktarım kuralları (madde 9) yalnızca açık rızayla karşılanmayabilir. Herkese açık yayından önce hukuki görüş alınmalıdır (§17, soru 4).
 
 ## 14. Maliyet kontrolü ve kötüye kullanım
 
 - Analizden önce Cloudflare Turnstile doğrulaması yapılır.
-- IP başına günlük analiz sınırı vardır. Başlangıç değeri 3'tür ve ayarlanabilir.
+- Tarayıcı başına (imzalı çerez) günlük analiz sınırı vardır. Başlangıç değeri 3'tür.
+- IP başına sınır daha yüksektir, başlangıç değeri 15'tir. Mobil operatörler birçok telefonu aynı IP adresinin arkasına koyar (CGNAT). Düşük bir IP sınırı, galerideki gerçek kullanıcıları yanlışlıkla engeller.
+- Uygulama genelinde günlük harcama tavanı vardır. Tavan dolunca yeni analiz kabul edilmez ve kullanıcıya "Bugünlük kapasite doldu, yarın tekrar deneyin" mesajı gösterilir. Tavanın değeri açık bir sorudur (§17, soru 3).
+- Tüm sınırlar yapılandırmadan değiştirilebilir.
 - Dosya boyutu ve sayfa sayısı sınırlanır (§6).
 - Yüklenen dosyanın ekspertiz raporu olmadığı anlaşılırsa, okuma adımı bunu bildirir ve yorumlama adımı çalışmaz.
 
@@ -234,10 +244,19 @@ Benim kararlarım (kullanıcı değiştirebilir):
 - v1'de hesap ve ödeme yok.
 - Güvenilirlik konusunda hüküm verilmeyecek, yalnızca işaret gösterilecek.
 - Bilgi tabanı verisi JSON dosyalarında, git ile tutulacak.
+- Araç bilgisi düzeltilirse yalnızca yorumlama yeniden çalışır. Bir düzeltme ücretsizdir. Okuma çıktısı HMAC ile imzalanır.
+- Sabit kural katmanı, taşıyıcı parçaları ve sınırı aşan ölçümleri en az Dikkat grubunda tutar.
+- Sınırlar tarayıcı başına (3), IP başına (15) ve uygulama genelinde günlük harcama tavanı olarak uygulanır.
+- Yurt dışı aktarım için ayrı bir açık rıza kutusu bulunur.
 
 ## 17. Açık sorular
 
-(Gözden geçirme sonrası doldurulacak.)
+Bu sorular yalnızca kullanıcı tarafından cevaplanabilir ve cevapları planı değiştirir.
+
+1. **Örnek raporlar:** Elde gerçek ekspertiz raporu var mı? v1 hangi firmaların raporlarını desteklemeli? Bu cevap; okuma şemasını, PDF üst verisi kontrolünün neyi "normal" sayacağını ve değerlendirme setini (§15) belirler. Rapor yoksa plana, raporları toplayıp kişisel verilerini temizleme adımı eklenir.
+2. **Uzman:** Kronik sorun kayıtlarını, sınır değerlerini ve test etiketlerini kim onaylayacak (usta, eksper)? Yayın bu onayı bekleyecek mi? Bekleyecekse v1 onaylı 30 model verisiyle çıkar. Beklemeyecekse v1 "doğrulanmamış" etiketli bilgiyle çıkar ve bilgi tabanı sonradan dolar.
+3. **Bütçe ve gelir:** API maliyetini kim ödüyor? Günlük veya aylık harcama tavanı ne olsun? Uygulama ücretsiz mi olacak, rapor başına ücretli mi, yoksa galericilere mi satılacak? Ücretliyse v1'e hesap ve ödeme eklenir.
+4. **Hukuk:** Herkese açık yayından önce KVKK yurt dışı aktarım konusunda avukat görüşü alınacak mı? Görüş gelene kadar uygulama kapalı beta (davetli kullanıcılar) olarak çalışabilir. Cevaba göre rapor gönderilmeden önce plaka, şasi numarası ve kişi adını karartan bir adım da gerekebilir.
 
 ## 18. Uygulayıcıya bırakılanlar
 
