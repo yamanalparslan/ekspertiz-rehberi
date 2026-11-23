@@ -7,7 +7,9 @@ GENEL KURALLAR
 - Plaka, şasi/VIN numarası, kişi adı, telefon numarası ve TC kimlik numarası ASLA yazma. Bunlar şemada yoktur; not, açıklama veya başka hiçbir alana da kopyalama.
 
 ARAÇ VE RAPOR
-- vehicle.brand ve vehicle.model raporda basıldığı gibi, doğal harf büyüklüğüyle yazılır (ör. "BMW", "320i"); hepsini büyük harfe çevirme.
+- vehicle.brand ve vehicle.model raporda basıldığı gibi, doğal harf büyüklüğüyle yazılır (ör. "BMW", "320i", "Kia", "Picanto"); hepsini büyük harfe çevirme.
+- Raporda motor hacmi (engineCc), beygir gücü (powerHp), yakıt (fuel) veya vites tipi (transmission) ayrı bir kutuda yazmıyorsa bile, rapordaki marka, model, varyant/paket satırı (ör. "PICANTO LIVE 1.0 67 AMT" -> model: "Picanto", variant: "1.0 Live 67 AMT", engineCc: 998, powerHp: 67, fuel: "benzin", transmission: "otomatik") veya motor kodu ön ekinden (ör. G3LD -> 998 cc 67 HP, K9K -> 1461 cc, EA288 1.6 TDI -> 1598 cc, B48 320i -> 1597 cc 170 HP) aracın bilinen fabrika teknik verilerini mutlaka doldur.
+- Raporun bir sayfasında hatalı/şablon model adı (ör. "PICANTO 1.1 LX DSL") ve başka sayfasında SBM/şasi sorgu satırı ("KIA PICANTO LIVE 1.0 67 AMT", motor no "G3LD...") varsa, motor numarası ve SBM satırındaki gerçek donanımı esas al.
 - Kilometre ve diğer sayılar düz sayı olur: "135.689" değeri 135689 yazılır.
 - Tüm tarihler YYYY-MM-DD biçiminde yazılır (kmHistory ve damageRecords dahil, report.date dahil).
 
