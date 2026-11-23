@@ -11,6 +11,7 @@
     "preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
     "deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",
     "kb:build": "tsx scripts/build-kb-sql.ts",
+    "sample:build": "tsx scripts/build-sample-result.ts",
     "smoke": "tsx scripts/smoke-analyze.ts"
   },
   "dependencies": {

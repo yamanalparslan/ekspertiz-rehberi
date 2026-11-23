@@ -1,24 +1,57 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/*
+ * Güneş altında, telefonda okunacak bir arayüz: beyaz kâğıt, koyu mürekkep,
+ * tükenmez kalem mavisi eylem rengi. Grup renkleri yalnızca anlam taşır.
+ * Metin renkleri beyaz ve açık zemin üzerinde en az 5,4:1 kontrast verir.
+ */
+@theme {
+  --color-paper: #ffffff;
+  --color-ink: #172033;
+  --color-ink-soft: #46526a;
+  --color-rule: #d5dbe5;
+  --color-field: #f3f5f9;
+  --color-action: #1f44c4;
+  --color-action-strong: #17349a;
+
+  --color-dikkat: #b4231a;
+  --color-dikkat-bar: #d92d20;
+  --color-dikkat-tint: #fdeceb;
+  --color-kronik: #a3470a;
+  --color-kronik-bar: #d9660a;
+  --color-kronik-tint: #fff1e1;
+  --color-belirsiz: #475467;
+  --color-belirsiz-bar: #7b8596;
+  --color-belirsiz-tint: #eef1f5;
+  --color-normal: #11713a;
+  --color-normal-bar: #1f9a4e;
+  --color-normal-tint: #e6f5eb;
+
+  --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  color-scheme: light;
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: system-ui, sans-serif;
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font-size: 1.0625rem;
+  line-height: 1.55;
+  overflow-wrap: break-word;
+}
+
+:focus-visible {
+  outline: 3px solid var(--color-action);
+  outline-offset: 2px;
+}
+
+/* Kapalı listedeki tarayıcı üçgeni yerine kendi işaretimiz kullanılır. */
+summary {
+  list-style: none;
+}
+summary::-webkit-details-marker {
+  display: none;
 }

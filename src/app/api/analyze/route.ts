@@ -26,7 +26,7 @@ export async function POST(req: Request): Promise<Response> {
       } catch (e) {
         return emit(errorEvent(e instanceof AnalysisError ? e.code : "internal"));
       }
-      emit({ type: "stage", stage: "okuma" });
+      // "okuma" aşamasını runAnalysis bildirir (tavan denetiminden sonra).
       const deps = buildDeps(usd);
       if (!deps) return emit(errorEvent("internal"));
       const files: UploadFile[] = await Promise.all(

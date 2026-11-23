@@ -1,0 +1,304 @@
+{
+  "vehicle": {
+    "brand": "BMW",
+    "model": "320i",
+    "variant": null,
+    "year": 2021,
+    "engineCc": 1597,
+    "powerHp": 170,
+    "fuel": "benzin",
+    "transmission": "otomatik",
+    "km": 135689
+  },
+  "report": {
+    "firm": "Yavuzlar Oto Ekspertiz",
+    "reportNo": null,
+    "date": "2026-11-23"
+  },
+  "summary": "Raporda dört madde dikkat istiyor: ön panel değişmiş, sol üst frangart ve sol arka çamurlukta onarım izi var, ön lastiklerin değişmesi gerekiyor. Yağ filtresi çevresindeki terleme ve aşınmış arka fren diskleri bu model için bilinen sorunlarla örtüşüyor. Dinamometre testi yapılmamış. Dikkat maddelerini satın alma kararından önce bir ustaya gösterin.",
+  "counts": {
+    "normal": 6,
+    "belirsiz": 3,
+    "kronik": 2,
+    "dikkat": 4
+  },
+  "items": [
+    {
+      "itemId": "i2",
+      "group": "dikkat",
+      "floorApplied": false,
+      "title": "Sol arka çamurluk: tadilat boyalı",
+      "meaning": "Çamurluk düzeltilip boyanmış. Boya kalınlığı 750 mikronun üzerinde ölçülmüş; bu kalınlık genellikle macunlu onarıma işaret eder.",
+      "whyItMatters": "Arka çamurluk gövdeye kaynaklı bir parçadır. Kalın boya bu bölgenin darbe alıp onarıldığını gösterir. Onarımın kalitesi ve alttaki sacın durumu rapordan anlaşılmaz.",
+      "askSeller": "Sol arka çamurluk hangi hasardan sonra, nerede onarıldı? Onarımın faturası veya fotoğrafı var mı?",
+      "cost": null,
+      "chronic": null,
+      "generalUnverified": false
+    },
+    {
+      "itemId": "i5",
+      "group": "dikkat",
+      "floorApplied": false,
+      "title": "Ön panel: değişen",
+      "meaning": "Farların ve radyatörün bağlandığı ön panel yenisiyle değiştirilmiş.",
+      "whyItMatters": "Ön panel çoğunlukla önden alınan bir darbeden sonra değiştirilir. Değişimin ve çevresindeki onarımın nasıl yapıldığı rapordan anlaşılmaz.",
+      "askSeller": "Ön panel neden değişti? Aynı hasarda başka hangi parçalar onarıldı?",
+      "cost": null,
+      "chronic": null,
+      "generalUnverified": false
+    },
+    {
+      "itemId": "i6",
+      "group": "dikkat",
+      "floorApplied": false,
+      "title": "Sol üst frangart: lokal boyalı",
+      "meaning": "Motor bölmesinin yanındaki taşıyıcı sacın (frangart) bir bölümü boyanmış.",
+      "whyItMatters": "Frangart aracın iskeletinin bir parçasıdır. Bu bölgedeki boya, önden gelen bir darbeden sonra onarım yapıldığını gösterebilir.",
+      "askSeller": "Sol üst frangarttaki boya hangi onarımdan kaldı? Sacta düzeltme yapıldı mı?",
+      "cost": null,
+      "chronic": null,
+      "generalUnverified": false
+    },
+    {
+      "itemId": "i11",
+      "group": "dikkat",
+      "floorApplied": false,
+      "title": "Ön lastikler: değişim gerekli (2020 üretimi)",
+      "meaning": "Ön lastikler 2020 üretimi ve raporda değişim gerekli yazıyor.",
+      "whyItMatters": "Eski veya aşınmış lastik fren mesafesini uzatır ve ıslak zeminde yol tutuşunu azaltır. Bu bir güvenlik konusudur.",
+      "askSeller": "Lastikler satıştan önce değiştirilecek mi?",
+      "cost": {
+        "minTry": 21379,
+        "maxTry": 33200,
+        "partType": "belirtilmemis",
+        "laborIncluded": false,
+        "source": {
+          "url": "https://www.ekonomim.com/foto-galeri/otomotiv/2026-yaz-lastigi-fiyatlari-marka-marka-en-ucuz-yazlik-lastik-fiyat-listesi-s1-galeri-900193",
+          "title": "2026 yaz lastiği fiyatları marka marka (Ekonomim, 16.06.2026)"
+        },
+        "asOf": "2026-06-16",
+        "stale": true
+      },
+      "chronic": null,
+      "generalUnverified": false
+    },
+    {
+      "itemId": "i9",
+      "group": "kronik",
+      "floorApplied": false,
+      "title": "Arka fren diskleri: aşınmış",
+      "meaning": "Arka fren disklerinde aşınma tespit edilmiş.",
+      "whyItMatters": "Bu modelde arka balata ve disklerin erken aşındığına dair kullanıcı bildirimleri var. Disk ve balata genellikle birlikte değiştirilir.",
+      "askSeller": "Arka disk ve balatalar en son ne zaman değişti?",
+      "cost": {
+        "minTry": 8000,
+        "maxTry": 14000,
+        "partType": "belirtilmemis",
+        "laborIncluded": null,
+        "source": {
+          "url": "https://www.araclo.com/blog/bmw-g20-3-serisi-incelemesi-sorunlar-bakim-maliyetleri-ve-satin-alma-rehberi-2026",
+          "title": "BMW G20 3 Serisi İncelemesi: Sorunlar, Bakım ve Satın Alma Rehberi (Araclo, Mayıs 2026)"
+        },
+        "asOf": "2026-05-10",
+        "stale": true
+      },
+      "chronic": {
+        "issueId": "bmw-g20-arka-balata-erken-asinma",
+        "confidence": "dusuk",
+        "sources": [
+          {
+            "url": "https://www.araclo.com/blog/bmw-g20-3-serisi-incelemesi-sorunlar-bakim-maliyetleri-ve-satin-alma-rehberi-2026",
+            "title": "BMW G20 3 Serisi İncelemesi: Sorunlar, Bakım ve Satın Alma Rehberi (Araclo, 2026)"
+          },
+          {
+            "url": "https://www.sikayetvar.com/en/bmw-us/chronic-brake-pad-problem-with-bmw-g20-waiting-for-fix",
+            "title": "Chronic brake pad problem with BMW G20, waiting for fix (Şikayetvar kullanıcı şikayeti)"
+          }
+        ]
+      },
+      "generalUnverified": false
+    },
+    {
+      "itemId": "i10",
+      "group": "kronik",
+      "floorApplied": false,
+      "title": "Yağ filtresi ve soğutucusu: hafif terleme",
+      "meaning": "Yağ filtresi yuvası ve yağ soğutucusu çevresinde hafif yağ izi (terleme) görülmüş.",
+      "whyItMatters": "Bu motor ailesinde (B48) plastik yağ filtresi yuvasının ve contasının zamanla kaçak yaptığı bildiriliyor. Terleme şimdilik hafif olsa da zamanla artabilir.",
+      "askSeller": "Yağ filtresi yuvası veya contası daha önce değişti mi? Servis kaydı var mı?",
+      "cost": null,
+      "chronic": {
+        "issueId": "bmw-g20-yag-filtre-yuvasi-kacagi",
+        "confidence": "yuksek",
+        "sources": [
+          {
+            "url": "https://www.carcomplaints.com/news/2026/bmw-oil-filter-housing-lawsuit-b46-b48-b58-engines.shtml",
+            "title": "BMW oil filter housing lawsuit: B46, B48, B58 engines (CarComplaints, 16.02.2026)"
+          },
+          {
+            "url": "https://www.bimmerworld.com/Engine/BMW-Oil-System/URO-Oil-Filter-Housing-B46-B48.html",
+            "title": "Oil Filter Housing with Cap Filter and Gaskets - B46 B48 Engine (BimmerWorld)"
+          }
+        ]
+      },
+      "generalUnverified": false
+    },
+    {
+      "itemId": "i8",
+      "group": "belirsiz",
+      "floorApplied": false,
+      "title": "Akü: zayıf",
+      "meaning": "Raporda akünün zayıf olduğu yazıyor ama ölçüm değeri verilmemiş.",
+      "whyItMatters": "Zayıf akü özellikle soğuk havada çalıştırma sorunu yapabilir. Ne kadar zayıf olduğu ancak bir akü testiyle anlaşılır. Bu sınıftaki araçlarda genellikle AGM akü kullanılır.",
+      "askSeller": "Akü en son ne zaman değişti?",
+      "cost": {
+        "minTry": 7142,
+        "maxTry": 10500,
+        "partType": "belirtilmemis",
+        "laborIncluded": false,
+        "source": {
+          "url": "https://www.gazetebirlik.com/fiyatlar/aku-fiyatlari/905407",
+          "title": "Akü fiyatları (Gazete Birlik)"
+        },
+        "asOf": "2025-09-21",
+        "stale": true
+      },
+      "chronic": null,
+      "generalUnverified": true
+    },
+    {
+      "itemId": "m2",
+      "group": "belirsiz",
+      "floorApplied": false,
+      "title": "Motor gücü (dinamometre): test yapılmamış",
+      "meaning": "Dinamometre sonucu 0 HP görünüyor. Bu, testin yapılmadığı anlamına gelir; motor gücünün sıfır olduğu anlamına gelmez.",
+      "whyItMatters": "Motor gücü hakkında rapordan bilgi edinilemiyor.",
+      "askSeller": "Güç testi yaptırmak mümkün mü?",
+      "cost": null,
+      "chronic": null,
+      "generalUnverified": false
+    },
+    {
+      "itemId": "f1",
+      "group": "belirsiz",
+      "floorApplied": false,
+      "title": "Klima klapesi motoru arıza kaydı (801127)",
+      "meaning": "Klima kontrol ünitesinde, arka karıştırma klapesi motorunun bloke olduğuna dair aralıklı bir arıza kaydı var.",
+      "whyItMatters": "Aralıklı kayıt geçmişte oluşmuş olabilir ve şu an sorun olmayabilir. Raporun özet sayfasında klima arızasız görünüyor; kaydın servis cihazıyla kontrol edilmesi gerekir.",
+      "askSeller": null,
+      "cost": null,
+      "chronic": null,
+      "generalUnverified": false
+    },
+    {
+      "itemId": "i1",
+      "group": "normal",
+      "floorApplied": false,
+      "title": "Sol ön kapı: orijinal",
+      "meaning": "Kapıda boya veya değişim izi bulunmamış.",
+      "whyItMatters": "Fabrika çıkışı parça; ek bir işlem gerekmiyor.",
+      "askSeller": null,
+      "cost": null,
+      "chronic": null,
+      "generalUnverified": false
+    },
+    {
+      "itemId": "i3",
+      "group": "normal",
+      "floorApplied": false,
+      "title": "Tavan: orijinal",
+      "meaning": "Tavanda boya veya değişim izi bulunmamış.",
+      "whyItMatters": "Tavanda işlem olsaydı devrilme gibi ağır bir hasarı düşündürebilirdi; burada böyle bir iz yok.",
+      "askSeller": null,
+      "cost": null,
+      "chronic": null,
+      "generalUnverified": false
+    },
+    {
+      "itemId": "i4",
+      "group": "normal",
+      "floorApplied": false,
+      "title": "Arka tampon: lokal boyalı",
+      "meaning": "Tamponun küçük bir bölgesine boya yapılmış.",
+      "whyItMatters": "Plastik tamponlarda park sıyrıkları için sık yapılan bir işlemdir; aracın taşıyıcı yapısını etkilemez.",
+      "askSeller": null,
+      "cost": null,
+      "chronic": null,
+      "generalUnverified": false
+    },
+    {
+      "itemId": "i7",
+      "group": "normal",
+      "floorApplied": false,
+      "title": "Sol ön direk: orijinal",
+      "meaning": "Ön camın yanındaki taşıyıcı direkte boya veya değişim izi yok.",
+      "whyItMatters": "Direkler çarpışma güvenliği için önemli parçalardır; burada işlem görülmemiş.",
+      "askSeller": null,
+      "cost": null,
+      "chronic": null,
+      "generalUnverified": false
+    },
+    {
+      "itemId": "i12",
+      "group": "normal",
+      "floorApplied": false,
+      "title": "Klima ve kalorifer: çalışıyor",
+      "meaning": "Klima ve kalorifer kontrol sırasında çalışmış.",
+      "whyItMatters": "Anlık kontrolde sorun görülmemiş.",
+      "askSeller": null,
+      "cost": null,
+      "chronic": null,
+      "generalUnverified": false
+    },
+    {
+      "itemId": "m1",
+      "group": "normal",
+      "floorApplied": false,
+      "title": "Ön fren dengesi: %8 fark",
+      "meaning": "Sol ve sağ ön tekerleğin fren gücü arasındaki fark %8 ölçülmüş. Raporda basılı sınır %30.",
+      "whyItMatters": "Fark sınırın çok altında; frenlemede aracın bir yana çekmesi beklenmez.",
+      "askSeller": null,
+      "cost": null,
+      "chronic": null,
+      "generalUnverified": false
+    }
+  ],
+  "checkList": [
+    {
+      "title": "Su pompası çevresinde sızıntı ve soğutma sıvısı seviyesi",
+      "why": "Bu motorda su pompası arızası bildirildiğine dair tek bir kaynak var. Raporda bu konuda bir bulgu yok.",
+      "chronicIssueId": "bmw-g20-su-pompasi"
+    }
+  ],
+  "signals": [
+    {
+      "code": "km_tutarli",
+      "level": "ok",
+      "message": "Km geçmişi rapordaki km ile tutarlı görünüyor.",
+      "details": []
+    },
+    {
+      "code": "hasar_parca_uyumlu",
+      "level": "ok",
+      "message": "Hasar kayıtları ile değişen veya boyalı parçalar birbirini destekliyor.",
+      "details": [
+        "2023-10-28 — ERP-Çarpışma — 263.322,55 TL",
+        "2024-05-30 — Çarpışma — 32.400,00 TL"
+      ]
+    },
+    {
+      "code": "obd_ozet_celiski",
+      "level": "warn",
+      "message": "OBD özetinde arızasız görünen sistemde ham çıktıda arıza kodu var.",
+      "details": [
+        "klima"
+      ]
+    },
+    {
+      "code": "qr_var",
+      "level": "info",
+      "message": "Raporda çevrimiçi rapor QR kodu var, firmanın sitesinden karşılaştırabilirsiniz.",
+      "details": []
+    }
+  ]
+}
