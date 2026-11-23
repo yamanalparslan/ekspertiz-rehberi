@@ -108,3 +108,57 @@ test("Gemini anahtarı (AIza...) ile createClaude: yapılandırılmış JSON yan
   expect(r.data).toEqual({ a: 42 });
   expect(calledUrl).toContain("generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent");
 });
+
+// Gemini generateContent sahtesi: istek gövdelerini kaydeder, sıradaki yanıtı döndürür.
+function geminiFetch(responses: Array<{ status: number; body: unknown }>) {
+  const bodies: Record<string, any>[] = [];
+  const urls: string[] = [];
+  let i = 0;
+  const fetchFn: typeof fetch = async (input, init) => {
+    const u = String(input);
+    if (u.endsWith("/v1beta/models")) return new Response(JSON.stringify({ models: [] }), { status: 200 });
+    urls.push(u);
+    bodies.push(JSON.parse(String(init?.body ?? "{}")));
+    const r = responses[Math.min(i++, responses.length - 1)];
+    return new Response(typeof r.body === "string" ? r.body : JSON.stringify(r.body), { status: r.status });
+  };
+  return { fetchFn, bodies, urls };
+}
+const okBody = (text: string) => ({
+  candidates: [{ finishReason: "STOP", content: { parts: [{ text }] } }],
+  usageMetadata: { promptTokenCount: 10, candidatesTokenCount: 5 },
+});
+
+const nested = z.strictObject({
+  kind: z.enum(["x", "y"]),
+  list: z.array(z.enum(["x", "y"])),
+  note: z.string().nullable(),
+});
+
+test("Gemini: şema yerel olarak responseJsonSchema ile gönderilir ($ref yok, enum tipli)", async () => {
+  const g = geminiFetch([{ status: 200, body: okBody('{"kind":"x","list":["y"],"note":null}') }]);
+  const r = await runStructured(createClaude("AIzaTest", { fetchFn: g.fetchFn }), { ...base, schema: nested });
+  expect(r.data).toEqual({ kind: "x", list: ["y"], note: null });
+  const cfg = g.bodies[0].generationConfig;
+  expect(cfg.responseMimeType).toBe("application/json");
+  const s = JSON.stringify(cfg.responseJsonSchema);
+  expect(s).not.toContain("$ref");
+  expect(s).not.toContain("$defs");
+  expect(cfg.responseJsonSchema.properties.kind).toMatchObject({ type: "string", enum: ["x", "y"] });
+  expect(cfg.responseJsonSchema.properties.list.items).toMatchObject({ type: "string", enum: ["x", "y"] });
+  // Şema yerel gönderildiğinde sistem metnine ayrıca kopyalanmaz.
+  expect(g.bodies[0].systemInstruction.parts[0].text).not.toContain('"properties"');
+});
+
+test("Gemini: şema 400 ile reddedilirse bir kez şemasız (metin talimatlı) yeniden denenir", async () => {
+  const g = geminiFetch([
+    { status: 400, body: { error: { code: 400, message: "Invalid value at 'generation_config.response_json_schema'" } } },
+    { status: 200, body: okBody('{"a":7}') },
+  ]);
+  const r = await runStructured(createClaude("AIzaTest", { fetchFn: g.fetchFn }), base);
+  expect(r.data).toEqual({ a: 7 });
+  expect(g.bodies).toHaveLength(2);
+  expect(g.bodies[1].generationConfig.responseJsonSchema).toBeUndefined();
+  expect(g.bodies[1].generationConfig.responseMimeType).toBe("application/json");
+  expect(g.bodies[1].systemInstruction.parts[0].text).toContain('"properties"');
+});
