@@ -1,6 +1,6 @@
 # Değerlendirme seti
 
-Etiketler: Claude taslağı — kullanıcı onayı bekliyor
+Etiketler: Claude taslağı, kullanıcı onaylı (2026-11-23)
 
 Bu set, gerçek raporlarda şunları ölçer: araç bilgileri doğru okunuyor mu, maddeler doğru gruba düşüyor mu ve en önemlisi, **"dikkat" olması gereken hiçbir madde "dikkat"in altında gösterilmiyor mu**. Son ölçüt kesin kapıdır: ihlal olursa çıkış kodu 1 olur.
 
@@ -41,9 +41,9 @@ npm run eval -- --cases ~/ekspertiz-eval
 
 `dikkatShownBelow` girdileri `"<bölüm>/<parça>"` biçimindedir. Eşleşen madde hiç yoksa başına `"eksik: "` eklenir.
 
-## Kullanıcı onayı bekliyor
+## Tartışmalı etiketler (kullanıcı onaylı, 2026-11-23)
 
-Etiketleri Claude, örnek raporun çıkarım kaydından ve spesifikasyon §8 tanımlarından taslak olarak hazırladı. Aşağıdaki girdilerde doğru grup tartışmalı; bir grup seçildi, onay ya da düzeltme bekleniyor:
+Etiketleri Claude, örnek raporun çıkarım kaydından ve spesifikasyon §8 tanımlarından taslak olarak hazırladı. Aşağıdaki girdilerde doğru grup tartışmalıydı. Kullanıcı seçilen grupları olduğu gibi onayladı:
 
 - `kaporta_boya/Motor Kaputu` (normal): Cıvatalı parça, değişen. Önceki çarpışma kaydıyla uyumlu; tek başına risk sayılmadı.
 - `kaporta_boya/Ön Tampon` (normal): Cıvatalı/klipsli parça, değişen; aynı gerekçe.
