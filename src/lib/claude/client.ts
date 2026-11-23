@@ -237,8 +237,8 @@ function createGeminiClaudeLike(
                 },
                 contents,
                 generationConfig: {
-                  maxOutputTokens: params.max_tokens,
-                  thinkingConfig: { thinkingBudget: 1024 },
+                  maxOutputTokens: Math.min(params.max_tokens, 8192),
+                  thinkingConfig: { thinkingBudget: 0 },
                   ...(priceTool ? {} : { responseMimeType: "application/json" }),
                 },
               };
@@ -246,13 +246,37 @@ function createGeminiClaudeLike(
                 body.tools = [{ googleSearch: {} }];
               }
 
-              const candidateModels = [
-                model,
-                "gemini-3.8-flash-lite-preview",
-                "gemini-3.8-flash-lite",
-                "gemini-2.5-flash-lite",
-                "gemini-3.8-pro",
-              ];
+              const candidateModels = [model];
+              try {
+                const listRes = await fetchFn("https://generativelanguage.googleapis.com/v1beta/models", {
+                  headers: { "x-goog-api-key": apiKey },
+                  signal: AbortSignal.timeout(8_000),
+                });
+                if (listRes.ok) {
+                  const listData = (await listRes.json()) as {
+                    models?: Array<{ name?: string; supportedGenerationMethods?: string[] }>;
+                  };
+                  const discovered = (listData.models ?? [])
+                    .filter((m) => m.supportedGenerationMethods?.includes("generateContent"))
+                    .map((m) => (m.name ?? "").replace(/^models\//, ""))
+                    .filter(
+                      (n) =>
+                        n.startsWith("gemini-") &&
+                        !n.includes("tts") &&
+                        !n.includes("image") &&
+                        !n.includes("embedding") &&
+                        !n.includes("robotics") &&
+                        !n.includes("computer-use") &&
+                        !n.startsWith("gemini-1.") &&
+                        !n.startsWith("gemini-2.0") &&
+                        !n.startsWith("gemini-2.5"),
+                    );
+                  console.log("[Gemini Discovered Models]", discovered.join(", "));
+                  candidateModels.push(...discovered);
+                }
+              } catch {
+                // Model listesi alınamazsa varsayılan modelle devam et.
+              }
               // Tekrarları kaldır.
               const modelsToTry = Array.from(new Set(candidateModels));
 
@@ -275,7 +299,7 @@ function createGeminiClaudeLike(
                       break;
                     }
                     const errTxt = await r.text().catch(() => "");
-                    errors.push(`${mName}#${attempt + 1}(${r.status}): ${errTxt.slice(0, 140)}`);
+                    errors.push(`${mName}#${attempt + 1}(${r.status}): ${errTxt.slice(0, 180)}`);
                     if (r.status === 400 && errTxt.includes("thinkingConfig") && attempt === 0) {
                       const genCfg = { ...(reqBody.generationConfig as Record<string, unknown>) };
                       delete genCfg.thinkingConfig;
@@ -283,7 +307,7 @@ function createGeminiClaudeLike(
                       continue;
                     }
                     if (r.status === 503 && attempt < 2) {
-                      await new Promise((resolve) => setTimeout(resolve, 1200 * (attempt + 1)));
+                      await new Promise((resolve) => setTimeout(resolve, 1500 * (attempt + 1)));
                       continue;
                     }
                     break;

@@ -90,7 +90,11 @@ test("SDK hatası -> internal, cause korunur", async () => {
 test("Gemini anahtarı (AIza...) ile createClaude: yapılandırılmış JSON yanıtı", async () => {
   let calledUrl = "";
   const fakeFetch: typeof fetch = async (input) => {
-    calledUrl = String(input);
+    const u = String(input);
+    if (u.endsWith("/v1beta/models")) {
+      return new Response(JSON.stringify({ models: [] }), { status: 200 });
+    }
+    calledUrl = u;
     return new Response(
       JSON.stringify({
         candidates: [{ finishReason: "STOP", content: { parts: [{ text: '```json\n{"a":42}\n```' }] } }],
