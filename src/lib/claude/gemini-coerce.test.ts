@@ -67,6 +67,37 @@ describe("model geçerli ama temiz bir statusKind verse de çıplak evet/hayır/
   });
 });
 
+describe("'-sız/-siz/-suz' kelimeleri sorun öznesi değildir (boş, diger ve saglam model etiketi)", () => {
+  const rows: [string, string][] = [
+    ["Hasarsız", "Hayır"],
+    ["Kazasız", "Hayır"],
+    ["Boyasız", "Hayır"],
+    ["Arızasız", "Hayır"],
+    ["Sızıntısız", "Yok"],
+    ["Şasi hasarsız", "Hayır"],
+    ["Hasarsız mı?", "Hayır"],
+  ];
+  for (const kind of ["", "diger", "saglam"]) {
+    test.each(rows)(`statusKind=${JSON.stringify(kind)}: %s = %s temiz olmaz`, (part, raw) => {
+      expect(CLEAN.has(inferStatusKind(kind, raw, part))).toBe(false);
+    });
+  }
+});
+
+describe("modelin temiz etiketi ham durumla doğrulanmazsa düşer (Önemli 2)", () => {
+  test.each([
+    ["Şarj Dinamosu", "Çalışmıyor", "calisiyor"],
+    ["Turbo", "Bozuk", "saglam"],
+    ["Cam Krikosu", "Hatalı", "saglam"],
+    ["Rot Ayarı", "Uygunsuz", "saglam"],
+    ["Sağ Ön Şase", "Kaynaklı", "saglam"],
+    ["Akü", "İyi (değişim önerilir)", "saglam"],
+    ["Sol A Direği", "Değişmiş", "orijinal"],
+  ])("%s = %s (model: %s) temiz kalmaz", (part, raw, kind) => {
+    expect(CLEAN.has(inferStatusKind(kind, raw, part))).toBe(false);
+  });
+});
+
 describe("bölüm çıkarımı: bilinmeyen bölüm şasi/airbag tabanını kaybetmez", () => {
   test.each([
     ["Şasi / İç Aksam", "Sağ Ön Şasi Ucu", "sasi"],

@@ -4,6 +4,26 @@
 // - Tanınmayan durum "diger" kalır (temiz sayılmaz, yorumlayıcıya ve taban kurallarına gider).
 // - Bilinmeyen bölüm/sistem, parça veya ünite adından şasi/airbag/fren olarak çıkarılır.
 // - Bilinmeyen grup "dikkat" olur; eksik isReport "false" olur.
+// Temiz durum doğrulaması iki sağlayıcı için ortaktır (status-guard.ts; normalizeExtraction
+// bölüm bilgisiyle yeniden uygular).
+import {
+  AIRBAG_PART,
+  confirmCleanStatus,
+  fold,
+  hasWord,
+  hasWordPrefix,
+  isProblemSubject,
+  NEGATION_STEMS,
+  NEGATIVE_ANSWERS,
+  ORIGINAL_STATUS,
+  POSITIVE_STATUS,
+  SASI_PART,
+  splitStatus,
+  words,
+  YES_ANSWERS,
+} from "@/lib/status-guard";
+
+export { fold, isProblemSubject };
 
 const VALID_SECTIONS = new Set([
   "kaporta_boya", "mor_isik", "sasi", "ust_motor", "motor_alt_mekanik",
@@ -16,8 +36,6 @@ const VALID_STATUS = new Set([
   "terleme", "sizinti", "zayif", "bakim_onerilir", "degisim_gerekli",
   "ariza", "calisiyor", "kontrol_onerilir", "diger",
 ]);
-// Ön-sınıflandırmada "normal" sayılan durumlar (interpret.ts CLEAN_STATUS ile aynı).
-const CLEAN_STATUS = new Set(["orijinal", "saglam", "orijinalinde_yok", "calisiyor"]);
 const VALID_OBD = new Set([
   "motor", "sanziman", "fren", "airbag", "klima", "direksiyon",
   "multimedya", "govde_elektronik", "surus_destek", "gosterge", "diger",
@@ -34,28 +52,6 @@ const VALID_FAULT_TYPES = new Set(["intermittent", "permanent", "unknown"]);
 // ---------------------------------------------------------------------------
 // Metin yardımcıları
 
-/** Türkçe küçük harf + ASCII katlama + tek boşluk: eşleştirme için. */
-export function fold(s: string): string {
-  return s
-    .toLocaleLowerCase("tr-TR")
-    .replace(/̇/g, "")
-    .replace(/ı/g, "i")
-    .replace(/ğ/g, "g")
-    .replace(/ü/g, "u")
-    .replace(/ş/g, "s")
-    .replace(/ö/g, "o")
-    .replace(/ç/g, "c")
-    .replace(/[âà]/g, "a")
-    .replace(/[î]/g, "i")
-    .replace(/[û]/g, "u")
-    .replace(/\s+/g, " ")
-    .trim();
-}
-
-const words = (folded: string): string[] => folded.split(/[^a-z0-9µ%°]+/).filter(Boolean);
-const hasWordPrefix = (ws: string[], stems: readonly string[]) => ws.some((w) => stems.some((s) => w.startsWith(s)));
-const hasWord = (ws: string[], list: readonly string[]) => ws.some((w) => list.includes(w));
-
 /** true/false/"true"/"false" dışındaki her şey varsayılan değere düşer. */
 function strictBool(x: unknown, dflt: boolean): boolean {
   if (typeof x === "boolean") return x;
@@ -70,80 +66,10 @@ function strictBool(x: unknown, dflt: boolean): boolean {
 // ---------------------------------------------------------------------------
 // Durum (statusKind)
 
-// Tek başına "sorun yok" anlamına gelen ifadeler (katlanmış, tam eşleşme).
-const POSITIVE_STATUS = new Set([
-  "iyi", "cok iyi", "saglam", "sorunsuz", "hasarsiz", "normal", "temiz", "uygun",
-  "ariza kaydi yok", "ariza yok", "hata kaydi yok", "hata yok", "kacak yok", "sizinti yok",
-]);
-const ORIGINAL_STATUS = new Set(["orijinal", "orijinal boya"]);
-// Olumsuz yanıtlar (bir sorunun YOKLUĞUNU bildirir), yalnız "sorun öznesi" olan satırlarda temizdir.
-const NEGATIVE_ANSWERS = new Set([
-  "hayir", "yok", "yoktur", "yanmiyor", "mevcut degil", "gorulmedi", "tespit edilmedi", "bulunmadi",
-]);
-const YES_ANSWERS = new Set(["evet", "var", "mevcut", "yaniyor"]);
-// Ölçüm eki dışında bir şey içeren nitelik ("İyi: değişim gerekli") temizliği bozar.
-const BENIGN_QUALIFIER_WORDS = new Set(["yapildi", "mikron", "µ", "µm", "mm", "cm", "c", "°c", "v", "volt", "bar", "km", "olcum", "deger"]);
-// Durum ya da nitelikte görülürse temiz sayılmaz.
-const NEGATION_STEMS = [
-  "degil", "kotu", "zayif", "yetersiz", "sorunlu", "arizali", "hasarli", "dusuk", "kritik", "gerek",
-];
-
-// Sorun bildiren özneler (kelime başı).
-const PROBLEM_STEMS = [
-  "kacak", "kacag", "sizinti", "ariza", "hasar", "islem", "ezik", "cizik", "gocuk", "duman", "ufleme",
-  "bosluk", "titreme", "catlak", "korozyon", "curume", "paslan", "hata", "uyari", "ikaz", "asinma",
-  "terleme", "darbe", "kaynak", "macun", "boya", "degisen", "degisim", "tadilat", "sorun", "kaza",
-];
-const PROBLEM_WORDS = ["ses", "sesi", "pas", "pasi"];
-// Yalnız "... gerekli mi?" sorularında sorun öznesi sayılan müdahaleler.
-const INTERVENTION_STEMS = ["bakim", "ayar", "onarim", "tamir", "mudahale", "rot", "balans"];
-// Olumlu/işlev soran veya test/paket soran satırlar: "Hayır" burada sorun demektir.
-const BLOCK_STEMS = [
-  "duzgun", "calis", "saglam", "orijinal", "normal", "uygun", "yeterli", "dogru", "aktif", "sorunsuz",
-  "temiz", "test", "kontrol", "yapildi", "olcul", "incelen", "bakil", "secil", "paket", "sizdirmaz",
-];
-const BLOCK_WORDS = ["iyi", "tam"];
-// Olumsuz kutuplu soru ekleri ("... var mı?", "... yanıyor mu?", "işlemli mi?").
-const NEG_QUESTION_SUFFIX =
-  /(var mi|mevcut mu|yaniyor mu|gerekli mi|yapilmis mi|yapildi mi|li mi|lu mu|goruluyor mu|tespit edildi mi)\s*\?*\s*$/;
-const IS_QUESTION = /\?|\b(mi|mu)\s*$/;
-
 /**
- * Satır, bir SORUNUN varlığını soran/bildiren bir özne mi? ("Ağır işlem var mı?",
- * "Arıza lambası yanıyor mu?", "Conta kaçak"). Olumlu soru ("Şasi düzgün mü?"),
- * işlev sorusu ("çalışıyor mu?"), test/paket sorusu ve donanım adı ("Sürücü hava yastığı")
- * değildir. Emin olunamazsa false.
- */
-export function isProblemSubject(part: string): boolean {
-  const p = fold(part);
-  const ws = words(p);
-  if (hasWordPrefix(ws, BLOCK_STEMS) || hasWord(ws, BLOCK_WORDS)) return false;
-  const asksNeed = /gerekli mi\s*\?*\s*$/.test(p);
-  const problem =
-    hasWordPrefix(ws, PROBLEM_STEMS) || hasWord(ws, PROBLEM_WORDS) || (asksNeed && hasWordPrefix(ws, INTERVENTION_STEMS));
-  if (!problem) return false;
-  if (IS_QUESTION.test(p) && !NEG_QUESTION_SUFFIX.test(p)) return false;
-  return true;
-}
-
-/** "Baş : kuyruk (parantez)" biçimini ayırır; nitelik yalnız ölçüm/birimden oluşuyorsa zararsızdır. */
-function splitStatus(rawStatus: string): { head: string; benign: boolean; text: string } {
-  const text = fold(rawStatus);
-  const parens = [...text.matchAll(/\(([^)]*)\)/g)].map((m) => m[1]);
-  const noParens = text.replace(/\([^)]*\)/g, " ");
-  const colon = noParens.indexOf(":");
-  const head = (colon >= 0 ? noParens.slice(0, colon) : noParens).replace(/[.!,;\s]+$/g, "").trim();
-  const tail = colon >= 0 ? noParens.slice(colon + 1) : "";
-  const qualifiers = [tail, ...parens].join(" ");
-  const qWords = words(qualifiers).filter((w) => !/^[0-9.,%°µ-]+$/.test(w));
-  const benign = qWords.every((w) => BENIGN_QUALIFIER_WORDS.has(w));
-  return { head, benign, text };
-}
-
-/**
- * Ham durumdan statusKind. Model geçerli bir değer verdiyse kullanılır; ancak temiz bir
- * değer, çıplak evet/hayır/yok yanıtında kutupluluk denetiminden geçmezse veya durum bir
- * olumsuzluk içeriyorsa "diger"e indirilir. Tanınmayan her şey "diger" kalır.
+ * Ham durumdan statusKind. Model geçerli bir değer verdiyse kullanılır; temiz bir değer
+ * ancak ham durum onu doğruluyorsa korunur (ortak koruma, bölüm bilinmeden parça adıyla).
+ * Tanınmayan her şey "diger" kalır.
  */
 export function inferStatusKind(rawKind: string, rawStatus: string, part: string): string {
   const k = fold(rawKind).replace(/[\s-]+/g, "_");
@@ -153,13 +79,7 @@ export function inferStatusKind(rawKind: string, rawStatus: string, part: string
   const isYes = YES_ANSWERS.has(head);
   const cleanByPolarity = isNegAnswer && benign && isProblemSubject(part);
 
-  if (VALID_STATUS.has(k) && k !== "diger") {
-    if (!CLEAN_STATUS.has(k)) return k;
-    // Model "temiz" dedi: güvenli olduğu doğrulanabiliyorsa kabul et.
-    if (negated) return "diger";
-    if (isNegAnswer || isYes) return cleanByPolarity ? k : "diger";
-    return k;
-  }
+  if (VALID_STATUS.has(k) && k !== "diger") return confirmCleanStatus(k, rawStatus, part, null);
 
   // Model değeri yok/geçersiz: yalnız açık ifadeler eşlenir.
   if (/\b(ezik|cizik|gocuk)/.test(text) && !isNegAnswer) return "deforme";
@@ -188,8 +108,6 @@ const SECTION_TITLE_RULES: [RegExp, string][] = [
   [/\b(kilometre|km sorgu)/, "km_sorgusu"],
   [/\b(hasar sorgu|hasar kaydi|tramer|sbm)/, "hasar_sorgusu"],
 ];
-const AIRBAG_PART = /\b(airbag|hava yastig|srs\b|emniyet kemeri fise|kemer fise|kemer gergi)/;
-const SASI_PART = /\b(direk|sasi|sase|podye|tavan|bagaj havuz|havuz|kule|frangart|taban)/;
 
 /**
  * Geçerli bölüm (büyük/küçük harf ve tire/boşluk farkı gözetmeden) korunur. Değilse sayfa

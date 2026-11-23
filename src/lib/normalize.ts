@@ -1,5 +1,6 @@
 import type { Extraction, RawExtraction } from "@/lib/schema/extraction";
 import type { Signal } from "@/lib/schema/result";
+import { confirmCleanStatus } from "@/lib/status-guard";
 import { enrichVehicle } from "@/lib/vehicle-enrich";
 
 export function normalizePartName(s: string): string {
@@ -11,15 +12,21 @@ export function normalizeExtraction(raw: RawExtraction): {
   extraction: Extraction;
   signals: Signal[];
 } {
+  // Her iki sağlayıcı için: temiz etiket yalnız ham durum doğruluyorsa kalır (yoksa "diger").
+  const items: RawExtraction["items"] = raw.items.map((item) => ({
+    ...item,
+    statusKind: confirmCleanStatus(item.statusKind, item.rawStatus, item.part, item.section),
+  }));
+
   const kaporta = new Map<string, RawExtraction["items"][number]>();
-  for (const item of raw.items) {
+  for (const item of items) {
     if (item.section !== "kaporta_boya") continue;
     const key = normalizePart(item.part);
     if (!kaporta.has(key)) kaporta.set(key, item);
   }
 
   const conflicting = new Set<RawExtraction["items"][number]>();
-  const kept = raw.items.filter((item) => {
+  const kept = items.filter((item) => {
     if (item.section !== "mor_isik") return true;
     const match = kaporta.get(normalizePart(item.part));
     if (!match) return true;
@@ -33,7 +40,7 @@ export function normalizeExtraction(raw: RawExtraction): {
       code: "mor_isik_celiski",
       level: "warn",
       message: "Mor ışık sonucu kaporta-boya sonucuyla çelişiyor.",
-      details: raw.items.filter((i) => conflicting.has(i)).map((i) => i.part),
+      details: items.filter((i) => conflicting.has(i)).map((i) => i.part),
     });
   }
 
