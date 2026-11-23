@@ -137,6 +137,22 @@ test("kronik kimlik: bilinen bağlanır, bilinmeyen genel doğrulanmamış olur"
   expect(find(r, b).generalUnverified).toBe(true);
 });
 
+test("KB destekli kronik kimlikte generalUnverified false olur", () => {
+  const a = idOf("Ön Panel");
+  const r = build(interp([mk(a, "kronik", { chronicIssueId: "k1", generalUnverified: true })]));
+  expect(find(r, a).chronic?.issueId).toBe("k1");
+  expect(find(r, a).generalUnverified).toBe(false);
+});
+
+test("kimliksiz kronik madde generalUnverified true olur", () => {
+  const a = idOf("Sol Ön Direk");
+  const r = build(interp([mk(a, "kronik")]));
+  expect(find(r, a).chronic).toBeNull();
+  expect(find(r, a).generalUnverified).toBe(true);
+  const b = build(interp([mk(a, "normal")]));
+  expect(find(b, a).generalUnverified).toBe(false);
+});
+
 test("checkList yalnızca bilgi tabanı destekli maddeleri tutar", () => {
   const r = build(
     interp(

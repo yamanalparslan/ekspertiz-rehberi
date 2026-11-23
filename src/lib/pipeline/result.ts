@@ -83,7 +83,11 @@ export function buildResult(input: {
             sources: issue.sources.map((s) => ({ url: s.url, title: s.title })),
           }
         : null,
-      generalUnverified: m.chronicIssueId !== null && !issue ? true : m.generalUnverified,
+      generalUnverified: issue
+        ? false
+        : m.chronicIssueId !== null || group === "kronik"
+          ? true
+          : m.generalUnverified,
     };
   });
 
