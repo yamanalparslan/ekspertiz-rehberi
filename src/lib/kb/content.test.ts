@@ -79,6 +79,12 @@ test("price items: range, source, dates", () => {
   }
 });
 
+test("generic tyre items are real ranges, not a single point", () => {
+  for (const p of generic.priceItems.filter((i) => i.id.startsWith("generic-lastik"))) {
+    expect(p.minTry < p.maxTry, `${p.id}: single point is not a range`).toBe(true);
+  }
+});
+
 test("ids are unique across all files", () => {
   const ids: string[] = [
     ...vehicles.map((v) => v.data.vehicle.id),

@@ -14,7 +14,7 @@ export const PriceItemSchema = z.strictObject({
   id: z.string(),
   title: z.string(),
   partType: z.enum(["orijinal", "yan_sanayi", "belirtilmemis"]),
-  laborIncluded: z.boolean(),
+  laborIncluded: z.boolean().nullable(), // null = source does not say
   minTry: z.number(),
   maxTry: z.number(),
   segment: SegmentSchema.nullable(),

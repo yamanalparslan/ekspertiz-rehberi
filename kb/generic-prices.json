@@ -1,21 +1,6 @@
 {
   "priceItems": [
     {
-      "id": "generic-lastik-4lu-a_b",
-      "title": "4 adet yaz lastiği, A-B segment (195/65 R15 ölçüsünde TEK ürün örneği: Michelin Primacy 4 liste fiyatı 3.925 TL x 4). Montaj/balans hariç. Tek ürün olduğu için aralık yok; ekonomik markalar daha ucuz olabilir.",
-      "partType": "belirtilmemis",
-      "laborIncluded": false,
-      "minTry": 15700,
-      "maxTry": 15700,
-      "segment": "a_b",
-      "source": {
-        "url": "https://www.ekonomim.com/foto-galeri/otomotiv/2026-yaz-lastigi-fiyatlari-marka-marka-en-ucuz-yazlik-lastik-fiyat-listesi-s1-galeri-900193",
-        "title": "2026 yaz lastiği fiyatları marka marka (Ekonomim, 16.06.2026)",
-        "domain": "ekonomim.com"
-      },
-      "asOf": "2026-06-16"
-    },
-    {
       "id": "generic-lastik-4lu-c",
       "title": "4 adet yaz lastiği, C segment (205/55 R16). Kaynaktaki adet fiyatı x 4: en ucuz Goodyear Eagle Sport 2 3.179,5 TL, en pahalı Michelin Primacy 5 Energy 5.542 TL. Montaj/balans hariç.",
       "partType": "belirtilmemis",
@@ -47,18 +32,18 @@
     },
     {
       "id": "generic-lastik-4lu-e_premium",
-      "title": "4 adet yaz lastiği, premium segment (225/45 R18 ölçüsünde TEK ürün örneği: Laufenn Z Fit EQ LK03 4.585 TL x 4, Cimri 2026 kaydı). Ekonomik marka örneği; premium markalar belirgin şekilde daha pahalı olabilir (aynı ölçüde Goodyear Vector 4Seasons adet 8.935,61 TL). Montaj/balans hariç.",
+      "title": "4 adet yaz lastiği, premium segment: premium marka (Continental, Goodyear) 18 inç örnekleri, adet fiyatı x 4: en ucuz Continental ContiCrossContact LX 2 225/55 R18 5.344,75 TL, en pahalı Goodyear EfficientGrip Performance 2 215/50 R18 8.300 TL (aralıkta Continental 235/55 R18 5.383,5 TL de var). BMW G20'nin yaygın 225/45 R18 ölçüsü için doğrudan fiyat bulunamadı; bu ölçüler yakın örneklerdir. Montaj/balans hariç.",
       "partType": "belirtilmemis",
       "laborIncluded": false,
-      "minTry": 18340,
-      "maxTry": 18340,
+      "minTry": 21379,
+      "maxTry": 33200,
       "segment": "e_premium",
       "source": {
-        "url": "https://www.cimri.com/lastikler/en-ucuz-laufenn-z-fit-eq-lk03-22545-zr18-95y-xl-yaz-lastigi-2026-fiyatlari,2602736448",
-        "title": "Laufenn Z Fit EQ LK03 225/45 ZR18 95Y XL yaz lastiği fiyatları (Cimri)",
-        "domain": "cimri.com"
+        "url": "https://www.ekonomim.com/foto-galeri/otomotiv/2026-yaz-lastigi-fiyatlari-marka-marka-en-ucuz-yazlik-lastik-fiyat-listesi-s1-galeri-900193",
+        "title": "2026 yaz lastiği fiyatları marka marka (Ekonomim, 16.06.2026)",
+        "domain": "ekonomim.com"
       },
-      "asOf": "2026-08-02"
+      "asOf": "2026-06-16"
     },
     {
       "id": "generic-lastik-4lu-suv",
@@ -197,9 +182,9 @@
     },
     {
       "id": "generic-boya-tam-parca",
-      "title": "Tam parça boyama (kaput, tavan veya kapı gibi tek parçanın boyanması), kaporta atölyesi tahmini aralığı; kaynak işçilik durumunu ayrıca belirtmiyor, işçilik dahil varsayılmıştır.",
+      "title": "Tam parça boyama (kaput, tavan veya kapı gibi tek parçanın boyanması), kaporta atölyesi tahmini aralığı; kaynak parça/işçilik ayrımını belirtmiyor.",
       "partType": "belirtilmemis",
-      "laborIncluded": true,
+      "laborIncluded": null,
       "minTry": 4000,
       "maxTry": 8000,
       "segment": null,
@@ -212,9 +197,9 @@
     },
     {
       "id": "generic-boya-lokal",
-      "title": "Lokal boya, parça başı (çamurluk ağzı veya kapı altı gibi küçük alanlar), kaporta atölyesi tahmini aralığı; kaynak işçilik durumunu ayrıca belirtmiyor, işçilik dahil varsayılmıştır.",
+      "title": "Lokal boya, parça başı (çamurluk ağzı veya kapı altı gibi küçük alanlar), kaporta atölyesi tahmini aralığı; kaynak parça/işçilik ayrımını belirtmiyor.",
       "partType": "belirtilmemis",
-      "laborIncluded": true,
+      "laborIncluded": null,
       "minTry": 2500,
       "maxTry": 4500,
       "segment": null,
@@ -227,9 +212,9 @@
     },
     {
       "id": "generic-boya-tavan",
-      "title": "Tavan boyama (güneş yanığı veya hasar nedeniyle), kaporta atölyesi tahmini aralığı; kaynak işçilik durumunu ayrıca belirtmiyor, işçilik dahil varsayılmıştır.",
+      "title": "Tavan boyama (güneş yanığı veya hasar nedeniyle), kaporta atölyesi tahmini aralığı; kaynak parça/işçilik ayrımını belirtmiyor.",
       "partType": "belirtilmemis",
-      "laborIncluded": true,
+      "laborIncluded": null,
       "minTry": 6000,
       "maxTry": 12000,
       "segment": null,

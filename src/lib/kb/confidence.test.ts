@@ -13,6 +13,13 @@ test("www. öneki ve büyük harf aynı alan adı sayılır", () => {
   expect(confidenceFromSources([s("www.A.com"), s("a.com")])).toBe("dusuk");
 });
 
+test("şikayet siteleri bağımsız kaynak sayılmaz", () => {
+  expect(confidenceFromSources([s("araclo.com"), s("sikayetvar.com")])).toBe("dusuk");
+  expect(confidenceFromSources([s("araclo.com"), s("www.sikayetvar.com")])).toBe("dusuk");
+  expect(confidenceFromSources([s("araclo.com"), s("carcomplaints.com")])).toBe("yuksek");
+  expect(confidenceFromSources([s("sikayetvar.com"), s("a.com"), s("b.com")])).toBe("yuksek");
+});
+
 test("kaynak yoksa düşük", () => {
   expect(confidenceFromSources([])).toBe("dusuk");
 });
