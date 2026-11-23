@@ -10,7 +10,8 @@
     "test": "vitest run",
     "preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
     "deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",
-    "kb:build": "tsx scripts/build-kb-sql.ts"
+    "kb:build": "tsx scripts/build-kb-sql.ts",
+    "smoke": "tsx scripts/smoke-analyze.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^1.12.0",
