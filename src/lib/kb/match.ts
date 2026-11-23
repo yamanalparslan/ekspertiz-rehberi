@@ -37,6 +37,15 @@ export function norm(s: string): string {
     .replace(/\s+/g, " ");
 }
 
+/** price_cache anahtarı: eşleşen araç kimliği, yoksa "marka|model". Marka veya model yoksa null. */
+export function priceCacheKey(vehicleId: string | null, v: Extraction["vehicle"]): string | null {
+  if (vehicleId !== null) return vehicleId;
+  if (v.brand === null || v.model === null) return null;
+  const b = norm(v.brand);
+  const m = norm(v.model);
+  return b === "" || m === "" ? null : `${b}|${m}`;
+}
+
 function isStale(asOf: string, now: Date): boolean {
   const t = Date.parse(asOf);
   if (Number.isNaN(t)) return true; // unparseable date: do not vouch for freshness

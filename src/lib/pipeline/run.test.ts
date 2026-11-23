@@ -52,6 +52,7 @@ function mkDeps(over: Partial<PipelineDeps> & { msgs?: unknown[] } = {}) {
   const deps: PipelineDeps = {
     claude: sc.client,
     loadKnowledge,
+    savePrices: vi.fn(async () => {}),
     spend,
     secret: "s",
     now: () => NOW,
@@ -149,4 +150,111 @@ test("yeniden yorumlama hakkı bir kez", async () => {
 
   const bad = await collect((emit) => runReinterpret(third.deps, { token: "x.y", vehicle: v.vehicle }, emit));
   expect(bad[0]).toMatchObject({ type: "error", code: "token_invalid" });
+});
+
+// --- Canlı fiyat araması ---
+const norm1 = normalizeExtraction(structuredClone(fixture) as never).extraction;
+// Temiz durumlar modele gitmez (şablonla "normal"); yalnızca sorunlu maddeler kullanılır.
+const CLEAN = ["orijinal", "saglam", "orijinalinde_yok", "calisiyor"];
+const ids = norm1.items.filter((i) => !CLEAN.includes(i.statusKind)).map((i) => i.id);
+
+const iItem = (itemId: string, over: Record<string, unknown> = {}) => ({
+  itemId,
+  group: "dikkat",
+  title: `madde ${itemId}`,
+  meaning: "anlam",
+  whyItMatters: "neden",
+  askSeller: null,
+  priceItemId: null,
+  priceNeed: `${itemId} için onarım maliyeti`,
+  chronicIssueId: null,
+  generalUnverified: false,
+  ...over,
+});
+const interpMsg = (items: unknown[]) =>
+  textMsg(JSON.stringify({ summary: "özet", items, checkList: [] }), "end_turn", { input_tokens: 2000, output_tokens: 200 });
+const liveRow = (itemId: string, title = "Arka çamurluk boyama (tek panel)") => ({
+  itemId,
+  title,
+  minTry: 4000,
+  maxTry: 6000,
+  partType: "belirtilmemis",
+  laborIncluded: true,
+  sourceUrl: "https://www.example.com/fiyat",
+  sourceTitle: "Örnek",
+});
+const priceMsg = (fiyatlar: unknown[]) => ({
+  stop_reason: "tool_use",
+  usage: { input_tokens: 5000, output_tokens: 500 },
+  content: [{ type: "tool_use", id: "t", name: "fiyatlari_kaydet", input: { fiyatlar } }],
+});
+
+test("hat: priceNeed olan madde canlı fiyatla dolar ve harcama eklenir", async () => {
+  const savePrices = vi.fn(async () => {});
+  const { deps, spend, sc } = mkDeps({
+    savePrices,
+    msgs: [textMsg(JSON.stringify(fixture)), interpMsg([iItem(ids[0])]), priceMsg([liveRow(ids[0])])],
+  });
+  const ev = await collect((emit) => runAnalysis(deps, [file], emit));
+  const res = ev.at(-1);
+  if (res?.type !== "result") throw new Error("no result");
+  const it = res.result.items.find((i) => i.itemId === ids[0]);
+  expect(it?.cost).toMatchObject({
+    minTry: 4000,
+    maxTry: 6000,
+    stale: false,
+    asOf: "2026-11-23",
+    source: { url: "https://www.example.com/fiyat" },
+  });
+  expect(spend.adds).toHaveLength(3);
+  expect(spend.adds[2]).toBeCloseTo(0.03, 6);
+  expect(sc.calls).toHaveLength(3);
+  // Önbellek anahtarı: KB eşleşmesi yok -> "marka|model".
+  expect(savePrices).toHaveBeenCalledWith("bmw|320i", [
+    expect.objectContaining({ id: "live-arka-camurluk-boyama-tek-panel-2026-11-23" }),
+  ]);
+  expect(JSON.stringify(savePrices.mock.calls[0])).not.toContain("forItemId");
+});
+
+test("hat: yalnızca dikkat/kronik, fiyatsız, priceNeed dolu maddeler aranır; en çok 5", async () => {
+  const items = [
+    iItem(ids[0], { group: "normal" }),
+    iItem(ids[1], { priceNeed: null }),
+    iItem(ids[2], { priceItemId: "var" }),
+    ...ids.slice(3, 10).map((id) => iItem(id)),
+  ];
+  const { deps, sc } = mkDeps({
+    msgs: [textMsg(JSON.stringify(fixture)), interpMsg(items), priceMsg([])],
+  });
+  await collect((emit) => runAnalysis(deps, [file], emit));
+  const sent = JSON.parse(
+    (sc.calls[2].messages as { content: { text: string }[] }[])[0].content[0].text,
+  ).needs as { itemId: string }[];
+  expect(sent.map((n) => n.itemId)).toEqual(ids.slice(3, 8));
+});
+
+test("hat: fiyat araması hata verirse result yine gelir, harcama yazılır", async () => {
+  const { deps, spend } = mkDeps({
+    msgs: [
+      textMsg(JSON.stringify(fixture)),
+      interpMsg([iItem(ids[0])]),
+      { stop_reason: "refusal", usage: { input_tokens: 5000, output_tokens: 0 }, content: [] },
+    ],
+  });
+  const ev = await collect((emit) => runAnalysis(deps, [file], emit));
+  expect(ev.at(-1)?.type).toBe("result");
+  expect(ev.some((e) => e.type === "error")).toBe(false);
+  expect(spend.adds).toHaveLength(3);
+  expect(spend.adds[2]).toBeCloseTo(0.02, 6);
+});
+
+test("hat: önbellek yazımı hata verirse result yine gelir", async () => {
+  const { deps } = mkDeps({
+    savePrices: async () => {
+      throw new Error("d1 down");
+    },
+    msgs: [textMsg(JSON.stringify(fixture)), interpMsg([iItem(ids[0])]), priceMsg([liveRow(ids[0])])],
+  });
+  const ev = await collect((emit) => runAnalysis(deps, [file], emit));
+  expect(ev.at(-1)?.type).toBe("result");
 });

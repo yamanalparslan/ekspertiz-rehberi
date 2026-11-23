@@ -1,6 +1,6 @@
 import { createClaude } from "@/lib/claude/client";
 import { ERROR_MESSAGES } from "@/lib/copy";
-import { loadKnowledge } from "@/lib/kb/d1";
+import { loadKnowledge, savePriceCache } from "@/lib/kb/d1";
 import type { AnalysisEvent, ErrorCode } from "@/lib/schema/events";
 import { getServerEnv } from "./env";
 import type { PipelineDeps } from "./run";
@@ -66,6 +66,7 @@ export function buildDeps(usd: { total: number }): PipelineDeps | null {
   return {
     claude: createClaude(env.ANTHROPIC_API_KEY as string),
     loadKnowledge: (q) => loadKnowledge(env.DB, q, new Date()),
+    savePrices: (key, prices) => savePriceCache(env.DB, key, prices),
     spend,
     secret: env.EXTRACTION_HMAC_SECRET as string,
     now: () => new Date(),

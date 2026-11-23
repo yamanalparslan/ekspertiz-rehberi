@@ -2,17 +2,22 @@ import firmsJson from "../../../kb/firms.json";
 import {
   FirmsFileSchema,
   GenericPricesFileSchema,
+  PriceItemSchema,
   VehicleKbFileSchema,
   type PriceItem,
   type VehicleKbFile,
 } from "@/lib/schema/kb";
-import { matchKnowledge, norm, type Knowledge, type KnowledgeQuery } from "./match";
+import { istanbulDay } from "@/lib/pipeline/spend";
+import { matchKnowledge, norm, priceCacheKey, type Knowledge, type KnowledgeQuery } from "./match";
+
+const CACHE_DAYS = 90;
 
 /** Minimal structural subset of Cloudflare's D1Database (prepare/bind/all). */
 export type D1Like = {
   prepare(sql: string): {
     bind(...values: unknown[]): {
       all<T = Record<string, unknown>>(): Promise<{ results: T[] }>;
+      run(): Promise<unknown>;
     };
   };
 };
@@ -43,5 +48,37 @@ export async function loadKnowledge(
     (r) => GenericPricesFileSchema.shape.priceItems.element.parse(JSON.parse(r.json)),
   );
 
-  return matchKnowledge({ vehicles, generic, firms }, q, now);
+  const knowledge = matchKnowledge({ vehicles, generic, firms }, q, now);
+
+  const key = priceCacheKey(knowledge.vehicleId, q.vehicle);
+  if (key === null) return knowledge;
+  const cutoff = istanbulDay(new Date(now.getTime() - CACHE_DAYS * 24 * 60 * 60 * 1000));
+  const cached = await db
+    .prepare("SELECT json FROM price_cache WHERE vehicle_id = ? AND as_of >= ?")
+    .bind(key, cutoff)
+    .all<{ json: string }>();
+  const have = new Set(knowledge.priceItems.map((p) => p.id));
+  for (const row of cached.results) {
+    let parsed;
+    try {
+      parsed = PriceItemSchema.safeParse(JSON.parse(row.json));
+    } catch {
+      continue;
+    }
+    if (!parsed.success || have.has(parsed.data.id)) continue;
+    have.add(parsed.data.id);
+    knowledge.priceItems.push({ ...parsed.data, stale: false });
+  }
+  return knowledge;
+}
+
+export async function savePriceCache(db: D1Like, vehicleKey: string, prices: PriceItem[]): Promise<void> {
+  for (const p of prices) {
+    await db
+      .prepare(
+        "INSERT INTO price_cache (id, vehicle_id, json, as_of) VALUES (?, ?, ?, ?) ON CONFLICT(id) DO UPDATE SET vehicle_id = excluded.vehicle_id, json = excluded.json, as_of = excluded.as_of",
+      )
+      .bind(p.id, vehicleKey, JSON.stringify(p), p.asOf)
+      .run();
+  }
 }

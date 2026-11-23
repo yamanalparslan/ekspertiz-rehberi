@@ -2,9 +2,12 @@ import { AnalysisError, type ClaudeLike } from "@/lib/claude/client";
 import { extractReport, type UploadFile } from "@/lib/claude/extract";
 import { interpretReport } from "@/lib/claude/interpret";
 import { ERROR_MESSAGES } from "@/lib/copy";
-import type { Knowledge, KnowledgeQuery } from "@/lib/kb/match";
+import { priceCacheKey, type Knowledge, type KnowledgeQuery } from "@/lib/kb/match";
+import type { PriceItem } from "@/lib/schema/kb";
+import type { Group, Interpretation } from "@/lib/schema/interpretation";
+import { lookupPrices } from "@/lib/claude/prices";
 import { normalizeExtraction } from "@/lib/normalize";
-import { computeFloors } from "@/lib/rules/floors";
+import { computeFloors, mergeGroup } from "@/lib/rules/floors";
 import type { Extraction } from "@/lib/schema/extraction";
 import type { AnalysisEvent, ErrorCode } from "@/lib/schema/events";
 import type { Signal } from "@/lib/schema/result";
@@ -17,6 +20,8 @@ import { signExtraction, verifyExtraction } from "./token";
 export type PipelineDeps = {
   claude: ClaudeLike;
   loadKnowledge: (q: KnowledgeQuery) => Promise<Knowledge>;
+  /** Canlı fiyatları önbelleğe yazar (anahtar: priceCacheKey). */
+  savePrices: (vehicleKey: string, prices: PriceItem[]) => Promise<void>;
   spend: SpendStore;
   secret: string;
   now: () => Date;
@@ -65,10 +70,81 @@ async function interpretAndEmit(
   const { interpretation } = await tracked(d, () =>
     interpretReport(d.claude, { extraction, knowledge, floors }),
   );
+  const live = await addLivePrices(d, extraction, interpretation, knowledge, floors);
   emit({
     type: "result",
-    result: buildResult({ extraction, interpretation, knowledge, floors, signals }),
+    result: buildResult({
+      extraction,
+      interpretation: live.interpretation,
+      knowledge: live.knowledge,
+      floors,
+      signals,
+    }),
   });
+}
+
+const MAX_LIVE_NEEDS = 5;
+
+/** Fiyatı bilgi tabanında olmayan dikkat/kronik maddeler için canlı arama; hatalar ölümcül değildir. */
+async function addLivePrices(
+  d: PipelineDeps,
+  extraction: Extraction,
+  interpretation: Interpretation,
+  knowledge: Knowledge,
+  floors: Map<string, Group>,
+): Promise<{ interpretation: Interpretation; knowledge: Knowledge }> {
+  const needs: { itemId: string; need: string }[] = [];
+  const seen = new Set<string>();
+  for (const it of interpretation.items) {
+    const group = mergeGroup(it.group, floors.get(it.itemId));
+    const need = it.priceNeed?.trim() ?? "";
+    if ((group !== "dikkat" && group !== "kronik") || it.priceItemId !== null || need === "") continue;
+    if (seen.has(it.itemId)) continue;
+    seen.add(it.itemId);
+    needs.push({ itemId: it.itemId, need });
+    if (needs.length === MAX_LIVE_NEEDS) break;
+  }
+  if (needs.length === 0) return { interpretation, knowledge };
+
+  try {
+    const { prices } = await tracked(d, () =>
+      lookupPrices(d.claude, { vehicle: extraction.vehicle, needs }, d.now()),
+    );
+    if (prices.length === 0) return { interpretation, knowledge };
+
+    const have = new Set(knowledge.priceItems.map((p) => p.id));
+    const added = prices
+      .filter((p) => !have.has(p.id))
+      .map(({ forItemId: _f, ...p }) => ({ ...p, stale: false }));
+    const firstFor = new Map<string, string>();
+    for (const p of prices) if (!firstFor.has(p.forItemId)) firstFor.set(p.forItemId, p.id);
+
+    const key = priceCacheKey(knowledge.vehicleId, extraction.vehicle);
+    if (key !== null) {
+      try {
+        await d.savePrices(
+          key,
+          added.map(({ stale: _s, ...p }) => p),
+        );
+      } catch {
+        // Önbellek yazımı başarısızsa sonuç yine de gösterilir.
+      }
+    }
+    return {
+      knowledge: { ...knowledge, priceItems: [...knowledge.priceItems, ...added] },
+      interpretation: {
+        ...interpretation,
+        items: interpretation.items.map((it) =>
+          it.priceItemId === null && firstFor.has(it.itemId)
+            ? { ...it, priceItemId: firstFor.get(it.itemId) as string }
+            : it,
+        ),
+      },
+    };
+  } catch {
+    // Harcama tracked içinde yazıldı; canlı fiyat olmadan devam edilir.
+    return { interpretation, knowledge };
+  }
 }
 
 function toErrorCode(e: unknown): ErrorCode {
