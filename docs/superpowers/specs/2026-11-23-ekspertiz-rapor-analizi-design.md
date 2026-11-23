@@ -57,7 +57,7 @@ Uygulama teknik olarak çalışsa bile, aşağıdakilerden biri olursa başarıs
 
 - Web altyapısı, kullanıcının diğer projeleriyle (CourtMax, Lumind) aynıdır: Next.js 16, React 19, Tailwind 4, OpenNext ile Cloudflare Workers.
 - Yapay zeka: Claude Opus 5.5 (`claude-opus-5-5`), resmi `@anthropic-ai/sdk` ile çağrılır.
-- Claude'a giden istek en fazla 32 MB olabilir. PDF en fazla 600 sayfa olabilir. Ekspertiz raporları 2–10 sayfa olduğu için bu sınırlar sorun değildir. Uygulama yükleme sınırını 20 MB ve en fazla 10 fotoğraf olarak koyar.
+- Claude'a giden istek en fazla 32 MB olabilir. PDF en fazla 600 sayfa olabilir. İlk gerçek örnek rapor 15 sayfa ve ek sorgu sayfalarıyla birlikte 18 fotoğraftan oluşuyor (§15.1). Uygulama en fazla 25 fotoğraf kabul eder. Fotoğraflar göndermeden önce tarayıcıda küçültülür. Kesin görsel sınırları uygulayıcı Claude belgelerinden doğrular.
 - Fiyatlar TL cinsindendir ve enflasyon nedeniyle hızlı eskir. Her fiyatın bir tarihi olmalıdır.
 - KVKK: Raporlarda plaka, şasi numarası ve bazen araç sahibinin adı bulunur.
 
@@ -187,6 +187,12 @@ v1 işaretleri:
 - **Rapor yaşı:** Rapor tarihi 30 günden eskiyse uyarı verilir. Eski raporlar düzenlenip yeniden kullanılabiliyor.
 - **İç tutarlılık:** Araç yılı ve km uyumu, rapor tarihi ve araç yılı uyumu, tekrar eden veya çelişen maddeler (örneğin aynı parça hem "orijinal" hem "değişen").
 - **PDF üst verisi:** Oluşturma ve değiştirme tarihleri farklı mı, belgeyi üreten yazılım bir görüntü veya PDF düzenleyici mi. Bu kontrol kodla yapılır. Yalnızca PDF yüklemelerinde çalışır.
+- **Rapor içi çapraz kontroller:** Raporda bulunan ek sorgu sayfaları kendi içinde karşılaştırılır:
+  - Rapordaki km ile TÜVTÜRK muayene kayıtlarındaki son km (geri alma var mı).
+  - Sigorta hasar kayıtları (tarih, tutar) ile değişen ve boyalı parçalar (hasar kaydı ile parçalar uyumlu mu).
+  - OBD özet sayfası ile arıza tespit cihazının ham çıktısı (özet "arıza yok" derken ham çıktıda arıza var mı).
+  - Yapılmamış testler (örneğin 0 HP ölçülen dinamometre) "test yapılmamış" olarak gösterilir, sonuç gibi yorumlanmaz.
+- **QR kod:** Raporda "online rapor" QR kodu varsa tarayıcıda çözülür. Kullanıcıya bağlantı ve bağlantının alan adı gösterilir. Kullanıcıya alan adının firmanın sitesi olup olmadığını kontrol etmesi söylenir.
 - **Firma doğrulama yönlendirmesi:** Kullanıcıya raporu firmanın kendi sorgu sayfasından doğrulamasını söyler. Örneğin Otorapor'da plaka veya şasi numarasıyla geçmiş ekspertiz sorgusu yapılabiliyor. Firma sorgu bağlantıları bilgi tabanında tutulur.
 - **Gelecekteki karekod:** Haberlere göre raporlara Taşıt Ekspertiz Bilgi Sistemi'ne bağlı bir karekod gelecek. Yürürlüğe girince, raporda karekod varsa kullanıcıya okutması söylenir. Bu madde v1 kapsamında değildir.
 
@@ -224,6 +230,24 @@ Ayrıca her "Dikkat" maddesinde "Bir ustaya veya ekspertize danışın" yönlend
 - Ölçülenler: araç bilgisinin doğru okunması, maddelerin eksiksiz çıkarılması, grupların doğruluğu. En önemli ölçüt: hiçbir "Dikkat" maddesinin "Normal" olarak gösterilmemesi.
 - İstem (prompt) veya model ayarı her değiştiğinde set yeniden çalıştırılır.
 
+### 15.1 İlk örnek rapor: bulgular
+
+Kullanıcı ilk gerçek raporu paylaştı: Yavuzlar Oto Ekspertiz, 2021 BMW 320i (1.6, 170 HP), 135.689 km, rapor tarihi 23.11.2026. Rapor, kağıt çıktının telefonla eğik açıdan çekilmiş 18 fotoğrafı olarak geldi. Holografik mühür yer yer parlama yapıyor.
+
+Tasarıma etkileri:
+
+- **Ana giriş fotoğraf olacak, PDF değil.** Okuma adımı eğik, parlamalı ve kısmen kırpılmış fotoğrafları okuyabilmelidir. Değerlendirme seti bu tür fotoğrafları içermelidir.
+- **Bölümler:** Rapor özeti, Kaporta-Boya (µm ölçümlü, 16 kontrol), Mor ışık, Şasi/İç aksam (23), Üst motor (31), Motor alt ve mekanik (34), İç ve dış donanım (35), Conta kaçak testi, Airbag (13), OBD özeti ve cihazın ham arıza kodu çıktısı, Test hattı (dinamometre, süspansiyon, fren, yanal kayma), QR sorgulamalar, TÜVTÜRK km sorgusu, sigorta hasar sorgusu, fotoğraf galerisi. Okuma şeması bu bölümleri karşılamalıdır. Tanınmayan bölümler "diğer" olarak alınır.
+- **Rapor kendi sınırlarını basıyor.** Örnekler: fren sapması %0–30 geçer, %31–100 kalır. Süspansiyon tutunması 0–20 arızalı, 80–100 mükemmel. Yanal kaymada iyi, kritik ve kötü bantları var. Kural katmanı (§10.2) önce raporda basılı sınırı kullanır. Raporda sınır yoksa yapılandırmadaki varsayılanı kullanır.
+- **Firma başına okuyucu yazılmaz.** Rapor altında "ekspertiz.app ile hazırlanmıştır" yazıyor. Piyasada başka ekspertiz yazılımları da var (Goeksper, B2EL, ProNspect gibi). Bu yüzden tüm formatlar için tek bir genel okuma şeması kullanılır.
+- **Ham OBD çıktısında Türkçe karakterler bozuk** ("Elektronii", "Grü alanı" gibi). Okuma adımı bozuk metni anlamına göre okumalıdır.
+- **Raporda yoğun kişisel veri var:** Alıcı ve satıcının adı soyadı, açık telefon numaraları, maskeli TC kimlik numarası, plaka ve şasi numarası. Bu fotoğraflar depoya konmaz. Değerlendirme setine girmeden önce kişisel veriler karartılır. Bu durum §17'deki 4. soruyu daha da önemli kılıyor.
+- **Çapraz kontroller bu raporda işe yaradı** (§11):
+  - Km tutarlı: Rapor 135.689 km, son TÜVTÜRK muayenesi 130.693 km (12.09.2026).
+  - Hasar tutarlı: 28.10.2023 tarihli 263.322,55 TL'lik çarpışma kaydı ile değişen kaput, ön tampon, ön panel, farlar ve ön cam aynı önden darbeyi gösteriyor.
+  - İç çelişki: OBD özet sayfası klima elektroniğinde "arıza kodu yok" diyor. Ham cihaz çıktısı klima karıştırma klapesi motorunda arıza gösteriyor.
+  - Yapılmamış test: Dinamometre 0 HP ve %0 gösteriyor. Bu bir ölçüm değil, test yapılmamış.
+
 ## 16. Verilen kararlar
 
 Kullanıcının kararları:
@@ -253,7 +277,7 @@ Benim kararlarım (kullanıcı değiştirebilir):
 
 Bu sorular yalnızca kullanıcı tarafından cevaplanabilir ve cevapları planı değiştirir.
 
-1. **Örnek raporlar:** Elde gerçek ekspertiz raporu var mı? v1 hangi firmaların raporlarını desteklemeli? Bu cevap; okuma şemasını, PDF üst verisi kontrolünün neyi "normal" sayacağını ve değerlendirme setini (§15) belirler. Rapor yoksa plana, raporları toplayıp kişisel verilerini temizleme adımı eklenir.
+1. **Örnek raporlar:** Cevaplandı. İlk rapor geldi (§15.1). Değerlendirme seti için farklı firmalardan 10–20 rapor daha gerekiyor. Bunlar plan sırasında toplanır.
 2. **Uzman:** Kronik sorun kayıtlarını, sınır değerlerini ve test etiketlerini kim onaylayacak (usta, eksper)? Yayın bu onayı bekleyecek mi? Bekleyecekse v1 onaylı 30 model verisiyle çıkar. Beklemeyecekse v1 "doğrulanmamış" etiketli bilgiyle çıkar ve bilgi tabanı sonradan dolar.
 3. **Bütçe ve gelir:** API maliyetini kim ödüyor? Günlük veya aylık harcama tavanı ne olsun? Uygulama ücretsiz mi olacak, rapor başına ücretli mi, yoksa galericilere mi satılacak? Ücretliyse v1'e hesap ve ödeme eklenir.
 4. **Hukuk:** Herkese açık yayından önce KVKK yurt dışı aktarım konusunda avukat görüşü alınacak mı? Görüş gelene kadar uygulama kapalı beta (davetli kullanıcılar) olarak çalışabilir. Cevaba göre rapor gönderilmeden önce plaka, şasi numarası ve kişi adını karartan bir adım da gerekebilir.
