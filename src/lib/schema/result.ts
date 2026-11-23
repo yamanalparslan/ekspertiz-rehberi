@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { RawExtractionSchema } from "@/lib/schema/extraction";
+import { RawExtractionSchema, VehicleInferredSchema } from "@/lib/schema/extraction";
 import { GroupSchema } from "@/lib/schema/interpretation";
 
 export const SignalCodeSchema = z.enum([
@@ -64,6 +64,8 @@ export type Vehicle = z.infer<typeof VehicleSchema>;
 
 export const AnalysisResultSchema = z.strictObject({
   vehicle: VehicleSchema,
+  /** Raporda basılı olmayıp tahmin edilen araç alanları; yoksa alan yoktur. */
+  vehicleInferred: VehicleInferredSchema.optional(),
   report: z.strictObject({
     firm: z.string().nullable(),
     reportNo: z.string().nullable(),

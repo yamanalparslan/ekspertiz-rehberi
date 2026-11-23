@@ -1,5 +1,6 @@
 import type { Extraction, RawExtraction } from "@/lib/schema/extraction";
 import type { Signal } from "@/lib/schema/result";
+import { enrichVehicle } from "@/lib/vehicle-enrich";
 
 export function normalizePartName(s: string): string {
   return s.toLocaleLowerCase("tr-TR").trim().replace(/\s+/g, " ");
@@ -36,8 +37,13 @@ export function normalizeExtraction(raw: RawExtraction): {
     });
   }
 
+  // Basılı olmayan hacim/güç/yakıt model-varyant adından tahmin edilir ve işaretlenir.
+  const { vehicle, inferred } = enrichVehicle(raw.vehicle);
+
   const extraction: Extraction = {
     ...structuredClone(raw),
+    vehicle,
+    ...(Object.keys(inferred).length > 0 ? { vehicleInferred: inferred } : {}),
     items: kept.map((item, n) => ({ id: `i${n + 1}`, ...structuredClone(item) })),
     measurements: raw.measurements.map((m, n) => ({ id: `m${n + 1}`, ...structuredClone(m) })),
     obd: {

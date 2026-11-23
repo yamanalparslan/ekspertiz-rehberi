@@ -1,6 +1,10 @@
 import { expect, test } from "vitest";
+import egeaJson from "../../../kb/vehicles/fiat-egea-2015.json";
+import fiestaJson from "../../../kb/vehicles/ford-fiesta-mk8.json";
+import golfJson from "../../../kb/vehicles/volkswagen-golf-7.json";
+import accentJson from "../../../kb/vehicles/hyundai-accent-blue.json";
 import { matchKnowledge } from "./match";
-import type { PriceItem, Source, VehicleKbFile } from "@/lib/schema/kb";
+import { VehicleKbFileSchema, type PriceItem, type Source, type VehicleKbFile } from "@/lib/schema/kb";
 import type { Extraction } from "@/lib/schema/extraction";
 
 const src = (domain: string): Source => ({ url: `https://${domain}/a`, title: "t", domain });
@@ -162,4 +166,61 @@ test("firma adı eşleşirse doğrulama adresi döner", () => {
   );
   expect(matchKnowledge(kb(firms), q("Yavuzlar Oto Ekspertiz"), now).firmVerifyUrl).toBeNull();
   expect(matchKnowledge(kb(firms), q(null), now).firmVerifyUrl).toBeNull();
+});
+
+// Gerçek bilgi tabanı dosyalarıyla motor eşleştirme toleransı.
+const realKb = {
+  vehicles: [egeaJson, fiestaJson, golfJson, accentJson].map((j) => VehicleKbFileSchema.parse(j)),
+  generic: [],
+  firms: [],
+};
+const issueIds = (o: Partial<Extraction["vehicle"]>, inferred?: { engineCc?: true; fuel?: true }) =>
+  matchKnowledge(realKb, { vehicle: vehicle(o), firm: null, ...(inferred ? { inferred } : {}) }, now).chronicIssues.map(
+    (c) => c.id,
+  );
+
+test("Fiesta 1.0 EcoBoost: 998 cc (KB 999) EcoBoost sorununu kaybetmez, dizel sorunu gelmez", () => {
+  const ids = issueIds({ brand: "Ford", model: "Fiesta", year: 2018, engineCc: 998, fuel: "benzin" });
+  expect(ids).toContain("fiesta-mk8-ecoboost-yag-pompasi-kayisi");
+  expect(ids).not.toContain("fiesta-mk8-15tdci-egr");
+});
+
+test("Egea 1.3 Multijet: 1332 cc (KB 1248) motor adıyla dizel sorunlarını korur", () => {
+  const ids = issueIds({ brand: "Fiat", model: "Egea", variant: "1.3 Multijet Urban", year: 2019, engineCc: 1332, fuel: "dizel" });
+  expect(ids).toContain("egea-dizel-egr-dpf");
+  expect(ids).toContain("egea-13-multijet-turbo-hortumu");
+  expect(ids).not.toContain("egea-14-fire-yag-eksiltme");
+  // Motor bilgisi model adında (KB takma adı "Egea 1.3" değil, "Egea 1.3 Multijet"): yine korunur.
+  expect(issueIds({ brand: "Fiat", model: "Egea", variant: "Egea 1.3 Multijet", year: 2019, engineCc: 1332, fuel: "dizel" })).toContain(
+    "egea-dizel-egr-dpf",
+  );
+});
+
+test("Egea 1.6 E-torQ benzinli: 1598 cc dizel 1.6 Multijet ile aynı olsa da dizel EGR/DPF sorunu gelmez", () => {
+  const ids = issueIds({ brand: "Fiat", model: "Egea", variant: "1.6 E-torQ Easy", year: 2018, engineCc: 1598, fuel: "benzin" });
+  expect(ids).not.toContain("egea-dizel-egr-dpf");
+  expect(ids).not.toContain("egea-13-multijet-turbo-hortumu");
+  expect(ids).toContain("egea-debriyaj");
+  // Hacim yok ama basılı yakıt benzin: dizel motor sorunları yine gelmez.
+  expect(issueIds({ brand: "Fiat", model: "Egea", year: 2018, fuel: "benzin" })).not.toContain("egea-dizel-egr-dpf");
+});
+
+test("Golf 1.4 TSI 1368 cc (KB 1395) ve Accent 1.6 CRDi 1598 cc (KB 1582) ±30 cc toleransla eşleşir", () => {
+  const golf = issueIds({ brand: "Volkswagen", model: "Golf", year: 2015, engineCc: 1368, fuel: "benzin" });
+  expect(golf).toContain("golf7-tsi-yag-tuketimi");
+  expect(golf).not.toContain("golf7-16tdi-devirdaim");
+  const accent = issueIds({ brand: "Hyundai", model: "Accent Blue", year: 2014, engineCc: 1598, fuel: "dizel" });
+  expect(accent).toContain("accentblue-16crdi-dpf-egr");
+  const petrol = issueIds({ brand: "Hyundai", model: "Accent Blue", year: 2014, engineCc: 1396, fuel: "benzin" });
+  expect(petrol).not.toContain("accentblue-16crdi-dpf-egr");
+});
+
+test("tahmini hacim ve yakıt eşleşmeyi daraltmaz (bilinmiyor sayılır)", () => {
+  const base = { brand: "Fiat", model: "Egea", year: 2019, engineCc: 1332, fuel: "benzin" as const };
+  // Basılı olsaydı 1332/benzin dizel sorunlarını dışlardı:
+  expect(issueIds(base)).not.toContain("egea-dizel-egr-dpf");
+  // Tahmini ise dışlamaz:
+  const ids = issueIds(base, { engineCc: true, fuel: true });
+  expect(ids).toContain("egea-dizel-egr-dpf");
+  expect(ids).toContain("egea-14-fire-yag-eksiltme");
 });

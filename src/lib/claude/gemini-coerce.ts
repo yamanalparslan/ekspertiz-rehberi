@@ -31,65 +31,6 @@ const VALID_TRANS = new Set(["manuel", "otomatik", "yari_otomatik"]);
 const VALID_GROUPS = new Set(["normal", "belirsiz", "kronik", "dikkat"]);
 const VALID_FAULT_TYPES = new Set(["intermittent", "permanent", "unknown"]);
 
-const DISPLACEMENT_MAP: Record<string, number> = {
-  "0.9": 898,
-  "1.0": 998,
-  "1.1": 1086,
-  "1.2": 1197,
-  "1.25": 1248,
-  "1.3": 1332,
-  "1.4": 1368,
-  "1.5": 1461,
-  "1.6": 1598,
-  "1.8": 1798,
-  "2.0": 1984,
-};
-
-function enrichVehicleSpecs(v: {
-  brand: string | null;
-  model: string | null;
-  variant: string | null;
-  year: number | null;
-  engineCc: number | null;
-  powerHp: number | null;
-  fuel: string | null;
-  transmission: string | null;
-  km: number | null;
-}, notesText: string) {
-  const combined = `${v.brand ?? ""} ${v.model ?? ""} ${v.variant ?? ""} ${notesText}`.toLocaleLowerCase("tr-TR");
-
-  // Picanto 1.1 LX DSL şablon yazısını SBM satırındaki 1.0 67 AMT / G3LD ile düzelt:
-  if (combined.includes("picanto") && (combined.includes("g3ld") || combined.includes("1.0") || combined.includes("1.1 lx"))) {
-    if (v.model && v.model.toLocaleLowerCase("tr-TR").includes("picanto")) {
-      if (!v.variant && v.model.length > 7) {
-        v.variant = "1.0 Live 67 AMT";
-        v.model = "Picanto";
-      }
-    }
-    v.engineCc ??= 998;
-    v.powerHp ??= 67;
-    v.fuel ??= "benzin";
-    v.transmission ??= "otomatik";
-  }
-
-  if (v.engineCc === null) {
-    const m = /\b(0\.9|1\.0|1\.1|1\.25|1\.2|1\.3|1\.4|1\.5|1\.6|1\.8|2\.0)\b/.exec(combined);
-    if (m && DISPLACEMENT_MAP[m[1]]) {
-      v.engineCc = DISPLACEMENT_MAP[m[1]];
-    }
-  }
-
-  if (v.powerHp === null) {
-    const hpMatch = /\b(\d{2,3})\s*(?:hp|bg|ps|kw|amt|d-cvvt|t-gdi|tsi|tdi|dci)\b/i.exec(combined);
-    if (hpMatch) {
-      const hp = Number(hpMatch[1]);
-      if (hp >= 50 && hp <= 400) v.powerHp = hp;
-    }
-  }
-
-  return v;
-}
-
 // ---------------------------------------------------------------------------
 // Metin yardımcıları
 
@@ -387,20 +328,18 @@ export function coerceGeminiJson(input: unknown): unknown {
       // Eksik ya da bozuk isReport: rapor sayılmaz (yorumlama çalışmaz).
       isReport: strictBool(o.isReport, false),
       notReportReason: strOrNull(o.notReportReason),
-      vehicle: enrichVehicleSpecs(
-        {
-          brand: strOrNull(v.brand),
-          model: strOrNull(v.model),
-          variant: strOrNull(v.variant),
-          year: numOrNull(v.year),
-          engineCc: numOrNull(v.engineCc),
-          powerHp: numOrNull(v.powerHp),
-          fuel: VALID_FUELS.has(String(v.fuel)) ? String(v.fuel) : null,
-          transmission: VALID_TRANS.has(String(v.transmission)) ? String(v.transmission) : null,
-          km: numOrNull(v.km),
-        },
-        expertNotes.join(" "),
-      ),
+      // Yalnız modelin yazdığı (basılı) değerler; tahmin normalizeExtraction'da işaretlenerek yapılır.
+      vehicle: {
+        brand: strOrNull(v.brand),
+        model: strOrNull(v.model),
+        variant: strOrNull(v.variant),
+        year: numOrNull(v.year),
+        engineCc: numOrNull(v.engineCc),
+        powerHp: numOrNull(v.powerHp),
+        fuel: VALID_FUELS.has(String(v.fuel)) ? String(v.fuel) : null,
+        transmission: VALID_TRANS.has(String(v.transmission)) ? String(v.transmission) : null,
+        km: numOrNull(v.km),
+      },
       report: {
         firm: strOrNull(r.firm),
         reportNo: strOrNull(r.reportNo),

@@ -144,12 +144,25 @@ export const RawExtractionSchema = z.strictObject({
 });
 export type RawExtraction = z.infer<typeof RawExtractionSchema>;
 
+/**
+ * Raporda basılı olmayıp model/varyant adından TAHMİN edilen araç alanları (yalnız `true`).
+ * Arayüz bu alanları "tahmini" diye etiketler; bilgi tabanı eşleşmesi bunları bilinmiyor sayar.
+ */
+export const VehicleInferredSchema = z.strictObject({
+  engineCc: z.literal(true).optional(),
+  powerHp: z.literal(true).optional(),
+  fuel: z.literal(true).optional(),
+});
+export type VehicleInferred = z.infer<typeof VehicleInferredSchema>;
+
 // Normalleştirilmiş çıktı: her madde, ölçüm ve ham arıza kaydına kimlik eklenir.
 const withId = <T extends z.ZodRawShape>(shape: T) =>
   z.strictObject({ id: z.string(), ...shape });
 
 export const ExtractionSchema = z.strictObject({
   ...RawExtractionSchema.shape,
+  /** Yalnız en az bir alan tahmin edildiyse bulunur. */
+  vehicleInferred: VehicleInferredSchema.optional(),
   items: z.array(withId(RawExtractionSchema.shape.items.element.shape)),
   measurements: z.array(withId(RawExtractionSchema.shape.measurements.element.shape)),
   obd: z.strictObject({

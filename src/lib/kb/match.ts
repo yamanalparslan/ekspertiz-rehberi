@@ -1,4 +1,4 @@
-import type { Extraction } from "@/lib/schema/extraction";
+import type { Extraction, VehicleInferred } from "@/lib/schema/extraction";
 import type {
   ChronicIssue,
   FirmsFile,
@@ -10,6 +10,8 @@ import { confidenceFromSources, type Confidence } from "./confidence";
 export type KnowledgeQuery = {
   vehicle: Extraction["vehicle"];
   firm: string | null;
+  /** Tahmini araç alanları: eşleşmede bilinmiyor (null) sayılır, hiçbir sorunu dışlamaz. */
+  inferred?: VehicleInferred;
 };
 
 export type Knowledge = {
@@ -62,15 +64,68 @@ function vehicleMatches(kb: VehicleKbFile, v: Extraction["vehicle"]): boolean {
   return true;
 }
 
+const CC_TOLERANCE = 30;
+
+/**
+ * Motor kodu/adı belirteçleri: tek parçalar ve ardışık ikililer ("1.4 TSI" -> "1.4tsi"),
+ * yalnız harf VE rakam içeren, en az 3 karakterli olanlar ("g3ld", "1.3multijet", "ea211").
+ */
+function engineTokens(s: string): { all: Set<string>; singles: string[] } {
+  const parts = norm(s)
+    .split(/[\s/()+,_-]+/)
+    .filter(Boolean);
+  const distinctive = (t: string) => t.length >= 3 && /[a-z]/.test(t) && /[0-9]/.test(t);
+  const all = new Set<string>();
+  const singles: string[] = [];
+  for (let i = 0; i < parts.length; i++) {
+    if (distinctive(parts[i])) {
+      all.add(parts[i]);
+      singles.push(parts[i]);
+    }
+    if (i + 1 < parts.length && distinctive(parts[i] + parts[i + 1])) all.add(parts[i] + parts[i + 1]);
+  }
+  return { all, singles };
+}
+
+function codeTokenMatch(codes: string[], vehicleText: string): boolean {
+  const v = engineTokens(vehicleText);
+  if (v.all.size === 0) return false;
+  for (const code of codes) {
+    const k = engineTokens(code);
+    for (const t of v.all) if (k.all.has(t)) return true;
+    // Kısa motor kodu öneki: "B48" -> "B48B16A".
+    for (const t of v.singles) if (k.singles.some((s) => s !== t && s.startsWith(t))) return true;
+  }
+  return false;
+}
+
+// LPG dönüşümü ve hibritler benzinli motor taşır.
+const PETROL_LIKE = new Set(["benzin", "lpg", "hibrit"]);
+function fuelCompatible(kbFuel: string, fuel: string | null): boolean {
+  if (fuel === null) return true;
+  const a = norm(kbFuel);
+  return a === fuel || (PETROL_LIKE.has(a) && PETROL_LIKE.has(fuel));
+}
+
+/**
+ * Motora bağlı kronik sorun şu durumlarda geçerlidir: araç metninde (model/varyant) bir
+ * motor kodu/adı belirteci eşleşir; ya da basılı hacim, listelenen bir motorun hacmine
+ * ±30 cc yakındır ve yakıt uyar (veya yakıt bilinmez). Hacim bilinmiyorsa (ya da tahminiyse)
+ * yalnız basılı yakıt kesin uyuşmazlık gösterdiğinde dışlanır.
+ */
 function issueApplies(
   issue: ChronicIssue,
   kb: VehicleKbFile,
-  engineCc: number | null,
+  v: { text: string; engineCc: number | null; fuel: string | null },
 ): boolean {
   if (issue.engineCodes === null) return true;
-  if (engineCc === null) return true; // cannot exclude
   const codes = issue.engineCodes;
-  return kb.vehicle.engines.some((e) => e.cc === engineCc && codes.includes(e.code));
+  if (codeTokenMatch(codes, v.text)) return true;
+  const engines = kb.vehicle.engines.filter((e) => codes.includes(e.code));
+  if (engines.length === 0) return v.engineCc === null; // KB tutarsız: yalnız hacim bilinmiyorsa dışlama
+  if (v.engineCc === null) return engines.some((e) => fuelCompatible(e.fuel, v.fuel));
+  const cc = v.engineCc;
+  return engines.some((e) => Math.abs(e.cc - cc) <= CC_TOLERANCE && fuelCompatible(e.fuel, v.fuel));
 }
 
 function matchFirm(firms: FirmsFile["firms"], firm: string | null): string | null {
@@ -86,10 +141,16 @@ function matchFirm(firms: FirmsFile["firms"], firm: string | null): string | nul
 
 export function matchKnowledge(kb: KbData, q: KnowledgeQuery, now: Date): Knowledge {
   const hit = kb.vehicles.find((v) => vehicleMatches(v, q.vehicle)) ?? null;
+  // Tahmini alanlar eşleşmeyi daraltmamalı: bilinmiyor sayılır.
+  const engineView = {
+    text: `${q.vehicle.model ?? ""} ${q.vehicle.variant ?? ""}`,
+    engineCc: q.inferred?.engineCc ? null : q.vehicle.engineCc,
+    fuel: q.inferred?.fuel ? null : q.vehicle.fuel,
+  };
 
   const chronicIssues = hit
     ? hit.chronicIssues
-        .filter((i) => issueApplies(i, hit, q.vehicle.engineCc))
+        .filter((i) => issueApplies(i, hit, engineView))
         .map((i) => ({ ...i, confidence: confidenceFromSources(i.sources) }))
     : [];
 

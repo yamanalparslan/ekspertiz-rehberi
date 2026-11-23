@@ -117,6 +117,7 @@ export function buildResult(input: {
 
   return {
     vehicle: e.vehicle,
+    ...(e.vehicleInferred && Object.keys(e.vehicleInferred).length > 0 ? { vehicleInferred: e.vehicleInferred } : {}),
     report: { firm: e.report.firm, reportNo: e.report.reportNo, date: e.report.date },
     summary: interpretation.summary,
     counts,

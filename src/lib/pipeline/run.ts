@@ -13,6 +13,7 @@ import type { AnalysisEvent, ErrorCode } from "@/lib/schema/events";
 import type { Signal } from "@/lib/schema/result";
 import { computeSignals } from "@/lib/signals/signals";
 import { inspectPdfMetadata } from "@/lib/signals/pdf-metadata";
+import { carryInferred } from "@/lib/vehicle-enrich";
 import { buildResult } from "./result";
 import { istanbulDay, type SpendStore } from "./spend";
 import { signExtraction, verifyExtraction } from "./token";
@@ -65,6 +66,7 @@ async function interpretAndEmit(
   const knowledge = await d.loadKnowledge({
     vehicle: extraction.vehicle,
     firm: extraction.report.firm,
+    ...(extraction.vehicleInferred ? { inferred: extraction.vehicleInferred } : {}),
   });
   emit({ type: "stage", stage: "yorumlama" });
   const { interpretation } = await tracked(d, () =>
@@ -177,7 +179,12 @@ export async function runAnalysis(d: PipelineDeps, files: UploadFile[], emit: Em
       d.now(),
     );
     emit({ type: "stage", stage: "arac" });
-    emit({ type: "vehicle", vehicle: extraction.vehicle, token });
+    emit({
+      type: "vehicle",
+      vehicle: extraction.vehicle,
+      token,
+      ...(extraction.vehicleInferred ? { vehicleInferred: extraction.vehicleInferred } : {}),
+    });
 
     const signals = [...computeSignals(extraction, { now: d.now() }), ...carriedSignals];
     await interpretAndEmit(d, extraction, signals, emit);
@@ -199,7 +206,14 @@ export async function runReinterpret(
     }
     if (!(await capOk(d, emit))) return;
 
-    const extraction: Extraction = { ...t.extraction, vehicle: input.vehicle };
+    // Kullanıcının değiştirdiği alan artık tahmini değildir; değişmeyen tahmin işaretini korur.
+    const { vehicleInferred: _old, ...rest } = t.extraction;
+    const inferred = carryInferred(t.extraction.vehicle, t.extraction.vehicleInferred, input.vehicle);
+    const extraction: Extraction = {
+      ...rest,
+      vehicle: input.vehicle,
+      ...(inferred ? { vehicleInferred: inferred } : {}),
+    };
     const signals = [...computeSignals(extraction, { now: d.now() }), ...t.carriedSignals];
     await interpretAndEmit(d, extraction, signals, emit);
   } catch (e) {

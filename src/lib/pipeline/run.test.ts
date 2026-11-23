@@ -152,6 +152,43 @@ test("yeniden yorumlama hakkı bir kez", async () => {
   expect(bad[0]).toMatchObject({ type: "error", code: "token_invalid" });
 });
 
+test("tahmini araç alanları vehicle olayı, bilgi tabanı sorgusu ve sonuçta işaretlenir; düzeltilince düşer", async () => {
+  const egea = {
+    ...fixture,
+    vehicle: { ...fixture.vehicle, brand: "Fiat", model: "Egea", variant: "1.3 Multijet", engineCc: null, fuel: null },
+  };
+  const first = mkDeps({ msgs: [textMsg(JSON.stringify(egea)), interp()] });
+  const ev = await collect((emit) => runAnalysis(first.deps, [file], emit));
+  const v = ev.find((e) => e.type === "vehicle");
+  if (v?.type !== "vehicle") throw new Error("no vehicle");
+  expect(v.vehicle).toMatchObject({ engineCc: 1332, fuel: "dizel", powerHp: 170 });
+  expect(v.vehicleInferred).toEqual({ engineCc: true, fuel: true });
+  expect(first.loadKnowledge).toHaveBeenCalledWith(
+    expect.objectContaining({ inferred: { engineCc: true, fuel: true } }),
+  );
+  const res = ev.at(-1);
+  if (res?.type !== "result") throw new Error("no result");
+  expect(res.result.vehicleInferred).toEqual({ engineCc: true, fuel: true });
+
+  // Kullanıcı hacmi düzeltir, yakıta dokunmaz: yalnız yakıt tahmini kalır.
+  const second = mkDeps({ msgs: [interp()] });
+  const re = await collect((emit) =>
+    runReinterpret(second.deps, { token: v.token, vehicle: { ...v.vehicle, engineCc: 1248 } }, emit),
+  );
+  const r2 = re.at(-1);
+  if (r2?.type !== "result") throw new Error("no result");
+  expect(r2.result.vehicle.engineCc).toBe(1248);
+  expect(r2.result.vehicleInferred).toEqual({ fuel: true });
+
+  // Basılı değerlerle gelen raporda işaret yoktur.
+  const plain = mkDeps();
+  const ev3 = await collect((emit) => runAnalysis(plain.deps, [file], emit));
+  const v3 = ev3.find((e) => e.type === "vehicle");
+  expect(v3).not.toHaveProperty("vehicleInferred");
+  const r3 = ev3.at(-1);
+  expect(r3?.type === "result" && r3.result).not.toHaveProperty("vehicleInferred");
+});
+
 // --- Canlı fiyat araması ---
 const norm1 = normalizeExtraction(structuredClone(fixture) as never).extraction;
 // Temiz durumlar modele gitmez (şablonla "normal"); yalnızca sorunlu maddeler kullanılır.

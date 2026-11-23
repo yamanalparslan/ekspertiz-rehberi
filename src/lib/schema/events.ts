@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { VehicleInferredSchema } from "@/lib/schema/extraction";
 import { AnalysisResultSchema, VehicleSchema } from "@/lib/schema/result";
 
 export const ErrorCodeSchema = z.enum([
@@ -20,7 +21,13 @@ export const AnalysisEventSchema = z.discriminatedUnion("type", [
     type: z.literal("stage"),
     stage: z.enum(["okuma", "arac", "yorumlama"]),
   }),
-  z.strictObject({ type: z.literal("vehicle"), vehicle: VehicleSchema, token: z.string() }),
+  z.strictObject({
+    type: z.literal("vehicle"),
+    vehicle: VehicleSchema,
+    token: z.string(),
+    /** Raporda basılı olmayıp tahmin edilen alanlar ("tahmini" etiketi); yoksa alan yoktur. */
+    vehicleInferred: VehicleInferredSchema.optional(),
+  }),
   z.strictObject({ type: z.literal("result"), result: AnalysisResultSchema }),
   z.strictObject({ type: z.literal("error"), code: ErrorCodeSchema, message: z.string() }),
 ]);

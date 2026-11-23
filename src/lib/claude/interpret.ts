@@ -54,6 +54,7 @@ export async function interpretReport(
 
   const payload = {
     vehicle: e.vehicle,
+    vehicleInferred: e.vehicleInferred ?? {},
     report: { firm: e.report.firm, date: e.report.date, package: e.report.package },
     sectionsPresent: e.sectionsPresent,
     items: remaining.map((i) => ({
