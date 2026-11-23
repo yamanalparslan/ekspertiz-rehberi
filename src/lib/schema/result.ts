@@ -42,6 +42,7 @@ export const ResultItemSchema = z.strictObject({
       minTry: z.number(),
       maxTry: z.number(),
       partType: z.string(),
+      laborIncluded: z.boolean().nullable(),
       source: SourceSchema,
       asOf: z.string(),
       stale: z.boolean(),

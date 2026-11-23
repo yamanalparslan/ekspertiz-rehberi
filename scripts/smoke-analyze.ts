@@ -1,9 +1,21 @@
 // Canlı deneme: klasördeki rapor dosyalarını okutur, yalnızca ÖZET basar.
-// Kullanım: npx tsx scripts/smoke-analyze.ts <klasör> --extract-only
+// Kullanım: npx tsx scripts/smoke-analyze.ts <klasör> [--extract-only]
+// Tam mod bilgi tabanını diskten (kb/) yükler; D1'e dokunmaz.
 import { readdirSync, readFileSync, existsSync } from "node:fs";
 import { extname, join } from "node:path";
 import { createClaude } from "../src/lib/claude/client";
 import { extractReport, type UploadFile } from "../src/lib/claude/extract";
+import { interpretReport } from "../src/lib/claude/interpret";
+import { normalizeExtraction } from "../src/lib/normalize";
+import { buildResult } from "../src/lib/pipeline/result";
+import { computeFloors } from "../src/lib/rules/floors";
+import { computeSignals } from "../src/lib/signals/signals";
+import { matchKnowledge, type KbData } from "../src/lib/kb/match";
+import {
+  FirmsFileSchema,
+  GenericPricesFileSchema,
+  VehicleKbFileSchema,
+} from "../src/lib/schema/kb";
 
 const MEDIA: Record<string, UploadFile["mediaType"]> = {
   ".jpg": "image/jpeg",
@@ -32,16 +44,26 @@ function piiHits(text: string): number {
   return n;
 }
 
+function loadKb(): KbData {
+  const readJson = (p: string): unknown => JSON.parse(readFileSync(p, "utf8"));
+  const vehicles = readdirSync("kb/vehicles")
+    .filter((n) => n.endsWith(".json"))
+    .sort()
+    .map((n) => VehicleKbFileSchema.parse(readJson(join("kb/vehicles", n))));
+  return {
+    vehicles,
+    generic: GenericPricesFileSchema.parse(readJson("kb/generic-prices.json")).priceItems,
+    firms: FirmsFileSchema.parse(readJson("kb/firms.json")).firms,
+  };
+}
+
 async function main() {
   const [dir, flag] = process.argv.slice(2);
   if (!dir) {
     console.error("Kullanım: tsx scripts/smoke-analyze.ts <klasör> --extract-only");
     process.exit(2);
   }
-  if (flag !== "--extract-only") {
-    console.error("Tam mod henüz yok (Görev 9). --extract-only kullanın.");
-    process.exit(1);
-  }
+  const extractOnly = flag === "--extract-only";
   const apiKey = loadApiKey();
   if (!apiKey) {
     console.error("ANTHROPIC_API_KEY bulunamadı (ortam değişkeni veya .dev.vars).");
@@ -60,7 +82,8 @@ async function main() {
     process.exit(2);
   }
 
-  const { raw, usd } = await extractReport(createClaude(apiKey), files);
+  const claude = createClaude(apiKey);
+  const { raw, usd } = await extractReport(claude, files);
   const dyno = raw.measurements.find((m) => m.test === "dinamometre_guc");
   const lines = [
     "SUMMARY",
@@ -78,7 +101,46 @@ async function main() {
   // PII taraması tam çıktı metni üzerinde yapılır; ham JSON basılmaz.
   const hits = piiHits(JSON.stringify(raw));
   lines.push(hits === 0 ? "PII check: clean" : `PII check: FOUND ${hits} hits`);
-  console.log(lines.join("\n"));
+  if (extractOnly) {
+    console.log(lines.join("\n"));
+    return;
+  }
+  if (!raw.isReport) {
+    console.log([...lines, "not a report: interpretation skipped"].join("\n"));
+    return;
+  }
+
+  const now = new Date();
+  const { extraction, signals: normSignals } = normalizeExtraction(raw);
+  const floors = computeFloors(extraction);
+  const signals = [...normSignals, ...computeSignals(extraction, { now })];
+  const knowledge = matchKnowledge(
+    loadKb(),
+    { vehicle: extraction.vehicle, firm: extraction.report.firm },
+    now,
+  );
+  const { interpretation, usd: usd2 } = await interpretReport(claude, {
+    extraction,
+    knowledge,
+    floors,
+  });
+  const result = buildResult({ extraction, interpretation, knowledge, floors, signals });
+
+  const titles = (g: string) => result.items.filter((i) => i.group === g).map((i) => i.title);
+  const resultHits = piiHits(JSON.stringify(result));
+  console.log(
+    [
+      "SUMMARY",
+      `kb vehicle: ${knowledge.vehicleId ?? "none"}`,
+      `counts: ${Object.entries(result.counts).map(([g, n]) => `${g}=${n}`).join(" ")}`,
+      `dikkat: ${titles("dikkat").join(" | ")}`,
+      `kronik: ${titles("kronik").join(" | ")}`,
+      `signals: ${result.signals.map((s) => s.code).join(", ")}`,
+      `checkList: ${result.checkList.map((c) => c.title).join(" | ")}`,
+      `total cost USD: ${(usd + usd2).toFixed(4)}`,
+      hits + resultHits === 0 ? "PII check: clean" : `PII check: FOUND ${hits + resultHits} hits`,
+    ].join("\n"),
+  );
 }
 
 main().catch((e) => {
