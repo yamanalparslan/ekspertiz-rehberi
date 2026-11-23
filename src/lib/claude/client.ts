@@ -237,7 +237,7 @@ export function createClaude(
   apiKey: string,
   opts?: { geminiModel?: string; fetchFn?: typeof fetch },
 ): ClaudeLike {
-  if (apiKey === "offline-local-demo" || apiKey.startsWith("AQ.")) {
+  if (!apiKey || apiKey === "offline-local-demo" || apiKey.startsWith("AQ.")) {
     return createOfflineDemoClaudeLike();
   }
   if (apiKey.startsWith("AIza")) {

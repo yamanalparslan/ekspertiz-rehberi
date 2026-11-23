@@ -1,10 +1,23 @@
+import firmsJson from "../../../kb/firms.json";
+import genericPricesJson from "../../../kb/generic-prices.json";
+import bmwG20Json from "../../../kb/vehicles/bmw-3-serisi-g20.json";
+import kiaPicantoJson from "../../../kb/vehicles/kia-picanto-ja.json";
 import { createClaude } from "@/lib/claude/client";
 import { ERROR_MESSAGES } from "@/lib/copy";
 import { loadKnowledge, savePriceCache } from "@/lib/kb/d1";
+import { matchKnowledge, type KbData } from "@/lib/kb/match";
 import type { AnalysisEvent, ErrorCode } from "@/lib/schema/events";
-import { getServerEnv } from "./env";
+import { FirmsFileSchema, GenericPricesFileSchema, VehicleKbFileSchema } from "@/lib/schema/kb";
+import { getServerEnv, type ServerEnv } from "./env";
 import type { PipelineDeps } from "./run";
 import { d1SpendStore, parseCap, type SpendStore } from "./spend";
+
+const FALLBACK_KB: KbData = {
+  vehicles: [VehicleKbFileSchema.parse(kiaPicantoJson), VehicleKbFileSchema.parse(bmwG20Json)],
+  generic: GenericPricesFileSchema.parse(genericPricesJson).priceItems,
+  firms: FirmsFileSchema.parse(firmsJson).firms,
+};
+const memSpend = new Map<string, number>();
 
 const HEADERS = {
   "Content-Type": "application/x-ndjson; charset=utf-8",
@@ -48,30 +61,76 @@ export function ndjsonResponse(
 
 /** Yapılandırma eksikse null döner ve yalnızca değişken adını günlüğe yazar. */
 export function buildDeps(usd: { total: number }): PipelineDeps | null {
-  const env = getServerEnv();
-  const isDev = process.env.NODE_ENV !== "production";
-  const apiKey = env.ANTHROPIC_API_KEY || env.GEMINI_API_KEY || (isDev ? "offline-local-demo" : undefined);
+  const isDev = process.env.NODE_ENV === "development";
+  let env: Partial<ServerEnv> = {};
+  try {
+    env = getServerEnv() ?? {};
+  } catch {
+    if (!isDev) return null;
+  }
+  const apiKey =
+    env.ANTHROPIC_API_KEY ||
+    env.GEMINI_API_KEY ||
+    process.env.ANTHROPIC_API_KEY ||
+    process.env.GEMINI_API_KEY ||
+    (isDev ? "offline-local-demo" : undefined);
   if (!apiKey) {
     console.log(JSON.stringify({ event: "config_missing", name: "ANTHROPIC_API_KEY" }));
     return null;
   }
-  const secret = env.EXTRACTION_HMAC_SECRET || (isDev ? "local-dev-hmac-secret-ekspertiz-rehberi-2026" : undefined);
+  const secret =
+    env.EXTRACTION_HMAC_SECRET ||
+    process.env.EXTRACTION_HMAC_SECRET ||
+    (isDev ? "local-dev-hmac-secret-ekspertiz-rehberi-2026" : undefined);
   if (!secret) {
     console.log(JSON.stringify({ event: "config_missing", name: "EXTRACTION_HMAC_SECRET" }));
     return null;
   }
-  const inner = d1SpendStore(env.DB);
+  const inner = env.DB ? d1SpendStore(env.DB) : null;
   const spend: SpendStore = {
-    get: (day) => inner.get(day),
+    get: async (day) => {
+      if (inner) {
+        try {
+          return await inner.get(day);
+        } catch {
+          if (!isDev) throw new Error("d1 spend get failed");
+        }
+      }
+      return memSpend.get(day) ?? 0;
+    },
     add: async (day, v) => {
       usd.total += v;
-      await inner.add(day, v);
+      memSpend.set(day, (memSpend.get(day) ?? 0) + v);
+      if (inner) {
+        try {
+          await inner.add(day, v);
+        } catch {
+          if (!isDev) throw new Error("d1 spend add failed");
+        }
+      }
     },
   };
   return {
     claude: createClaude(apiKey),
-    loadKnowledge: (q) => loadKnowledge(env.DB, q, new Date()),
-    savePrices: (key, prices) => savePriceCache(env.DB, key, prices),
+    loadKnowledge: async (q) => {
+      if (env.DB) {
+        try {
+          return await loadKnowledge(env.DB, q, new Date());
+        } catch {
+          if (!isDev) throw new Error("d1 loadKnowledge failed");
+        }
+      }
+      return matchKnowledge(FALLBACK_KB, q, new Date());
+    },
+    savePrices: async (key, prices) => {
+      if (env.DB) {
+        try {
+          await savePriceCache(env.DB, key, prices);
+        } catch {
+          if (!isDev) throw new Error("d1 savePriceCache failed");
+        }
+      }
+    },
     spend,
     secret,
     now: () => new Date(),
