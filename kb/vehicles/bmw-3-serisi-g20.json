@@ -41,12 +41,12 @@
     {
       "id": "bmw-g20-yag-filtre-yuvasi-kacagi",
       "system": "motor",
-      "title": "B46/B48 motorlarda plastik yağ filtre yuvası ve contası kaçağı",
-      "description": "B46/B48 benzinli motorlarda yağ filtresi yuvası plastiktir. Parça satıcısı yuvanın çatlayıp yağın dışarı veya içeri sızmasına yol açtığını, contanın da yaşlanınca sertleşip kaçak yaptığını belirtiyor. ABD'de B46, B48 ve B58 motorlu 2014-2021 model yılı 1, 2, 3, 4 ve 5 Serisi için açılan bir toplu davada (Şubat 2026) yuvanın ve contaların ısınma-soğuma döngüleriyle gevrekleştiği ve soğutma sıvısı kaçağına yol açabildiği iddia ediliyor; dava iddiadır, karara bağlanmış bir hüküm değildir. Aynı haberde BMW'nin SIB 11 10 25 numaralı bülteni, yuva contasının burç/ek parçaya fazla basınç uygulayıp harici soğutma sıvısı kaçağına neden olabileceğini söylüyor. G20 için yalnızca 2019-2021 model yılları bu dava aralığına giriyor. Türkiye'de G20'ye özel bir arıza oranı bu kaynaklarda yok.",
+      "title": "B46/B48 motorlarda yağ filtresi yuvasından soğutma sıvısı kaçağı iddiası (toplu dava)",
+      "description": "CarComplaints (16.02.2026), B46, B48 ve B58 motorlu 2014-2021 model yılı 1, 2, 3, 4 ve 5 Serisi ile X1-X4 modelleri için ABD'de açılan bir toplu davayı aktarıyor (3 Serisi dahil, G20 ayrıca anılmıyor). Davada yağ filtresi yuvasının ve contaların ısınma-soğuma döngüleriyle gevrekleştiği, yağ ve soğutma sıvısı kanallarını ayıran duvarların bozulabildiği ve soğutma sıvısı kaybıyla motor aşırı ısınmasına yol açabildiği iddia ediliyor; dava iddiadır, karara bağlanmış bir hüküm değildir. Haber ayrıca BMW'nin SIB 11 10 25 numaralı bülteninin yuva contasının burç/ek parçaya fazla basınç uygulayıp harici soğutma sıvısı kaçağına neden olabileceğini söylediğini aktarıyor. G20 için yalnızca 2019-2021 model yılları bu dava aralığına giriyor. Türkiye'de G20'ye özel bir arıza oranı bu kaynakta yok. Tek kaynaklıdır ve kaynak iddia niteliğindedir.",
       "symptoms": [
-        "motor altında veya blok çevresinde yağ sızıntısı",
         "soğutma sıvısı seviyesinde düşme",
-        "yağ filtresi yuvası çevresinde yağ lekesi"
+        "motor çevresinde soğutma sıvısı sızıntısı",
+        "motor aşırı ısınması"
       ],
       "matchKeywords": [
         "yağ filtre yuvası",
@@ -69,11 +69,6 @@
           "url": "https://www.carcomplaints.com/news/2026/bmw-oil-filter-housing-lawsuit-b46-b48-b58-engines.shtml",
           "title": "BMW oil filter housing lawsuit: B46, B48, B58 engines (CarComplaints, 16.02.2026)",
           "domain": "carcomplaints.com"
-        },
-        {
-          "url": "https://www.bimmerworld.com/Engine/BMW-Oil-System/URO-Oil-Filter-Housing-B46-B48.html",
-          "title": "Oil Filter Housing with Cap Filter and Gaskets - B46 B48 Engine (BimmerWorld)",
-          "domain": "bimmerworld.com"
         }
       ],
       "researchedAt": "2026-11-23"

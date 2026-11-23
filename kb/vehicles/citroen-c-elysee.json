@@ -37,7 +37,7 @@
       "id": "celysee-12puretech-wet-belt",
       "system": "motor",
       "title": "1.2 PureTech yağ banyolu triger kayışı aşınması ve yağ basıncı düşmesi",
-      "description": "Araclo Citroen C-Elysée sayfası 1.2 PureTech (EB2) benzinli motorda yağ içinde çalışan triger kayışının zamanla aşınıp parçalanmasını ve yağ pompası süzgecini tıkayarak yağ basıncını düşürmesini kritik sorun olarak listeliyor. Yağ dolum kapağından kayış durumu ve bakım geçmişi kontrol edilmelidir. Tek kaynaklı bilgidir.",
+      "description": "Araclo Citroen C-Elysée sayfaları EB 1.2 PureTech motorunda yağ içindeki triger kayışının dağılmasını (yüksek önem, yüksek maliyet) listeliyor: kayış parçaları yağ pompası süzgecini tıkar, yağ basıncı uyarısı yanar, ileri aşamada eksantrik ve supaplar zarar görür. Aynı sayfalar piston soğutma yağ memesi kusuru için bir geri çağırma da listeliyor. Kayış kontrol ve değişim kayıtları istenmeli, kayış genişliği yağ dolum ağzından ölçtürülmelidir. Tek kaynaklı bilgidir.",
       "symptoms": [
         "yağ basıncı uyarısı",
         "motor arıza ışığı",
@@ -61,8 +61,13 @@
       "priceItemId": null,
       "sources": [
         {
-          "url": "https://www.araclo.com/vehicles/citroen-c-elysee/c-elysee/kronik-sorunlar",
-          "title": "Citroen C-Elysée Kronik Sorunlar ve Bilinen Arızalar (Araclo)",
+          "url": "https://www.araclo.com/vehicles/citroen-c-elys-e/celysee/kronik-sorunlar",
+          "title": "Citroen C-Elysée 2012-2017 Kronik Sorunları (Araclo)",
+          "domain": "araclo.com"
+        },
+        {
+          "url": "https://www.araclo.com/vehicles/citroen-c-elys-e/celysee-makyajli/kronik-sorunlar",
+          "title": "Citroen C-Elysée makyajlı 2017-2023 Kronik Sorunları (Araclo)",
           "domain": "araclo.com"
         }
       ],
@@ -71,21 +76,18 @@
     {
       "id": "celysee-bluehdi-adblue-dpf",
       "system": "emisyon",
-      "title": "BlueHDi modellerde AdBlue pompası/enjektörü arızası ve DPF/EGR kurum bağlaması",
-      "description": "Araclo Citroen C-Elysée sayfası 1.6 HDi / BlueHDi ve 1.5 BlueHDi dizel motorlarda AdBlue deposu pompası ve enjektöründe kristalleşmeye bağlı arızalar ile kısa mesafe kullanımda DPF tıkanması ve EGR kurum bağlamasını yaygın sorunlar olarak listeliyor. Tek kaynaklı bilgidir.",
+      "title": "1.5 BlueHDi motorda AdBlue deposu ve pompası arızası",
+      "description": "Araclo Citroen C-Elysée makyajlı (2017-2023) sayfası DV5 1.5 BlueHDi motorunda AdBlue deposu ve pompasının arızalanmasını (2017-2020 araçlar, yüksek önem, yüksek maliyet) listeliyor: AdBlue uyarısı yanar, depo dolu olsa da boş görünür; geri sayım bitince motor çalışmaz ya da güç kısılır. AdBlue uyarı geçmişi ve depo değişim kaydı sorulmalıdır. Tek kaynaklı bilgidir.",
       "symptoms": [
-        "AdBlue sistem arızası",
-        "UREA uyarı lambası",
-        "motor çekişten düşme",
-        "DPF tıkanma uyarısı"
+        "AdBlue uyarısı",
+        "depo dolu olsa da boş görünmesi",
+        "geri sayım sonrası motorun çalışmaması veya gücün kısılması"
       ],
       "matchKeywords": [
         "AdBlue",
-        "UREA",
-        "BlueHDi",
-        "DPF",
-        "EGR",
-        "kurum"
+        "AdBlue pompası",
+        "AdBlue deposu",
+        "1.5 BlueHDi"
       ],
       "obdCodes": [
         "P20E8",
@@ -93,14 +95,13 @@
         "P2463"
       ],
       "engineCodes": [
-        "1.6 HDi / BlueHDi (DV6)",
         "1.5 BlueHDi (DV5)"
       ],
       "priceItemId": null,
       "sources": [
         {
-          "url": "https://www.araclo.com/vehicles/citroen-c-elysee/c-elysee/kronik-sorunlar",
-          "title": "Citroen C-Elysée Kronik Sorunlar ve Bilinen Arızalar (Araclo)",
+          "url": "https://www.araclo.com/vehicles/citroen-c-elys-e/celysee-makyajli/kronik-sorunlar",
+          "title": "Citroen C-Elysée makyajlı 2017-2023 Kronik Sorunları (Araclo)",
           "domain": "araclo.com"
         }
       ],
@@ -110,7 +111,7 @@
       "id": "celysee-on-takim-amortisor",
       "system": "suspansiyon",
       "title": "Ön süspansiyon takozları, z-rot ve salıncak burçlarında erken aşınma",
-      "description": "Araclo Citroen C-Elysée sayfası ön amortisör üst takozları, z-rotlar ve salıncak burçlarının bozuk zeminlerde erken boşluk yaparak kasis geçişlerinde ses ve vuruntu üretmesini yaygın orta önemde sorun olarak listeliyor. Tek kaynaklı bilgidir.",
+      "description": "Araclo Citroen C-Elysée (2012-2017) sayfası ön amortisörlerin erken bozulmasını (orta önem) listeliyor: ön taraf tümseklerden sonra birkaç kez yaylanır, yüksek hızda araç dalıp çıkar, ön takımdan tok ses gelir. Kasisten geçerken ön tarafın yaylanmasına bakılmalı, amortisörlerde yağ sızıntısı aranmalı, garantide amortisör değişimi yapılıp yapılmadığı serviste sorulmalıdır. Tek kaynaklı bilgidir.",
       "symptoms": [
         "ön takımdan lokurtu sesi",
         "kasislerde gıcırtı ve vuruntu",
@@ -128,38 +129,8 @@
       "priceItemId": null,
       "sources": [
         {
-          "url": "https://www.araclo.com/vehicles/citroen-c-elysee/c-elysee/kronik-sorunlar",
-          "title": "Citroen C-Elysée Kronik Sorunlar ve Bilinen Arızalar (Araclo)",
-          "domain": "araclo.com"
-        }
-      ],
-      "researchedAt": "2026-11-23"
-    },
-    {
-      "id": "celysee-debriyaj-seti",
-      "system": "sanziman",
-      "title": "Debriyaj setinin şehir içi kullanımda erken sertleşmesi ve yarı otomatikte silkeleme",
-      "description": "Araclo Citroen C-Elysée sayfası debriyaj baskı-balata setinin yoğun şehir içi kullanımda erken sertleşip aşınmasını ve yarı otomatik şanzımanlı modellerde kalkışlarda silkeleme ile kararsız vites geçişlerini yaygın sorun olarak listeliyor. Tek kaynaklı bilgidir. Fiyat kalemi yalnızca debriyaj seti değişimi işçiliğidir, parça dahil değildir.",
-      "symptoms": [
-        "debriyaj pedalında sertlik",
-        "kalkışta silkeleme ve titreme",
-        "vites geçişlerinde vuruntu",
-        "kavrama noktasının yükselmesi"
-      ],
-      "matchKeywords": [
-        "debriyaj seti",
-        "baskı balata",
-        "silkeleme",
-        "ETG",
-        "yarı otomatik"
-      ],
-      "obdCodes": [],
-      "engineCodes": null,
-      "priceItemId": "generic-debriyaj-seti-iscilik",
-      "sources": [
-        {
-          "url": "https://www.araclo.com/vehicles/citroen-c-elysee/c-elysee/kronik-sorunlar",
-          "title": "Citroen C-Elysée Kronik Sorunlar ve Bilinen Arızalar (Araclo)",
+          "url": "https://www.araclo.com/vehicles/citroen-c-elys-e/celysee/kronik-sorunlar",
+          "title": "Citroen C-Elysée 2012-2017 Kronik Sorunları (Araclo)",
           "domain": "araclo.com"
         }
       ],

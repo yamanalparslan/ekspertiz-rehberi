@@ -3,7 +3,7 @@
     "id": "dacia-duster-2",
     "brand": "Dacia",
     "model": "Duster",
-    "generation": "Duster I / II (HS/HM, 2010-2024)",
+    "generation": "Duster II (HM, 2018-2024)",
     "aliases": [
       "Duster",
       "Dacia Duster",
@@ -12,7 +12,7 @@
       "Duster 1.0 ECO-G",
       "Duster 4x4"
     ],
-    "yearFrom": 2010,
+    "yearFrom": 2018,
     "yearTo": 2024,
     "engines": [
       {
@@ -38,7 +38,7 @@
       "id": "duster-13tce-termostat-kacak",
       "system": "motor",
       "title": "1.3 TCe plastik termostat gövdesinden soğutma suyu (antifriz) kaçağı",
-      "description": "Araclo Dacia Duster II sayfası H5Ht 1.3 TCe motorunda plastik termostat gövdesi ve contalarından zamanla soğutma suyu (antifriz) kaçağı oluşmasını yüksek önemde kronik sorun olarak listeliyor; fark edilmezse hararet ve motor hasarına yol açabilir. Genleşme kabı seviyesi ve termostat çevresi antifriz izi açısından kontrol edilmelidir. Tek kaynaklı bilgidir.",
+      "description": "Araclo Dacia Duster II sayfası H5Ht 1.3 TCe motorunda termostat gövdesinden soğutma suyu kaçağını (60.000-100.000 km, 2018-2020 araçlar, kritik, yüksek maliyet) listeliyor: soğutma suyu yavaşça eksilir, kalorifer ısıtmaz, motor hasarı riski uyarısı çıkar; fark edilmezse motor sarabilir. Genleşme kabı seviyesi ve termostat çevresi antifriz izi açısından kontrol edilmelidir. Tek kaynaklı bilgidir.",
       "symptoms": [
         "soğutma suyu seviyesinin düşmesi",
         "termostat çevresinde antifriz izi",
@@ -62,7 +62,7 @@
       "sources": [
         {
           "url": "https://www.araclo.com/vehicles/dacia-duster/duster2/kronik-sorunlar",
-          "title": "Dacia Duster II Kronik Sorunlar ve Bilinen Arızalar (Araclo)",
+          "title": "Dacia Duster II Kronik Sorunları (Araclo)",
           "domain": "araclo.com"
         }
       ],
@@ -71,20 +71,21 @@
     {
       "id": "duster-15dci-enjektor-dpf",
       "system": "yakit",
-      "title": "1.5 dCi enjektör geri kaçırma, kızdırma bujisi ve DPF/AdBlue uyarıları",
-      "description": "Araclo Dacia Duster II sayfası K9K 1.5 dCi motorunda yüksek kilometrede enjektör geri kaçırma/şakırdama, kızdırma bujisi arızaları ve şehir içi kısa mesafe kullanımda DPF ile AdBlue (Blue dCi modellerde) uyarılarını yaygın sorunlar olarak listeliyor. Tek kaynaklı bilgidir.",
+      "title": "1.5 dCi yakıt pompası talaşı ve enjektör arızası, EGR valfi ve partikül filtresi tıkanması",
+      "description": "Araclo Dacia Duster II sayfası K9K 1.5 dCi motorunda yakıt pompası talaşı ve enjektör arızasını (60.000 km sonrası, yüksek önem, yüksek maliyet: zor çalışma, siyah duman, tekleme, güç kaybı, arıza lambası) ile EGR valfi ve partikül filtresi tıkanmasını (60.000 km sonrası, orta önem: rölanti dalgalanır, çekiş düşer, DPF uyarısı yanar) listeliyor. Tek kaynaklı bilgidir.",
       "symptoms": [
-        "soğukta zor çalışma",
-        "enjektör şakırtısı ve tekleme",
-        "egzozdan siyah duman",
-        "DPF / AdBlue uyarı lambası"
+        "zor çalışma",
+        "siyah duman",
+        "tekleme ve güç kaybı",
+        "rölanti dalgalanması",
+        "DPF uyarı lambası"
       ],
       "matchKeywords": [
         "1.5 dCi",
         "enjektör",
-        "kızdırma bujisi",
-        "DPF",
-        "AdBlue"
+        "yakıt pompası",
+        "EGR",
+        "DPF"
       ],
       "obdCodes": [
         "P0380",
@@ -98,58 +99,28 @@
       "sources": [
         {
           "url": "https://www.araclo.com/vehicles/dacia-duster/duster2/kronik-sorunlar",
-          "title": "Dacia Duster II Kronik Sorunlar ve Bilinen Arızalar (Araclo)",
+          "title": "Dacia Duster II Kronik Sorunları (Araclo)",
           "domain": "araclo.com"
         }
       ],
       "researchedAt": "2026-11-23"
     },
     {
-      "id": "duster-far-sinyal-kolu-korna",
-      "system": "elektrik",
-      "title": "Far/sinyal kolu ve korna devresi temas arızası",
-      "description": "Araclo Dacia Duster II sayfası direksiyon üzerindeki far/sinyal kolu ve korna devresi lehim/kontaklarının aşınmasına bağlı olarak sinyal verirken farların anlık sönmesi veya kornanın çalışmaması sorununu yaygın orta önemde arıza olarak listeliyor. Tek kaynaklı bilgidir.",
-      "symptoms": [
-        "sinyal verirken farların sönmesi",
-        "korna çalışmaması",
-        "far anahtarında temassızlık"
-      ],
-      "matchKeywords": [
-        "sinyal kolu",
-        "far kolu",
-        "korna",
-        "temassızlık",
-        "far sönmesi"
-      ],
-      "obdCodes": [],
-      "engineCodes": null,
-      "priceItemId": null,
-      "sources": [
-        {
-          "url": "https://www.araclo.com/vehicles/dacia-duster/duster2/kronik-sorunlar",
-          "title": "Dacia Duster II Kronik Sorunlar ve Bilinen Arızalar (Araclo)",
-          "domain": "araclo.com"
-        }
-      ],
-      "researchedAt": "2026-11-23"
-    },
-    {
-      "id": "duster-4x4-saft-ve-on-takim",
+      "id": "duster-rot-basi-bosluk",
       "system": "suspansiyon",
-      "title": "4x4 şaft mafsal boşluğu/titreşimi ve ön takım rot/viraj demiri sesleri",
-      "description": "Araclo Dacia Duster II sayfası özellikle 4x4 versiyonlarda arazi/bozuk yol sonrası şaft mafsalı ve askı bilyasında boşluk ile titreşim oluşmasını, ayrıca tüm versiyonlarda ön takım rot başı ve viraj demiri burçlarından gelen sesleri yaygın orta önemde sorun olarak listeliyor. Tek kaynaklı bilgidir.",
+      "title": "Rot başlarında erken boşluk",
+      "description": "Araclo Dacia Duster II sayfası rot başlarında erken boşluğu (kritik, düşük onarım maliyeti) listeliyor: direksiyonda boşluk ve önden tıkırtı, ön lastiklerin iç kenardan yemesi; muayenede rot başı boşluğu sık çıkar, genelde önce sağ taraf. Araç kaldırılıp ön tekerlekler yanlara oynatılarak rot başlarında boşluk ve yırtık toz körüğü aranmalıdır. Tek kaynaklı bilgidir.",
       "symptoms": [
-        "hızlanmada alt gövdeden titreşim ve uğultu",
-        "bozuk yolda ön takımdan ses",
-        "kalkışta şafttan vuruntu"
+        "direksiyonda boşluk",
+        "önden tıkırtı",
+        "ön lastiklerin iç kenardan aşınması"
       ],
       "matchKeywords": [
-        "şaft",
-        "4x4",
-        "mafsal",
         "rot başı",
-        "viraj demiri",
-        "ön takım"
+        "rot başı boşluğu",
+        "direksiyon boşluğu",
+        "ön takım",
+        "tıkırtı"
       ],
       "obdCodes": [],
       "engineCodes": null,
@@ -157,7 +128,7 @@
       "sources": [
         {
           "url": "https://www.araclo.com/vehicles/dacia-duster/duster2/kronik-sorunlar",
-          "title": "Dacia Duster II Kronik Sorunlar ve Bilinen Arızalar (Araclo)",
+          "title": "Dacia Duster II Kronik Sorunları (Araclo)",
           "domain": "araclo.com"
         }
       ],

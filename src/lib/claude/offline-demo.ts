@@ -259,19 +259,19 @@ export function buildPicantoInterpretation(payloadJson: string): Interpretation 
     items,
     checkList: [
       {
-        title: "1.0 AMT (yarı otomatik) şanzımanda kalkışta silkeleme ve vites geçiş kontrolü",
-        why: "Kia Picanto 1.0 AMT modellerde tek kavramalı robotize şanzımanın yokuş kalkışlarında ve 1-2 vites geçişlerinde silkeleme yapıp yapmadığı sürüşte denenmelidir.",
-        chronicIssueId: "picantoja-amt-kavrama-silkeleme",
+        title: "Soğuk çalıştırmada triger zinciri sesi kontrolü",
+        why: "Kia Picanto 1.0 MPI motorda triger zinciri ve gergisinin aşınması listeleniyor; motor soğukken çalıştırılıp ilk saniyelerden sonra süren metalik zincir sesi olup olmadığı dinlenmelidir.",
+        chronicIssueId: "picantoja-10mpi-triger-zinciri",
       },
       {
-        title: "Elektrikli direksiyon kolonu (MDPS) ses kontrolü",
-        why: "Durduğu yerde direksiyon tam sağ/sol yapılırken ve parke yolda direksiyon kolonundan tıkırtı gelip gelmediği kontrol edilmelidir.",
-        chronicIssueId: "picantoja-direksiyon-eps-tikirti",
+        title: "Motor altında yağ izi kontrolü",
+        why: "Motor ve şanzıman birleşim yeri ile karter çevresinde yağ izi olup olmadığına bakılmalıdır.",
+        chronicIssueId: "picantoja-10mpi-yag-sizintisi",
       },
       {
-        title: "3 silindirli 1.0 motorda rölanti titreşimi kontrolü",
-        why: "Klima açık ve kapalıyken rölantide kabin içi titreşimin normal seviyede olup olmadığına bakılmalıdır.",
-        chronicIssueId: "picantoja-10mpi-rolanti-titresim",
+        title: "Kısa far ayarı kontrolü",
+        why: "Araç karanlıkta bir duvara karşı park edilip iki farın kesme çizgisinin aynı yükseklikte olup olmadığına bakılmalıdır.",
+        chronicIssueId: "picantoja-far-ayari",
       },
     ],
   };

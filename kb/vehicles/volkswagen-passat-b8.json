@@ -73,12 +73,12 @@
     {
       "id": "passatb8-tsi-devirdaim-termostat",
       "system": "motor",
-      "title": "1.4 / 1.5 TSI devirdaim pompası ve termostat yuvasından soğutma suyu kaçağı",
-      "description": "Araclo Passat B8 sayfası EA211 1.4 TSI ve EA211evo 1.5 TSI benzinli motorlarda devirdaim pompası ve plastik termostat gövdesinden antifriz sızıntısını yaygın motor sorunu olarak listeliyor. Genleşme kabında seviye düşüşü ve motor alt muhafazasında pembe antifriz izi kontrol edilmelidir. Tek kaynaklı bilgidir.",
+      "title": "1.4 TSI motorda su pompası ve termostat gövdesi kaçağı",
+      "description": "Araclo Passat B8 sayfası EA211 1.4 TSI motorunda su pompası ve termostat gövdesi kaçağını (orta önem) listeliyor: soğutma suyu yavaşça eksilir, hararet uyarısı çıkabilir. Sayfa 1.5 TSI evo için bu kaçağı değil, soğukta düşük devirde silkelemeyi listeliyor. Motor arkasında kurumuş antifriz izi aranmalı, soğutma suyu seviyesine bakılmalıdır. Tek kaynaklı bilgidir.",
       "symptoms": [
-        "soğutma suyu eksiltme",
-        "hararet yükselmesi",
-        "termostat çevresinde antifriz izi"
+        "soğutma suyu seviyesinin yavaşça düşmesi",
+        "hararet uyarısı",
+        "motor arkasında kurumuş antifriz izi"
       ],
       "matchKeywords": [
         "devirdaim",
@@ -90,14 +90,13 @@
       ],
       "obdCodes": [],
       "engineCodes": [
-        "EA211-1.4TSI",
-        "EA211evo-1.5TSI"
+        "EA211-1.4TSI"
       ],
       "priceItemId": null,
       "sources": [
         {
           "url": "https://www.araclo.com/vehicles/volkswagen-passat/b8/kronik-sorunlar",
-          "title": "Volkswagen Passat B8 Kronik Sorunlar ve Bilinen Arızalar (Araclo)",
+          "title": "Volkswagen Passat B8 Kronik Sorunları (Araclo)",
           "domain": "araclo.com"
         }
       ],
@@ -106,21 +105,20 @@
     {
       "id": "passatb8-16tdi-egr-dpf-volan",
       "system": "emisyon",
-      "title": "1.6 / 2.0 TDI EGR, DPF tıkanması ve çift kütleli volan sesi",
-      "description": "Araclo Passat B8 sayfası EA288 1.6 TDI ve 2.0 TDI dizel motorlarda kısa mesafe şehir içi kullanıma bağlı EGR valfi kurumlanması ve partikül filtresi (DPF) tıkanmasını, ayrıca yüksek kilometrede çift kütleli volandan gelen rölanti tıkırtısını listeliyor. OBD cihazıyla DPF doluluk oranı ve fark basınç değerleri okutulmalıdır. Tek kaynaklı bilgidir.",
+      "title": "1.6 / 2.0 TDI EGR valfi ve soğutucusunun kurumlanması, partikül filtresi tıkanması",
+      "description": "Araclo Passat B8 sayfası EA288 1.6 TDI ve 2.0 TDI motorlarında EGR valfi ve soğutucusunun kurumlanmasını (rölantide düzensizlik, güç kaybı, arıza lambası, acil moda geçiş) ve partikül filtresi tıkanmasını (filtre uyarısı, güç kaybı, yakıt tüketiminde artış; kısa mesafe kullanımda sıklaşır) orta önemde listeliyor. Arıza kaydı okutulmalı, kullanım şekli sorulmalı, filtre doluluk değeri okutulmalıdır. Tek kaynaklı bilgidir.",
       "symptoms": [
-        "DPF rejenerasyon uyarısı",
-        "çekiş düşüklüğü",
-        "rölantide metalik volan sesi",
-        "egzoz arıza lambası"
+        "rölantide düzensizlik",
+        "güç kaybı",
+        "DPF uyarı lambası",
+        "yakıt tüketiminde artış"
       ],
       "matchKeywords": [
         "EGR",
         "DPF",
         "partikül filtresi",
-        "çift kütleli volan",
-        "volan sesi",
-        "TDI"
+        "1.6 TDI",
+        "2.0 TDI"
       ],
       "obdCodes": [],
       "engineCodes": [
@@ -131,66 +129,7 @@
       "sources": [
         {
           "url": "https://www.araclo.com/vehicles/volkswagen-passat/b8/kronik-sorunlar",
-          "title": "Volkswagen Passat B8 Kronik Sorunlar ve Bilinen Arızalar (Araclo)",
-          "domain": "araclo.com"
-        }
-      ],
-      "researchedAt": "2026-11-23"
-    },
-    {
-      "id": "passatb8-cam-tavan-ve-trim",
-      "system": "kaporta",
-      "title": "Panoramik cam tavan çerçevesinden gıcırtı/tıkırtı ve su tahliye tıkanması",
-      "description": "Araclo Passat B8 sayfası panoramik cam tavanlı araçlarda kasis ve esnemelerde çerçeve/raylardan gelen gıcırtı ve tıkırtı seslerini, ayrıca tavan su tahliye kanallarının tıkanmasına bağlı tavan döşemesi veya taban halısında ıslanmayı listeliyor. Tahliye hatları ve perde mekanizması test edilmelidir. Tek kaynaklı bilgidir.",
-      "symptoms": [
-        "cam tavandan gıcırtı",
-        "tavan döşemesinde su lekesi",
-        "taban halısında nem"
-      ],
-      "matchKeywords": [
-        "cam tavan",
-        "sunroof",
-        "panoramik tavan",
-        "su tahliye",
-        "trim sesi",
-        "gıcırtı"
-      ],
-      "obdCodes": [],
-      "engineCodes": null,
-      "priceItemId": null,
-      "sources": [
-        {
-          "url": "https://www.araclo.com/vehicles/volkswagen-passat/b8/kronik-sorunlar",
-          "title": "Volkswagen Passat B8 Kronik Sorunlar ve Bilinen Arızalar (Araclo)",
-          "domain": "araclo.com"
-        }
-      ],
-      "researchedAt": "2026-11-23"
-    },
-    {
-      "id": "passatb8-elektronik-park-freni",
-      "system": "fren",
-      "title": "Elektronik park freni tuşu ve arka kaliper motoru arızası",
-      "description": "Araclo Passat B8 sayfası elektronik park freni (EPB) düğmesinin temas sorunu veya arka kaliper motoru/tesisat arızası nedeniyle el freninin çekili kalması ya da uyarı vermesini listeliyor. Ekspertizde Auto-Hold ve EPB devreye alma/bırakma işlevi tekrarlı olarak denenmelidir. Tek kaynaklı bilgidir.",
-      "symptoms": [
-        "elektronik el freni arıza uyarısı",
-        "park freni bırakmıyor",
-        "arka kaliperden sürtünme sesi"
-      ],
-      "matchKeywords": [
-        "elektronik park freni",
-        "EPB",
-        "el freni tuşu",
-        "kaliper motoru",
-        "auto hold"
-      ],
-      "obdCodes": [],
-      "engineCodes": null,
-      "priceItemId": null,
-      "sources": [
-        {
-          "url": "https://www.araclo.com/vehicles/volkswagen-passat/b8/kronik-sorunlar",
-          "title": "Volkswagen Passat B8 Kronik Sorunlar ve Bilinen Arızalar (Araclo)",
+          "title": "Volkswagen Passat B8 Kronik Sorunları (Araclo)",
           "domain": "araclo.com"
         }
       ],

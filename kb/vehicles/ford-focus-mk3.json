@@ -43,13 +43,13 @@
     {
       "id": "focusmk3-powershift-kavrama-tcm",
       "system": "sanziman",
-      "title": "6 ileri kuru kavrama Powershift (DPS6) titreme, keçe kaçağı ve TCM arızası",
-      "description": "Araclo Ford Focus Mk3 sayfası 6 ileri kuru çift kavramalı Powershift (DPS6) otomatik şanzımanda düşük hızda ve kalkışta titreme/silkeleme, giriş mili keçesinden yağ kaçırarak kavramayı bozma ve TCM (şanzıman kontrol modülü) arızasını kritik/yüksek maliyetli sorun olarak listeliyor. Tek kaynaklı bilgidir. Fiyat kalemi yalnızca çift kavrama işçiliğidir, parça dahil değildir.",
+      "title": "6 ileri PowerShift şanzımanda kuru kavrama titremesi, şanzıman beyni arızası ve keçe kaçağı",
+      "description": "Araclo Focus III makyajlı (2014-2018) sayfası, 6 ileri PowerShift şanzımanlı araçlarda (2011-2018) kuru kavrama titremesi ve şanzıman beyni arızasını yüksek önemde ve yüksek maliyetli listeliyor: kalkışta titreme ve sarsıntı, vites geçişlerinde vuruntu, kayma, aracın aniden boşa düşmesi. Aynı sayfa PowerShift için kavrama damper parçalarının kırılmasını, şanzıman beyni valflerinin tıkanmasını ve ön kapak/giriş mili keçesinden yağ kaçağını da ayrı kalemler olarak listeliyor. Şasi numarasıyla kavrama, keçe ve şanzıman beyni değişim kayıtları ile uzatılmış garanti işlemleri yetkili serviste sorulmalıdır. Tek kaynaklı bilgidir. Fiyat kalemi yalnızca çift kavrama işçiliğidir.",
       "symptoms": [
         "kalkışta titreme ve sarsıntı",
-        "vites geçişlerinde gecikme veya vitese geçmeme",
-        "şanzıman arıza uyarısı",
-        "geri vites kaybı"
+        "vites geçişlerinde vuruntu veya kayma",
+        "aracın aniden boşa düşmesi",
+        "şanzıman altında yağ izi"
       ],
       "matchKeywords": [
         "Powershift",
@@ -68,8 +68,8 @@
       "priceItemId": "generic-cift-kavrama-iscilik",
       "sources": [
         {
-          "url": "https://www.araclo.com/vehicles/ford-focus/mk3/kronik-sorunlar",
-          "title": "Ford Focus Mk3 Kronik Sorunlar ve Bilinen Arızalar (Araclo)",
+          "url": "https://www.araclo.com/vehicles/ford-focus/focus3-makyajli/kronik-sorunlar",
+          "title": "Ford Focus III makyajlı 2014-2018 Kronik Sorunları (Araclo)",
           "domain": "araclo.com"
         }
       ],
@@ -78,12 +78,12 @@
     {
       "id": "focusmk3-16tivct-vvt-yag-terlemesi",
       "system": "motor",
-      "title": "1.6 Ti-VCT supap kapağı, eksantrik faz ayarlayıcı (VVT) ve krank keçesi yağ terlemesi",
-      "description": "Araclo Ford Focus Mk3 sayfası 1.6 Ti-VCT (IQDB) atmosferik benzinli motorda supap kapağı contası ve krank keçesinde yağ terlemesi/kaçağı ile eksantrik faz ayarlayıcı (VVT) dişlilerinde çalıştırma anında ses ve performans düşüşünü yaygın orta önemde sorun olarak listeliyor. Tek kaynaklı bilgidir.",
+      "title": "1.6 (Sigma) motorda faz ayarlayıcı/kontrol valfi, supap kapağı ve krank keçesi yağ kaçağı",
+      "description": "Araclo Focus III sayfaları Sigma 1.6 motorunda faz ayarlayıcı ve kontrol valfinden yağ kaçağını (motor arkasında yağ izi, yağ seviyesi hızla düşer; geç fark edilirse motor yağsız kalır) yüksek önemde, supap kapağı ve krank keçesinden yağ kaçağını ise düşük önemde listeliyor. Eksantrik tarafında yağ izi ve yağ seviyesi kontrol edilmeli, sahibine yağ ekleme sıklığı sorulmalıdır. Tek kaynaklı bilgidir.",
       "symptoms": [
-        "motor üst ve alt kısmında yağ terlemesi",
-        "soğuk çalıştırmada VVT dişlisinden şakırtı",
-        "rölantide dalgalanma"
+        "motor arkasında yağ izi",
+        "yağ seviyesinin hızla düşmesi",
+        "motor üstünde ve altında yağ izi"
       ],
       "matchKeywords": [
         "1.6 Ti-VCT",
@@ -102,8 +102,13 @@
       "priceItemId": null,
       "sources": [
         {
-          "url": "https://www.araclo.com/vehicles/ford-focus/mk3/kronik-sorunlar",
-          "title": "Ford Focus Mk3 Kronik Sorunlar ve Bilinen Arızalar (Araclo)",
+          "url": "https://www.araclo.com/vehicles/ford-focus/focus3/kronik-sorunlar",
+          "title": "Ford Focus III 2011-2014 Kronik Sorunları (Araclo)",
+          "domain": "araclo.com"
+        },
+        {
+          "url": "https://www.araclo.com/vehicles/ford-focus/focus3-makyajli/kronik-sorunlar",
+          "title": "Ford Focus III makyajlı 2014-2018 Kronik Sorunları (Araclo)",
           "domain": "araclo.com"
         }
       ],
@@ -112,12 +117,12 @@
     {
       "id": "focusmk3-ecoboost-sogutma-hortumu",
       "system": "motor",
-      "title": "1.0 EcoBoost soğutma suyu geri dönüş hortumu çatlaması ve ıslak triger kayışı hassasiyeti",
-      "description": "Araclo Ford Focus Mk3 sayfası 1.0 EcoBoost (Fox) motorunda soğutma suyu geri dönüş hortumunun yüksek ısıya bağlı sertleşip çatlamasıyla ani su kaybı yaşanmasını ve yağ içinde çalışan triger kayışının (wet belt) bakım aralığı aşımında ufalanmasını kritik/yüksek önemde sorun olarak listeliyor. Tek kaynaklı bilgidir.",
+      "title": "1.0 EcoBoost soğutma hortumu çatlağı ve yağ içinde çalışan triger kayışının bozulması",
+      "description": "Araclo Focus III sayfaları Fox 1.0 EcoBoost motorunda iki kritik sorun listeliyor: soğutma hortumu çatlağı ve aşırı ısınma (geri çağırma; 2011-2013 araçlar) ile yağ içinde çalışan triger kayışının bozulması (kayış parçaları yağ süzgecini tıkar, yağ basıncı uyarısı ve takırtı; kayış koparsa ağır motor hasarı). Şasi numarasıyla geri çağırma işleminin yapılıp yapılmadığı ve kayış değişim faturaları sorulmalıdır. Tek kaynaklı bilgidir.",
       "symptoms": [
         "ani soğutma suyu kaybı ve hararet",
-        "geri dönüş hortumunda çatlak ve sızıntı",
-        "yağ basıncı düşüklüğü uyarısı"
+        "yağ basıncı uyarısı",
+        "motordan takırtı"
       ],
       "matchKeywords": [
         "1.0 EcoBoost",
@@ -136,8 +141,13 @@
       "priceItemId": null,
       "sources": [
         {
-          "url": "https://www.araclo.com/vehicles/ford-focus/mk3/kronik-sorunlar",
-          "title": "Ford Focus Mk3 Kronik Sorunlar ve Bilinen Arızalar (Araclo)",
+          "url": "https://www.araclo.com/vehicles/ford-focus/focus3/kronik-sorunlar",
+          "title": "Ford Focus III 2011-2014 Kronik Sorunları (Araclo)",
+          "domain": "araclo.com"
+        },
+        {
+          "url": "https://www.araclo.com/vehicles/ford-focus/focus3-makyajli/kronik-sorunlar",
+          "title": "Ford Focus III makyajlı 2014-2018 Kronik Sorunları (Araclo)",
           "domain": "araclo.com"
         }
       ],
@@ -146,13 +156,13 @@
     {
       "id": "focusmk3-tdci-dpf-egr-enjektor",
       "system": "emisyon",
-      "title": "1.5 / 1.6 TDCi DPF, EGR tıkanması ve enjektör pulu kaçırma sorunu",
-      "description": "Araclo Ford Focus Mk3 sayfası 1.5 TDCi ve 1.6 TDCi dizel motorlarda şehir içi kısa mesafe kullanıma bağlı DPF ve EGR tıkanmasını, ayrıca yüksek kilometrede enjektör bakır pullarının kaçırmasıyla kaput altında kurum ve yanık egzoz kokusu oluşmasını yaygın sorun olarak listeliyor. Tek kaynaklı bilgidir.",
+      "title": "1.6 / 1.5 TDCi EGR valfi ve partikül filtresi (DPF) sorunları",
+      "description": "Araclo Focus III sayfaları 1.6 TDCi (DV6) motorunda EGR valfi arızasını (acil moda geçiş, güç düşüşü, rölanti bozulması) ve partikül filtresi tıkanmasını (uyarı lambası, güç kısılması, yakıtın yağa karışması) orta önemde listeliyor. Makyajlı (2014-2018) sayfa 1.5 TDCi için partikül filtresi çatlamasını (geri çağırma) ve EGR valfinin kurumla tıkanmasını listeliyor. Şasi numarasıyla DPF geri çağırma işlemi serviste sorulmalıdır. Tek kaynaklı bilgidir.",
       "symptoms": [
-        "kaput altında siyah kurum ve egzoz kokusu",
-        "çekiş düşüklüğü ve arıza lambası",
-        "DPF tıkanma uyarısı",
-        "rölantide düzensizlik"
+        "araç acil moda geçer",
+        "güç düşüşü",
+        "rölanti dalgalanması",
+        "DPF uyarı lambası"
       ],
       "matchKeywords": [
         "TDCi",
@@ -173,8 +183,13 @@
       "priceItemId": null,
       "sources": [
         {
-          "url": "https://www.araclo.com/vehicles/ford-focus/mk3/kronik-sorunlar",
-          "title": "Ford Focus Mk3 Kronik Sorunlar ve Bilinen Arızalar (Araclo)",
+          "url": "https://www.araclo.com/vehicles/ford-focus/focus3/kronik-sorunlar",
+          "title": "Ford Focus III 2011-2014 Kronik Sorunları (Araclo)",
+          "domain": "araclo.com"
+        },
+        {
+          "url": "https://www.araclo.com/vehicles/ford-focus/focus3-makyajli/kronik-sorunlar",
+          "title": "Ford Focus III makyajlı 2014-2018 Kronik Sorunları (Araclo)",
           "domain": "araclo.com"
         }
       ],

@@ -24,7 +24,7 @@ Not: Yalnızca 1-4 numaralı kaynaklarda adı geçen modeller 1-14. sıralarda l
 | 7 | Ford Fiesta | 1, 2 | yazıldı: `ford-fiesta-mk8` (2017-2021; eski nesiller henüz yok) |
 | 8 | Volkswagen Golf (1.6 TDI) | 1, 2 | yazıldı: `volkswagen-golf-7` |
 | 9 | Fiat Linea | 1, 2 | yazıldı: `fiat-linea` |
-| 10 | Hyundai Getz | 1, 2 | yazıldı: `hyundai-getz` |
+| 10 | Hyundai Getz | 1, 2 | kaldırıldı (2026-11-23): kaynak sayfası kayıtlardaki sorunları içermiyordu; kaynaklı yeniden yazılmalı |
 | 11 | Toyota C-HR | 4 | yazıldı: `toyota-c-hr` |
 | 12 | Dacia Sandero (Stepway) | 4 | yazıldı: `dacia-sandero-2` |
 | 13 | Tesla Model Y | 4 | yazıldı: `tesla-model-y` |

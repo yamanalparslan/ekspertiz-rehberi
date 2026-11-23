@@ -295,8 +295,8 @@
     {
       "id": "linea-tjet-turbo-manifold",
       "system": "motor",
-      "title": "1.4 T-Jet turbo gövdesi ve egzoz manifoldu çatlaması",
-      "description": "Araclo Fiat Linea sayfası 1.4 T-Jet için turbo gövdesi ve egzoz manifoldu çatlamasını 80.000 km sonrası orta önemde listeliyor: çekiş düşmesi, hızlanırken ıslık, egzoz dumanı. Tek kaynaklı bilgidir.",
+      "title": "1.4 T-Jet turbo gövdesi ve egzoz manifoldu çatlaması (Linea 2007-2015)",
+      "description": "Araclo Fiat Linea sayfası 1.4 T-Jet için (sayfada bu motor yalnızca Linea 2007-2015 nesli altında yer alıyor, Yeni Linea 2012-2017 için listelenmiyor) turbo gövdesi ve egzoz manifoldu çatlamasını 80.000 km sonrası orta önemde listeliyor: çekiş düşmesi, hızlanırken ıslık, egzoz dumanı. Tek kaynaklı bilgidir.",
       "symptoms": [
         "çekiş düşmesi",
         "hızlanırken ıslık sesi",

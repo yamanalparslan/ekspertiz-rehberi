@@ -31,50 +31,89 @@
   },
   "chronicIssues": [
     {
-      "id": "picantoja-amt-kavrama-silkeleme",
-      "system": "sanziman",
-      "title": "1.0 AMT (yarı otomatik) şanzımanda kalkışta silkeleme ve baskı-balata erken aşınması",
-      "description": "Araclo Kia Picanto (JA) sayfası tek kavramalı robotize AMT otomatik şanzımanda dur-kalk trafikte ısınma, 1-2 vites geçişlerinde silkeleme/kararsızlık ve debriyaj aktüatörü kalibrasyon ihtiyacını orta önemde listeliyor. Rampada kalkış ve vites geçişleri test edilmelidir. Tek kaynaklı bilgidir. Fiyat kalemi yalnızca debriyaj seti işçiliğidir, parça dahil değildir.",
+      "id": "picantoja-10mpi-triger-zinciri",
+      "system": "motor",
+      "title": "1.0 MPI motorda triger zinciri ve gergisinin aşınması",
+      "description": "Araclo Kia Picanto JA sayfaları Kappa 1.0 MPI motorunda triger zinciri ve gergisinin aşınmasını (100.000-150.000 km, orta önem, orta onarım maliyeti) listeliyor: soğuk çalıştırmada birkaç saniyeden uzun süren metalik zincir sesi. Motor soğukken çalıştırılmalı, ilk saniyelerden sonra süren tıkırtı varsa zincir kontrol ettirilmelidir. Tek kaynaklı bilgidir.",
       "symptoms": [
-        "kalkışta silkeleme",
-        "1-2 vites geçişinde sarsıntı",
-        "dur-kalk trafikte ısınma uyarısı"
+        "soğuk çalıştırmada birkaç saniyeden uzun süren metalik zincir sesi"
       ],
       "matchKeywords": [
-        "AMT",
-        "debriyaj",
-        "kavrama",
-        "silkeleme",
-        "yarı otomatik"
+        "triger zinciri",
+        "zincir sesi",
+        "zincir gergisi",
+        "soğukta metalik ses",
+        "1.0 MPI"
       ],
       "obdCodes": [],
       "engineCodes": [
         "1.0 DPI / MPI (G3LD / G3LA)"
       ],
-      "priceItemId": "generic-debriyaj-seti-iscilik",
+      "priceItemId": null,
       "sources": [
         {
           "url": "https://www.araclo.com/vehicles/kia-picanto/ja/kronik-sorunlar",
-          "title": "Kia Picanto (JA) Kronik Sorunlar ve Bilinen Arızalar (Araclo)",
+          "title": "Kia Picanto JA 2017-2020 Kronik Sorunları (Araclo)",
+          "domain": "araclo.com"
+        },
+        {
+          "url": "https://www.araclo.com/vehicles/kia-picanto/ja-makyajli/kronik-sorunlar",
+          "title": "Kia Picanto JA makyajlı 2020-2024 Kronik Sorunları (Araclo)",
           "domain": "araclo.com"
         }
       ],
       "researchedAt": "2026-11-23"
     },
     {
-      "id": "picantoja-direksiyon-eps-tikirti",
-      "system": "direksiyon",
-      "title": "Elektrikli direksiyon kolonundan (MDPS) bozuk yolda tıkırtı",
-      "description": "Araclo Kia Picanto (JA) sayfası elektrikli direksiyon kolonundaki (MDPS) esnek kaplinin zamanla boşluk yaparak park manevralarında ve bozuk zeminde tıkırtı sesi üretebildiğini düşük-orta önemde listeliyor. Tek kaynaklı bilgidir.",
+      "id": "picantoja-10mpi-yag-sizintisi",
+      "system": "motor",
+      "title": "1.0 MPI motorda yağ sızıntısı",
+      "description": "Araclo Kia Picanto JA sayfaları Kappa 1.0 MPI motorunda motor yağ sızıntısını (düşük önem, düşük onarım maliyeti) listeliyor: motor altında yağ izi, muayenede yağ kaçağı tespiti. Motor ve şanzıman birleşim yeri ile karter çevresinde yağ izi aranmalıdır. Tek kaynaklı bilgidir.",
       "symptoms": [
-        "direksiyon çevirirken tıkırtı",
-        "bozuk yolda direksiyon kolonundan ses"
+        "motor altında yağ izi",
+        "muayenede yağ kaçağı tespiti"
       ],
       "matchKeywords": [
-        "direksiyon",
-        "MDPS",
-        "tıkırtı",
-        "direksiyon kolonu"
+        "yağ sızıntısı",
+        "yağ kaçağı",
+        "karter",
+        "motor altında yağ",
+        "1.0 MPI"
+      ],
+      "obdCodes": [],
+      "engineCodes": [
+        "1.0 DPI / MPI (G3LD / G3LA)"
+      ],
+      "priceItemId": null,
+      "sources": [
+        {
+          "url": "https://www.araclo.com/vehicles/kia-picanto/ja/kronik-sorunlar",
+          "title": "Kia Picanto JA 2017-2020 Kronik Sorunları (Araclo)",
+          "domain": "araclo.com"
+        },
+        {
+          "url": "https://www.araclo.com/vehicles/kia-picanto/ja-makyajli/kronik-sorunlar",
+          "title": "Kia Picanto JA makyajlı 2020-2024 Kronik Sorunları (Araclo)",
+          "domain": "araclo.com"
+        }
+      ],
+      "researchedAt": "2026-11-23"
+    },
+    {
+      "id": "picantoja-far-ayari",
+      "system": "elektrik",
+      "title": "Kısa far ayarının bozulması ve ön aydınlatma kusurları (2017-2020)",
+      "description": "Araclo Kia Picanto JA (2017-2020) sayfası, neslin tamamı için kısa farların ayarının bozulmasını ve ön aydınlatma kusurlarını (düşük önem, düşük onarım maliyeti) listeliyor: kısa farlar yolu yanlış yükseklikte aydınlatır, karşı yönden gelenler selektör yapar; muayenede ön aydınlatma ve far ayarı kusuru çıkar. Araç karanlıkta bir duvara karşı park edilip iki farın kesme çizgisinin aynı yükseklikte olduğuna bakılmalı, far ayarı muayene öncesi ölçtürülmelidir. Tek kaynaklı bilgidir.",
+      "symptoms": [
+        "farın yolu yanlış yükseklikte aydınlatması",
+        "karşıdan gelenlerin selektör yapması",
+        "muayenede far ayarı kusuru"
+      ],
+      "matchKeywords": [
+        "far ayarı",
+        "kısa far",
+        "far ayarı bozuk",
+        "ön aydınlatma"
       ],
       "obdCodes": [],
       "engineCodes": null,
@@ -82,36 +121,7 @@
       "sources": [
         {
           "url": "https://www.araclo.com/vehicles/kia-picanto/ja/kronik-sorunlar",
-          "title": "Kia Picanto (JA) Kronik Sorunlar ve Bilinen Arızalar (Araclo)",
-          "domain": "araclo.com"
-        }
-      ],
-      "researchedAt": "2026-11-23"
-    },
-    {
-      "id": "picantoja-10mpi-rolanti-titresim",
-      "system": "motor",
-      "title": "3 silindirli 1.0 motorda rölanti titreşimi ve motor kulağı yorulması",
-      "description": "Araclo Kia Picanto (JA) sayfası 3 silindirli 1.0 litrelik (G3LA/G3LD) motorun doğal yapısı gereği rölantide titreşimli çalıştığını, motor ve şanzıman takozları yorulduğunda kabin içi sarsıntının arttığını düşük önemde listeliyor. Tek kaynaklı bilgidir.",
-      "symptoms": [
-        "rölantide kabin titreşimi",
-        "klima açıkken artan sarsıntı"
-      ],
-      "matchKeywords": [
-        "motor takozu",
-        "rölanti titreşimi",
-        "vuruntu",
-        "1.0"
-      ],
-      "obdCodes": [],
-      "engineCodes": [
-        "1.0 DPI / MPI (G3LD / G3LA)"
-      ],
-      "priceItemId": null,
-      "sources": [
-        {
-          "url": "https://www.araclo.com/vehicles/kia-picanto/ja/kronik-sorunlar",
-          "title": "Kia Picanto (JA) Kronik Sorunlar ve Bilinen Arızalar (Araclo)",
+          "title": "Kia Picanto JA 2017-2020 Kronik Sorunları (Araclo)",
           "domain": "araclo.com"
         }
       ],

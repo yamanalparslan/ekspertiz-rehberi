@@ -4,12 +4,26 @@
     "brand": "Toyota",
     "model": "C-HR",
     "generation": "C-HR (AX10, 2016-2023)",
-    "aliases": ["C-HR", "Toyota CHR", "C-HR Hybrid", "C-HR 1.8 Hybrid", "C-HR 1.2 Turbo"],
+    "aliases": [
+      "C-HR",
+      "Toyota CHR",
+      "C-HR Hybrid",
+      "C-HR 1.8 Hybrid",
+      "C-HR 1.2 Turbo"
+    ],
     "yearFrom": 2016,
     "yearTo": 2023,
     "engines": [
-      { "code": "1.8 Hybrid (2ZR-FXE)", "cc": 1798, "fuel": "hibrit" },
-      { "code": "1.2 Turbo (8NR-FTS)", "cc": 1197, "fuel": "benzin" }
+      {
+        "code": "1.8 Hybrid (2ZR-FXE)",
+        "cc": 1798,
+        "fuel": "hibrit"
+      },
+      {
+        "code": "1.2 Turbo (8NR-FTS)",
+        "cc": 1197,
+        "fuel": "benzin"
+      }
     ],
     "segment": "suv"
   },
@@ -18,46 +32,35 @@
       "id": "chr-12v-yardimci-aku",
       "system": "elektrik",
       "title": "1.8 Hibrit modellerde 12V yardımcı akünün park halinde zayıflaması ve \"Check Hybrid System\" uyarısı",
-      "description": "Araclo'nun Toyota C-HR (AX10) sayfası ve Otoplans'ın C-HR kronik sorunlar rehberi, 1.8 Hybrid (2ZR-FXE) versiyonlarda özellikle araç birkaç gün park halinde kaldığında 12V yardımcı akünün hızla boşalabildiğini ve bunun aracın açılmamasına veya ekranda \"Check Hybrid System\" uyarısına yol açabildiğini belirtiyor. Ekspertizde 12V akü sağlığı ölçülmeli ve hibrit sistem arıza geçmişi taranmalıdır.",
-      "symptoms": ["aracın çalışmaması", "Check Hybrid System uyarısı", "park sonrası akü bitmesi", "gösterge uyarıları"],
-      "matchKeywords": ["12V akü", "yardımcı akü", "Check Hybrid System", "hibrit uyarısı", "akü boşalması"],
-      "obdCodes": [],
-      "engineCodes": ["1.8 Hybrid (2ZR-FXE)"],
-      "priceItemId": null,
-      "sources": [
-        {
-          "url": "https://www.araclo.com/vehicles/toyota-c-hr/ax10/kronik-sorunlar",
-          "title": "Toyota C-HR (AX10) Kronik Sorunlar ve Bilinen Arızalar (Araclo)",
-          "domain": "araclo.com"
-        },
-        {
-          "url": "https://otoplans.net/toyota-c-hr-kronik-sorunlari",
-          "title": "Toyota C-HR Kronik Sorunları (Otoplans)",
-          "domain": "otoplans.net"
-        }
+      "description": "Araclo Toyota C-HR sayfaları 1.8 Hybrid (2ZR-FXE) motorunda 12 V aküsünün erken bitmesini (orta önem) listeliyor: araç hazır moda geçmez, birden çok uyarı lambası yanar; kısa mesafe kullanımda sıklaşır. 12 V akünün yaşı ve tipi kontrol ettirilmeli, uzun bekleme sonrası çalıştırma denenmelidir. Tek kaynaklı bilgidir.",
+      "symptoms": [
+        "aracın çalışmaması",
+        "Check Hybrid System uyarısı",
+        "park sonrası akü bitmesi",
+        "gösterge uyarıları"
       ],
-      "researchedAt": "2026-11-23"
-    },
-    {
-      "id": "chr-yakit-pompasi-geri-cagirma",
-      "system": "yakit",
-      "title": "Düşük basınçlı yakıt pompası arızası ve stop etme riski (geri çağırma, 2017-2019)",
-      "description": "Araclo ve Otoplans kaynakları, 2017-2019 arası üretilen bazı Toyota C-HR araçlarda düşük basınçlı yakıt pompası pervanesinin deforme olması sonucu yakıt beslemesinin kesilebildiğini, motorun tekleyebileceğini veya seyir halinde stop edebileceğini ve bunun için geri çağırma kampanyası düzenlendiğini aktarıyor. Yetkili servisten şasi numarası ile geri çağırma işleminin yapılıp yapılmadığı doğrulanmalıdır.",
-      "symptoms": ["motorun tekleyip stop etmesi", "marş almama", "hızlanmada güç kesilmesi", "motor arıza lambası"],
-      "matchKeywords": ["yakıt pompası", "düşük basınçlı pompa", "geri çağırma", "stop etme", "benzin pompası"],
+      "matchKeywords": [
+        "12V akü",
+        "yardımcı akü",
+        "Check Hybrid System",
+        "hibrit uyarısı",
+        "akü boşalması"
+      ],
       "obdCodes": [],
-      "engineCodes": null,
+      "engineCodes": [
+        "1.8 Hybrid (2ZR-FXE)"
+      ],
       "priceItemId": null,
       "sources": [
         {
-          "url": "https://www.araclo.com/vehicles/toyota-c-hr/ax10/kronik-sorunlar",
-          "title": "Toyota C-HR (AX10) Kronik Sorunlar ve Bilinen Arızalar (Araclo)",
+          "url": "https://www.araclo.com/vehicles/toyota-c-hr/chr1/kronik-sorunlar",
+          "title": "Toyota C-HR (1. nesil, 2016-2019) Kronik Sorunları (Araclo)",
           "domain": "araclo.com"
         },
         {
-          "url": "https://otoplans.net/toyota-c-hr-kronik-sorunlari",
-          "title": "Toyota C-HR Kronik Sorunları (Otoplans)",
-          "domain": "otoplans.net"
+          "url": "https://www.araclo.com/vehicles/toyota-c-hr/chr1-makyajli/kronik-sorunlar",
+          "title": "Toyota C-HR (1. nesil, makyajlı, 2019-2023) Kronik Sorunları (Araclo)",
+          "domain": "araclo.com"
         }
       ],
       "researchedAt": "2026-11-23"
@@ -65,17 +68,33 @@
     {
       "id": "chr-multimedya-ve-trim-sesi",
       "system": "elektronik",
-      "title": "Multimedya ekranı donması ve ön göğüs/kapı trim sesleri",
-      "description": "Araclo Toyota C-HR (AX10) sayfası, multimedya ekranında donma, Bluetooth/CarPlay bağlantı kopması ve yeniden başlama sorunlarının yanı sıra bozuk yollarda ön göğüs ve kapı panellerinden trim sesi gelebildiğini listeliyor. Tek kaynaklı bilgidir.",
-      "symptoms": ["multimedya ekranı donması", "Bluetooth kopması", "ön göğüs trim sesi", "kapı paneli tıkırtısı"],
-      "matchKeywords": ["multimedya", "ekran donması", "trim sesi", "göğüs sesi", "kapı trimi", "Toyota Touch"],
+      "title": "Torpido, orta konsol ve kapılardan tıkırtı ve gıcırtı",
+      "description": "Araclo Toyota C-HR sayfaları torpido, orta konsol ve kapılardan tıkırtı ve gıcırtıyı (düşük önem) listeliyor: bozuk veya parke yolda torpidodan, sürücü önündeki panelden, orta konsoldan veya kapı içinden tıkırtı ve vızıltı gelir; sıcak havada arka kapı dış kolundan gıcırtı duyulabilir. Test sürüşü radyo kapalıyken bozuk yolda yapılmalıdır. Tek kaynaklı bilgidir.",
+      "symptoms": [
+        "torpidodan tıkırtı",
+        "orta konsoldan vızıltı",
+        "kapı içinden ses",
+        "arka kapı dış kolundan gıcırtı"
+      ],
+      "matchKeywords": [
+        "tıkırtı",
+        "gıcırtı",
+        "torpido",
+        "orta konsol",
+        "trim sesi"
+      ],
       "obdCodes": [],
       "engineCodes": null,
       "priceItemId": null,
       "sources": [
         {
-          "url": "https://www.araclo.com/vehicles/toyota-c-hr/ax10/kronik-sorunlar",
-          "title": "Toyota C-HR (AX10) Kronik Sorunlar ve Bilinen Arızalar (Araclo)",
+          "url": "https://www.araclo.com/vehicles/toyota-c-hr/chr1/kronik-sorunlar",
+          "title": "Toyota C-HR (1. nesil, 2016-2019) Kronik Sorunları (Araclo)",
+          "domain": "araclo.com"
+        },
+        {
+          "url": "https://www.araclo.com/vehicles/toyota-c-hr/chr1-makyajli/kronik-sorunlar",
+          "title": "Toyota C-HR (1. nesil, makyajlı, 2019-2023) Kronik Sorunları (Araclo)",
           "domain": "araclo.com"
         }
       ],
@@ -85,16 +104,26 @@
       "id": "chr-on-cam-catlama",
       "system": "kaporta",
       "title": "Ön camın taş izi ve gerilim kaynaklı çatlama hassasiyeti",
-      "description": "Araclo Toyota C-HR (AX10) sayfası, C-HR modelinde ön camın özellikle kenar bölgelerinden küçük taş çarpmaları veya sıcaklık farkına bağlı gerilim nedeniyle kolay çatlayabildiğini ve bunun kullanıcılarca sık raporlandığını belirtiyor. Ekspertizde ön camda tamir/çatlak ve orijinal logo kontrolü yapılmalıdır. Tek kaynaklı bilgidir.",
-      "symptoms": ["ön camda çatlak", "kenardan yürüyen cam çatlağı", "cam değişim geçmişi"],
-      "matchKeywords": ["ön cam", "cam çatlağı", "cam çatlaması", "taş izi", "cam değişimi"],
+      "description": "Araclo Toyota C-HR (1. nesil, 2016-2019) sayfası ön camın kendiliğinden çatlamasını (2016-2019 araçlar, orta önem) listeliyor: taş darbesi olmadan, çoğunlukla camın üst kenarından başlayıp aşağı ilerleyen çatlak oluşur; bazen araç park halindeyken gece içinde çatlar. Ön cam üst kenar boyunca incelenmeli; cam değiştiyse orijinal olup olmadığı ve cam arkasındaki kamera ile lazer sensörün yetkili serviste yeniden ayarlandığı belgeyle sorulmalıdır. Tek kaynaklı bilgidir.",
+      "symptoms": [
+        "ön camda çatlak",
+        "kenardan yürüyen cam çatlağı",
+        "cam değişim geçmişi"
+      ],
+      "matchKeywords": [
+        "ön cam",
+        "cam çatlağı",
+        "cam çatlaması",
+        "taş izi",
+        "cam değişimi"
+      ],
       "obdCodes": [],
       "engineCodes": null,
       "priceItemId": null,
       "sources": [
         {
-          "url": "https://www.araclo.com/vehicles/toyota-c-hr/ax10/kronik-sorunlar",
-          "title": "Toyota C-HR (AX10) Kronik Sorunlar ve Bilinen Arızalar (Araclo)",
+          "url": "https://www.araclo.com/vehicles/toyota-c-hr/chr1/kronik-sorunlar",
+          "title": "Toyota C-HR (1. nesil, 2016-2019) Kronik Sorunları (Araclo)",
           "domain": "araclo.com"
         }
       ],

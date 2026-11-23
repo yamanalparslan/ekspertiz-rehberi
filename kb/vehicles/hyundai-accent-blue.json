@@ -28,85 +28,21 @@
   },
   "chronicIssues": [
     {
-      "id": "accentblue-16crdi-dct-isinma",
-      "system": "sanziman",
-      "title": "1.6 CRDi 7 ileri kuru DCT şanzımanda ısınma, titreme ve volan/kavrama aşınması",
-      "description": "Araclo Accent Blue sayfası 1.6 CRDi 7 ileri kuru DCT şanzımanlı araçlarda yoğun trafikte aşırı ısınma, kalkışta titreme ve yüksek tork nedeniyle kavrama ile çift kütleli volan aşınmasını yüksek maliyetli sorun olarak listeliyor. Şanzıman adaptasyon ve kavrama değişim geçmişi sorgulanmalıdır. Tek kaynaklı bilgidir. Fiyat kalemi yalnızca çift kavrama işçiliğidir, parça dahil değildir.",
-      "symptoms": [
-        "kalkışta titreme",
-        "dur-kalk trafikte ısınma uyarısı",
-        "vites geçişlerinde vuruntu",
-        "volan tıkırtısı"
-      ],
-      "matchKeywords": [
-        "DCT",
-        "7 ileri",
-        "çift kavrama",
-        "kavrama",
-        "volan",
-        "şanzıman ısınma"
-      ],
-      "obdCodes": [],
-      "engineCodes": [
-        "1.6 CRDi (D4FB)"
-      ],
-      "priceItemId": "generic-cift-kavrama-iscilik",
-      "sources": [
-        {
-          "url": "https://www.araclo.com/vehicles/hyundai-accent/blue/kronik-sorunlar",
-          "title": "Hyundai Accent Blue Kronik Sorunlar ve Bilinen Arızalar (Araclo)",
-          "domain": "araclo.com"
-        }
-      ],
-      "researchedAt": "2026-11-23"
-    },
-    {
-      "id": "accentblue-direksiyon-eps-tikirti",
-      "system": "direksiyon",
-      "title": "Elektrikli direksiyon kutusu ve yıldız burç (MDPS kaplin) aşınması kaynaklı tıkırtı",
-      "description": "Araclo Accent Blue sayfası elektrikli direksiyon (EPS/MDPS) motorundaki kauçuk yıldız burç kaplininin dağılması ve direksiyon kutusu boşluğu nedeniyle manevralarda gelen tıkırtı sesini yaygın sorun olarak listeliyor. Direksiyon milindeki boşluk ve ses dururken sağ-sol çevirmeyle kontrol edilmelidir. Tek kaynaklı bilgidir.",
-      "symptoms": [
-        "direksiyon çevirirken tıkırtı",
-        "direksiyon milinde boşluk hissi"
-      ],
-      "matchKeywords": [
-        "MDPS",
-        "yıldız burç",
-        "kaplin",
-        "EPS",
-        "direksiyon kutusu",
-        "tıkırtı"
-      ],
-      "obdCodes": [],
-      "engineCodes": null,
-      "priceItemId": null,
-      "sources": [
-        {
-          "url": "https://www.araclo.com/vehicles/hyundai-accent/blue/kronik-sorunlar",
-          "title": "Hyundai Accent Blue Kronik Sorunlar ve Bilinen Arızalar (Araclo)",
-          "domain": "araclo.com"
-        }
-      ],
-      "researchedAt": "2026-11-23"
-    },
-    {
       "id": "accentblue-16crdi-dpf-egr",
       "system": "emisyon",
-      "title": "1.6 CRDi EGR valfi kurum bağlaması ve şehir içi kullanımda DPF tıkanması",
-      "description": "Araclo Accent Blue sayfası 1.6 CRDi dizel motorda özellikle şehir içi kısa mesafe kullanımlarda EGR valfinin kurum bağlaması ve partikül filtresinin (DPF) tıkanması sonucu çekiş düşüklüğü ve arıza lambası yanmasını listeliyor. DPF fark basınç verileri ve rejenerasyon geçmişi OBD ile kontrol edilmelidir. Tek kaynaklı bilgidir.",
+      "title": "1.6 CRDi EGR valfi ve emme manifoldunun kurumla tıkanması",
+      "description": "Araclo Accent Blue (RB) sayfası U2 1.6 CRDi motorunda EGR valfi ve emme manifoldunun kurumlanmasını (80.000-130.000 km, orta önem) listeliyor: çekiş düşer, rölanti dalgalanır, arıza lambası yanabilir; şehir içi kullanımda daha erken görülür. Düşük devirde hızlanma denenmeli, EGR ve emme temizliğinin ne zaman yapıldığı sorulmalıdır. Tek kaynaklı bilgidir.",
       "symptoms": [
         "çekiş düşüklüğü",
-        "motor arıza lambası",
-        "sık DPF rejenerasyonu",
-        "yakıt tüketimi artışı"
+        "rölanti dalgalanması",
+        "arıza lambası"
       ],
       "matchKeywords": [
         "EGR",
-        "DPF",
-        "partikül filtresi",
+        "EGR valfi",
+        "emme manifoldu",
         "kurum",
-        "1.6 CRDi",
-        "çekiş düşüklüğü"
+        "1.6 CRDi"
       ],
       "obdCodes": [],
       "engineCodes": [
@@ -115,36 +51,8 @@
       "priceItemId": null,
       "sources": [
         {
-          "url": "https://www.araclo.com/vehicles/hyundai-accent/blue/kronik-sorunlar",
-          "title": "Hyundai Accent Blue Kronik Sorunlar ve Bilinen Arızalar (Araclo)",
-          "domain": "araclo.com"
-        }
-      ],
-      "researchedAt": "2026-11-23"
-    },
-    {
-      "id": "accentblue-arka-suspansiyon-savurma",
-      "system": "suspansiyon",
-      "title": "Arka amortisör ve burçların yorulmasıyla bozuk yolda arka aksın zıplama/savurma eğilimi",
-      "description": "Araclo Accent Blue sayfası arka torsiyon burçları ve arka amortisörlerin yorulmasıyla bozuk zeminde veya yüksek hızda dalgalı yolda arka aksın zıplama ve savurma eğilimi göstermesini listeliyor. Liftte arka amortisör yağ kaçağı ve dingil burcu yırtıkları kontrol edilmelidir. Tek kaynaklı bilgidir.",
-      "symptoms": [
-        "arka tarafta zıplama ve savurma hissi",
-        "tümseklerde arka süspansiyondan vuruntu"
-      ],
-      "matchKeywords": [
-        "arka amortisör",
-        "arka süspansiyon",
-        "savurma",
-        "zıplama",
-        "torsiyon burcu"
-      ],
-      "obdCodes": [],
-      "engineCodes": null,
-      "priceItemId": null,
-      "sources": [
-        {
-          "url": "https://www.araclo.com/vehicles/hyundai-accent/blue/kronik-sorunlar",
-          "title": "Hyundai Accent Blue Kronik Sorunlar ve Bilinen Arızalar (Araclo)",
+          "url": "https://www.araclo.com/vehicles/hyundai-accent-blue/rb/kronik-sorunlar",
+          "title": "Hyundai Accent Blue Kronik Sorunları (Araclo)",
           "domain": "araclo.com"
         }
       ],
