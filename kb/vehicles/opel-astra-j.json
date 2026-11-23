@@ -1,0 +1,167 @@
+{
+  "vehicle": {
+    "id": "opel-astra-j",
+    "brand": "Opel",
+    "model": "Astra",
+    "generation": "Astra J (2009-2016; Sedan 2020'ye kadar)",
+    "aliases": [
+      "Astra J",
+      "Astra 1.6 CDTI",
+      "Astra 1.3 CDTI",
+      "Astra 1.4 Turbo",
+      "Astra 1.6 Edition"
+    ],
+    "yearFrom": 2009,
+    "yearTo": 2020,
+    "engines": [
+      {
+        "code": "1.6 CDTI (B16DTH)",
+        "cc": 1598,
+        "fuel": "dizel"
+      },
+      {
+        "code": "1.3 CDTI (A13DTE)",
+        "cc": 1248,
+        "fuel": "dizel"
+      },
+      {
+        "code": "1.4 Turbo (A14NET)",
+        "cc": 1364,
+        "fuel": "benzin"
+      },
+      {
+        "code": "1.6 Ecotec (A16XER)",
+        "cc": 1598,
+        "fuel": "benzin"
+      }
+    ],
+    "segment": "c"
+  },
+  "chronicIssues": [
+    {
+      "id": "astraj-16cdti-triger-zinciri",
+      "system": "motor",
+      "title": "1.6 CDTI ve 1.3 CDTI dizel motorlarda ilk çalıştırmada triger zinciri şakırtısı ve gergi aşınması",
+      "description": "Araclo Opel Astra J sayfası 1.6 CDTI (B16DTH) ve 1.3 CDTI (A13DTE) dizel motorlarda soğuk ilk çalıştırmada triger zincirinden gelen şakırtı sesini ve zincir gergisi/palet aşınmasını yüksek maliyetli kritik sorun olarak listeliyor (1.6 CDTI'da şanzıman tarafında yer aldığı için işçiliği yüksektir). Motor tamamen soğukken ilk marş sesi dinlenmelidir. Tek kaynaklı bilgidir.",
+      "symptoms": [
+        "ilk çalıştırmada zincir şakırtısı",
+        "motor tarafından metalik tıkırtı"
+      ],
+      "matchKeywords": [
+        "triger zinciri",
+        "zincir şakırtısı",
+        "zincir gergisi",
+        "1.6 CDTI",
+        "1.3 CDTI"
+      ],
+      "obdCodes": [],
+      "engineCodes": [
+        "1.6 CDTI (B16DTH)",
+        "1.3 CDTI (A13DTE)"
+      ],
+      "priceItemId": null,
+      "sources": [
+        {
+          "url": "https://www.araclo.com/vehicles/opel-astra/astra-j/kronik-sorunlar",
+          "title": "Opel Astra J Kronik Sorunlar ve Bilinen Arızalar (Araclo)",
+          "domain": "araclo.com"
+        }
+      ],
+      "researchedAt": "2026-11-23"
+    },
+    {
+      "id": "astraj-14turbo-sogutma-flansi",
+      "system": "motor",
+      "title": "1.4 Turbo ve 1.6 benzinli motorlarda plastik su çıkış flanşı, termostat gövdesi ve yedek su deposu çatlakları",
+      "description": "Araclo Opel Astra J sayfası 1.4 Turbo (A14NET) ve 1.6 Ecotec (A16XER) benzinli motorlarda yüksek çalışma sıcaklığı nedeniyle plastik su çıkış flanşı, termostat gövdesi ve yedek su genleşme deposunda kılcal çatlaklar ve antifriz kaçağı oluştuğunu listeliyor. Sıcak motorda soğutma hattı kaçak testi ve seviye kontrolü yapılmalıdır. Tek kaynaklı bilgidir.",
+      "symptoms": [
+        "soğutma suyu eksiltme",
+        "hararet uyarısı",
+        "yedek su deposu ve flanş çevresinde antifriz lekesi"
+      ],
+      "matchKeywords": [
+        "su çıkış flanşı",
+        "termostat gövdesi",
+        "yedek su deposu",
+        "antifriz kaçağı",
+        "1.4 Turbo"
+      ],
+      "obdCodes": [],
+      "engineCodes": [
+        "1.4 Turbo (A14NET)",
+        "1.6 Ecotec (A16XER)"
+      ],
+      "priceItemId": null,
+      "sources": [
+        {
+          "url": "https://www.araclo.com/vehicles/opel-astra/astra-j/kronik-sorunlar",
+          "title": "Opel Astra J Kronik Sorunlar ve Bilinen Arızalar (Araclo)",
+          "domain": "araclo.com"
+        }
+      ],
+      "researchedAt": "2026-11-23"
+    },
+    {
+      "id": "astraj-klima-bcm-su-sizmasi",
+      "system": "elektronik",
+      "title": "Klima yoğuşma tahliyesinden gövde kontrol modülüne (BCM) su sızması ve elektrik arızaları",
+      "description": "Araclo Opel Astra J sayfası klima evaporatör yoğuşma tahliyesinin tıkanması veya taşması sonucu sürücü/yolcu ayak bölmesindeki gövde kontrol modülüne (BCM) su sızması ve buna bağlı rastgele elektrik/aydınlatma/kilit arızalarını listeliyor. Ön taban halısında nem ve BCM soketlerinde oksitlenme kontrol edilmelidir. Tek kaynaklı bilgidir.",
+      "symptoms": [
+        "ön taban halısında ıslaklık",
+        "rastgele elektrik ve gösterge arızaları",
+        "kilit veya aydınlatma hataları"
+      ],
+      "matchKeywords": [
+        "BCM",
+        "gövde kontrol modülü",
+        "klima tahliye",
+        "su sızması",
+        "elektrik arızası"
+      ],
+      "obdCodes": [],
+      "engineCodes": null,
+      "priceItemId": null,
+      "sources": [
+        {
+          "url": "https://www.araclo.com/vehicles/opel-astra/astra-j/kronik-sorunlar",
+          "title": "Opel Astra J Kronik Sorunlar ve Bilinen Arızalar (Araclo)",
+          "domain": "araclo.com"
+        }
+      ],
+      "researchedAt": "2026-11-23"
+    },
+    {
+      "id": "astraj-m32-sanziman-rulmani",
+      "system": "sanziman",
+      "title": "M32 6 ileri manuel şanzımanda grup rulmanı uğultusu ve vites kolunun yükte oynaması",
+      "description": "Araclo Opel Astra J sayfası 1.4 Turbo ve 1.3 CDTI ile eşleşen M32 6 ileri manuel şanzımanda grup rulmanlarının aşınması sonucu özellikle 1., 2., 5. ve 6. viteslerde uğultu sesi ve gaz verip bırakırken vites kolunun ileri-geri oynamasını yüksek maliyetli sorun olarak listeliyor. Yol testinde vites kolu hareketi ve viteslerde uğultu dinlenmelidir. Tek kaynaklı bilgidir.",
+      "symptoms": [
+        "viteslerde uğultu sesi",
+        "gaz verip bırakırken vites kolunun oynaması",
+        "vites geçişlerinde zorlanma"
+      ],
+      "matchKeywords": [
+        "M32",
+        "şanzıman rulmanı",
+        "grup rulmanı",
+        "vites kolu oynaması",
+        "uğultu"
+      ],
+      "obdCodes": [],
+      "engineCodes": [
+        "1.4 Turbo (A14NET)",
+        "1.3 CDTI (A13DTE)"
+      ],
+      "priceItemId": null,
+      "sources": [
+        {
+          "url": "https://www.araclo.com/vehicles/opel-astra/astra-j/kronik-sorunlar",
+          "title": "Opel Astra J Kronik Sorunlar ve Bilinen Arızalar (Araclo)",
+          "domain": "araclo.com"
+        }
+      ],
+      "researchedAt": "2026-11-23"
+    }
+  ],
+  "priceItems": []
+}

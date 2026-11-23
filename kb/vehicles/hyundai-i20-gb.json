@@ -1,0 +1,169 @@
+{
+  "vehicle": {
+    "id": "hyundai-i20-gb",
+    "brand": "Hyundai",
+    "model": "i20",
+    "generation": "i20 II / III (GB/BC3, 2014-2026)",
+    "aliases": [
+      "i20",
+      "Hyundai i20",
+      "i20 1.4 MPI",
+      "i20 1.0 T-GDI",
+      "i20 1.4 CRDi"
+    ],
+    "yearFrom": 2014,
+    "yearTo": 2026,
+    "engines": [
+      {
+        "code": "1.4 MPI (G4LC)",
+        "cc": 1368,
+        "fuel": "benzin"
+      },
+      {
+        "code": "1.0 T-GDI (G3LC)",
+        "cc": 998,
+        "fuel": "benzin"
+      },
+      {
+        "code": "1.4 CRDi (D4FC)",
+        "cc": 1396,
+        "fuel": "dizel"
+      }
+    ],
+    "segment": "a_b"
+  },
+  "chronicIssues": [
+    {
+      "id": "i20-10tgdi-dct-titreme",
+      "system": "sanziman",
+      "title": "1.0 T-GDI 7 ileri DCT şanzımanda ısınma, kararsızlık ve erken kavrama aşınması",
+      "description": "Araclo Hyundai i20 (GB) sayfası ve And Çetin'in i20 kronik sorunlar derlemesi, 1.0 T-GDI motorla eşleşen 7 ileri kuru çift kavramalı DCT şanzımanda yoğun dur-kalk trafikte ısınma uyarısı, vites geçişlerinde kararsızlık ve erken kavrama aşınmasını öne çıkan sorunlar arasında listeliyor. Yokuş kalkışında silkeleme ve kavrama sıcaklığı kontrol edilmelidir. Fiyat kalemi yalnızca çift kavrama işçiliğidir, parça dahil değildir.",
+      "symptoms": [
+        "kalkışta titreme",
+        "dur-kalk trafikte şanzıman ısınma uyarısı",
+        "vites geçişlerinde kararsızlık"
+      ],
+      "matchKeywords": [
+        "DCT",
+        "7 ileri",
+        "çift kavrama",
+        "kavrama aşınması",
+        "şanzıman ısınma",
+        "titreme"
+      ],
+      "obdCodes": [],
+      "engineCodes": [
+        "1.0 T-GDI (G3LC)"
+      ],
+      "priceItemId": "generic-cift-kavrama-iscilik",
+      "sources": [
+        {
+          "url": "https://www.araclo.com/vehicles/hyundai-i20/gb/kronik-sorunlar",
+          "title": "Hyundai i20 (GB) Kronik Sorunlar ve Bilinen Arızalar (Araclo)",
+          "domain": "araclo.com"
+        },
+        {
+          "url": "https://andcetin.com/hyundai-i20-kronik-sorunlari",
+          "title": "Hyundai i20 Kronik Sorunları (And Çetin)",
+          "domain": "andcetin.com"
+        }
+      ],
+      "researchedAt": "2026-11-23"
+    },
+    {
+      "id": "i20-yakit-pompasi-gaz-yememe",
+      "system": "yakit",
+      "title": "Yakıt pompası ve rölesi kaynaklı çekiş düşüklüğü veya kalkışta tekleme",
+      "description": "Araclo Hyundai i20 sayfası ve And Çetin'in i20 kronik sorunlar rehberi, yakıt pompası ve yakıt pompası rölesi kaynaklı gaz yememe, kalkışta tekleme ve zaman zaman geç çalışma şikayetlerini bildiriyor. Soğuk ve sıcak çalıştırmada marş süresi ile ani hızlanmada yakıt basıncı tepkisi gözlenmelidir.",
+      "symptoms": [
+        "kalkışta tekleme",
+        "gaz yememe",
+        "çekiş düşüklüğü",
+        "geç çalışma"
+      ],
+      "matchKeywords": [
+        "yakıt pompası",
+        "pompa rölesi",
+        "gaz yememe",
+        "tekleme",
+        "benzin pompası"
+      ],
+      "obdCodes": [],
+      "engineCodes": null,
+      "priceItemId": null,
+      "sources": [
+        {
+          "url": "https://www.araclo.com/vehicles/hyundai-i20/gb/kronik-sorunlar",
+          "title": "Hyundai i20 (GB) Kronik Sorunlar ve Bilinen Arızalar (Araclo)",
+          "domain": "araclo.com"
+        },
+        {
+          "url": "https://andcetin.com/hyundai-i20-kronik-sorunlari",
+          "title": "Hyundai i20 Kronik Sorunları (And Çetin)",
+          "domain": "andcetin.com"
+        }
+      ],
+      "researchedAt": "2026-11-23"
+    },
+    {
+      "id": "i20-direksiyon-kolonu-ses",
+      "system": "direksiyon",
+      "title": "Elektrikli direksiyon kolonundan (MDPS) park manevralarında tıkırtı sesi",
+      "description": "Araclo Hyundai i20 sayfası elektrikli direksiyon sisteminde (MDPS) özellikle düşük hızda park manevraları ve bozuk zeminde direksiyon kolonundan gelen tıkırtı/boşluk sesini yaygın bir şikayet olarak listeliyor. Araç dururken direksiyon sağ-sol kısa hareketlerle test edilmelidir. Tek kaynaklı bilgidir.",
+      "symptoms": [
+        "direksiyon çevirirken tıkırtı",
+        "bozuk yolda direksiyon kolonundan ses"
+      ],
+      "matchKeywords": [
+        "MDPS",
+        "direksiyon kolonu",
+        "elektrikli direksiyon",
+        "tıkırtı",
+        "EPS"
+      ],
+      "obdCodes": [],
+      "engineCodes": null,
+      "priceItemId": null,
+      "sources": [
+        {
+          "url": "https://www.araclo.com/vehicles/hyundai-i20/gb/kronik-sorunlar",
+          "title": "Hyundai i20 (GB) Kronik Sorunlar ve Bilinen Arızalar (Araclo)",
+          "domain": "araclo.com"
+        }
+      ],
+      "researchedAt": "2026-11-23"
+    },
+    {
+      "id": "i20-manuel-debriyaj-sertlesme",
+      "system": "sanziman",
+      "title": "1.4 MPI manuel şanzımanda debriyaj setinin erken sertleşmesi ve kalkışta silkeleme",
+      "description": "Araclo Hyundai i20 sayfası 1.4 MPI manuel şanzımanlı araçlarda şehir içi kullanıma bağlı debriyaj pedalının erken sertleşmesi, yukarıdan kavraması ve kalkışta silkeleme yapmasını listeliyor. Tek kaynaklı bilgidir. Fiyat kalemi yalnızca debriyaj seti işçiliğidir, parça dahil değildir.",
+      "symptoms": [
+        "debriyaj pedalında sertleşme",
+        "kalkışta silkeleme",
+        "yukarıdan kavrama"
+      ],
+      "matchKeywords": [
+        "debriyaj",
+        "baskı balata",
+        "debriyaj sertleşmesi",
+        "silkeleme",
+        "1.4 MPI"
+      ],
+      "obdCodes": [],
+      "engineCodes": [
+        "1.4 MPI (G4LC)"
+      ],
+      "priceItemId": "generic-debriyaj-seti-iscilik",
+      "sources": [
+        {
+          "url": "https://www.araclo.com/vehicles/hyundai-i20/gb/kronik-sorunlar",
+          "title": "Hyundai i20 (GB) Kronik Sorunlar ve Bilinen Arızalar (Araclo)",
+          "domain": "araclo.com"
+        }
+      ],
+      "researchedAt": "2026-11-23"
+    }
+  ],
+  "priceItems": []
+}

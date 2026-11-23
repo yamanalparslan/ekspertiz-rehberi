@@ -1,0 +1,171 @@
+{
+  "vehicle": {
+    "id": "peugeot-301",
+    "brand": "Peugeot",
+    "model": "301",
+    "generation": "301 (2012-2021)",
+    "aliases": [
+      "Peugeot 301",
+      "301 1.6 HDi",
+      "301 1.5 BlueHDi",
+      "301 1.2 PureTech",
+      "301 1.2 VTi"
+    ],
+    "yearFrom": 2012,
+    "yearTo": 2021,
+    "engines": [
+      {
+        "code": "1.6 HDi / BlueHDi (DV6)",
+        "cc": 1560,
+        "fuel": "dizel"
+      },
+      {
+        "code": "1.5 BlueHDi (DV5)",
+        "cc": 1499,
+        "fuel": "dizel"
+      },
+      {
+        "code": "1.2 PureTech (EB2)",
+        "cc": 1199,
+        "fuel": "benzin"
+      }
+    ],
+    "segment": "c"
+  },
+  "chronicIssues": [
+    {
+      "id": "p301-12puretech-wet-belt",
+      "system": "motor",
+      "title": "1.2 PureTech yağ banyolu (ıslak) triger kayışı ufalanması",
+      "description": "Araclo Peugeot 301 sayfası 1.2 PureTech (EB2) motorunda yağ içinde çalışan (ıslak) triger kayışının zamanla ufalanıp kopma parçalarının yağ pompası süzgecini tıkamasını yüksek önemde kronik sorun olarak listeliyor; yağ basıncı düşmesi ve vakum pompası arızasına yol açabiliyor. Kayış genişliğinin ölçülmesi ve yağ bakım geçmişinin incelenmesi önerilir. Tek kaynaklı bilgidir.",
+      "symptoms": [
+        "yağ basıncı düşük uyarısı",
+        "fren pedalında sertleşme",
+        "motor arıza ışığı",
+        "rölantide düzensiz ses"
+      ],
+      "matchKeywords": [
+        "PureTech",
+        "ıslak triger",
+        "yağ banyolu kayış",
+        "yağ süzgeci",
+        "yağ basıncı"
+      ],
+      "obdCodes": [
+        "P0011",
+        "P0524"
+      ],
+      "engineCodes": [
+        "1.2 PureTech (EB2)"
+      ],
+      "priceItemId": null,
+      "sources": [
+        {
+          "url": "https://www.araclo.com/vehicles/peugeot-301/301/kronik-sorunlar",
+          "title": "Peugeot 301 Kronik Sorunlar ve Bilinen Arızalar (Araclo)",
+          "domain": "araclo.com"
+        }
+      ],
+      "researchedAt": "2026-11-23"
+    },
+    {
+      "id": "p301-bluehdi-adblue-depolu-pompa",
+      "system": "emisyon",
+      "title": "BlueHDi dizel motorlarda AdBlue deposu pompası, EGR ve DPF tıkanması",
+      "description": "Araclo Peugeot 301 sayfası 1.6 HDi / BlueHDi ve 1.5 BlueHDi dizel motorlarda AdBlue deposu içindeki pompa/basınç sensörünün kristalleşme nedeniyle arızalanmasını ve kısa mesafe kullanımlarda EGR valfi ile DPF (dizel partikül filtresi) tıkanmasını yaygın ve maliyetli sorunlar olarak listeliyor. Tek kaynaklı bilgidir.",
+      "symptoms": [
+        "AdBlue / üre arıza uyarısı",
+        "egzoz emisyon uyarısı",
+        "çekiş düşüklüğü",
+        "DPF rejenerasyon uyarısı"
+      ],
+      "matchKeywords": [
+        "AdBlue",
+        "AdBlue deposu",
+        "BlueHDi",
+        "DPF",
+        "EGR",
+        "partikül filtresi"
+      ],
+      "obdCodes": [
+        "P20E8",
+        "P20EE",
+        "P2463",
+        "P0401"
+      ],
+      "engineCodes": [
+        "1.6 HDi / BlueHDi (DV6)",
+        "1.5 BlueHDi (DV5)"
+      ],
+      "priceItemId": null,
+      "sources": [
+        {
+          "url": "https://www.araclo.com/vehicles/peugeot-301/301/kronik-sorunlar",
+          "title": "Peugeot 301 Kronik Sorunlar ve Bilinen Arızalar (Araclo)",
+          "domain": "araclo.com"
+        }
+      ],
+      "researchedAt": "2026-11-23"
+    },
+    {
+      "id": "p301-on-takim-rot-viraj",
+      "system": "suspansiyon",
+      "title": "Ön takımda rot başları, z-rotlar ve amortisör takozlarında erken boşluk",
+      "description": "Araclo Peugeot 301 sayfası ön süspansiyon elemanlarından rot başları, z-rotlar (viraj demiri askı kolları) ve üst amortisör takozlarının bozuk yollarda erken aşınarak lokurtu ve vuruntu sesi yapmasını yaygın orta önemde sorun olarak listeliyor. Tek kaynaklı bilgidir.",
+      "symptoms": [
+        "bozuk yolda ön takımdan lokurtu sesi",
+        "direksiyon çevirirken tıkırtı",
+        "direksiyonda boşluk hissi"
+      ],
+      "matchKeywords": [
+        "ön takım",
+        "rot başı",
+        "z-rot",
+        "amortisör takozu",
+        "lokurtu"
+      ],
+      "obdCodes": [],
+      "engineCodes": null,
+      "priceItemId": null,
+      "sources": [
+        {
+          "url": "https://www.araclo.com/vehicles/peugeot-301/301/kronik-sorunlar",
+          "title": "Peugeot 301 Kronik Sorunlar ve Bilinen Arızalar (Araclo)",
+          "domain": "araclo.com"
+        }
+      ],
+      "researchedAt": "2026-11-23"
+    },
+    {
+      "id": "p301-debriyaj-ve-etg-sarsinti",
+      "system": "sanziman",
+      "title": "Manuel ve Auto6R/ETG şanzımanda debriyaj erken aşınması ve kalkış sarsıntısı",
+      "description": "Araclo Peugeot 301 sayfası manuel ve yarı otomatik (Auto6R/ETG) şanzımanlı versiyonlarda şehir içi yoğun kullanımda baskı-balata setinin erken sertleşip aşınmasını, kalkışta titreme ve vites geçişlerinde sarsıntı yaşanmasını yaygın sorun olarak listeliyor. Tek kaynaklı bilgidir. Fiyat kalemi yalnızca debriyaj seti değişimi işçiliğidir, parça dahil değildir.",
+      "symptoms": [
+        "kalkışta titreme ve sarsıntı",
+        "debriyaj pedalının sertleşmesi",
+        "yukarıdan kavrama",
+        "vites geçişlerinde silkeleme"
+      ],
+      "matchKeywords": [
+        "debriyaj",
+        "baskı balata",
+        "ETG",
+        "Auto6R",
+        "kalkışta sarsıntı"
+      ],
+      "obdCodes": [],
+      "engineCodes": null,
+      "priceItemId": "generic-debriyaj-seti-iscilik",
+      "sources": [
+        {
+          "url": "https://www.araclo.com/vehicles/peugeot-301/301/kronik-sorunlar",
+          "title": "Peugeot 301 Kronik Sorunlar ve Bilinen Arızalar (Araclo)",
+          "domain": "araclo.com"
+        }
+      ],
+      "researchedAt": "2026-11-23"
+    }
+  ],
+  "priceItems": []
+}

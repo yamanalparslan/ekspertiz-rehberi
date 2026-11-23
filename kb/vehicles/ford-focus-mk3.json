@@ -1,0 +1,185 @@
+{
+  "vehicle": {
+    "id": "ford-focus-mk3",
+    "brand": "Ford",
+    "model": "Focus",
+    "generation": "Focus III (Mk3 / Mk3.5, 2011-2018)",
+    "aliases": [
+      "Focus",
+      "Focus 3",
+      "Focus Mk3",
+      "Focus 1.6 TDCi",
+      "Focus 1.5 TDCi",
+      "Focus 1.6 Ti-VCT",
+      "Focus Powershift"
+    ],
+    "yearFrom": 2011,
+    "yearTo": 2018,
+    "engines": [
+      {
+        "code": "1.6 TDCi (DV6)",
+        "cc": 1560,
+        "fuel": "dizel"
+      },
+      {
+        "code": "1.5 TDCi (XWDB)",
+        "cc": 1499,
+        "fuel": "dizel"
+      },
+      {
+        "code": "1.6 Ti-VCT (IQDB)",
+        "cc": 1596,
+        "fuel": "benzin"
+      },
+      {
+        "code": "1.0 EcoBoost (Fox)",
+        "cc": 999,
+        "fuel": "benzin"
+      }
+    ],
+    "segment": "c"
+  },
+  "chronicIssues": [
+    {
+      "id": "focusmk3-powershift-kavrama-tcm",
+      "system": "sanziman",
+      "title": "6 ileri kuru kavrama Powershift (DPS6) titreme, keçe kaçağı ve TCM arızası",
+      "description": "Araclo Ford Focus Mk3 sayfası 6 ileri kuru çift kavramalı Powershift (DPS6) otomatik şanzımanda düşük hızda ve kalkışta titreme/silkeleme, giriş mili keçesinden yağ kaçırarak kavramayı bozma ve TCM (şanzıman kontrol modülü) arızasını kritik/yüksek maliyetli sorun olarak listeliyor. Tek kaynaklı bilgidir. Fiyat kalemi yalnızca çift kavrama işçiliğidir, parça dahil değildir.",
+      "symptoms": [
+        "kalkışta titreme ve sarsıntı",
+        "vites geçişlerinde gecikme veya vitese geçmeme",
+        "şanzıman arıza uyarısı",
+        "geri vites kaybı"
+      ],
+      "matchKeywords": [
+        "Powershift",
+        "DPS6",
+        "çift kavrama",
+        "TCM",
+        "şanzıman beyni",
+        "kalkışta titreme"
+      ],
+      "obdCodes": [
+        "P07A3",
+        "P287A",
+        "U0101"
+      ],
+      "engineCodes": null,
+      "priceItemId": "generic-cift-kavrama-iscilik",
+      "sources": [
+        {
+          "url": "https://www.araclo.com/vehicles/ford-focus/mk3/kronik-sorunlar",
+          "title": "Ford Focus Mk3 Kronik Sorunlar ve Bilinen Arızalar (Araclo)",
+          "domain": "araclo.com"
+        }
+      ],
+      "researchedAt": "2026-11-23"
+    },
+    {
+      "id": "focusmk3-16tivct-vvt-yag-terlemesi",
+      "system": "motor",
+      "title": "1.6 Ti-VCT supap kapağı, eksantrik faz ayarlayıcı (VVT) ve krank keçesi yağ terlemesi",
+      "description": "Araclo Ford Focus Mk3 sayfası 1.6 Ti-VCT (IQDB) atmosferik benzinli motorda supap kapağı contası ve krank keçesinde yağ terlemesi/kaçağı ile eksantrik faz ayarlayıcı (VVT) dişlilerinde çalıştırma anında ses ve performans düşüşünü yaygın orta önemde sorun olarak listeliyor. Tek kaynaklı bilgidir.",
+      "symptoms": [
+        "motor üst ve alt kısmında yağ terlemesi",
+        "soğuk çalıştırmada VVT dişlisinden şakırtı",
+        "rölantide dalgalanma"
+      ],
+      "matchKeywords": [
+        "1.6 Ti-VCT",
+        "VVT",
+        "supap kapağı",
+        "krank keçesi",
+        "yağ terlemesi"
+      ],
+      "obdCodes": [
+        "P0011",
+        "P0014"
+      ],
+      "engineCodes": [
+        "1.6 Ti-VCT (IQDB)"
+      ],
+      "priceItemId": null,
+      "sources": [
+        {
+          "url": "https://www.araclo.com/vehicles/ford-focus/mk3/kronik-sorunlar",
+          "title": "Ford Focus Mk3 Kronik Sorunlar ve Bilinen Arızalar (Araclo)",
+          "domain": "araclo.com"
+        }
+      ],
+      "researchedAt": "2026-11-23"
+    },
+    {
+      "id": "focusmk3-ecoboost-sogutma-hortumu",
+      "system": "motor",
+      "title": "1.0 EcoBoost soğutma suyu geri dönüş hortumu çatlaması ve ıslak triger kayışı hassasiyeti",
+      "description": "Araclo Ford Focus Mk3 sayfası 1.0 EcoBoost (Fox) motorunda soğutma suyu geri dönüş hortumunun yüksek ısıya bağlı sertleşip çatlamasıyla ani su kaybı yaşanmasını ve yağ içinde çalışan triger kayışının (wet belt) bakım aralığı aşımında ufalanmasını kritik/yüksek önemde sorun olarak listeliyor. Tek kaynaklı bilgidir.",
+      "symptoms": [
+        "ani soğutma suyu kaybı ve hararet",
+        "geri dönüş hortumunda çatlak ve sızıntı",
+        "yağ basıncı düşüklüğü uyarısı"
+      ],
+      "matchKeywords": [
+        "1.0 EcoBoost",
+        "soğutma hortumu",
+        "wet belt",
+        "ıslak triger",
+        "hararet"
+      ],
+      "obdCodes": [
+        "P0217",
+        "P0524"
+      ],
+      "engineCodes": [
+        "1.0 EcoBoost (Fox)"
+      ],
+      "priceItemId": null,
+      "sources": [
+        {
+          "url": "https://www.araclo.com/vehicles/ford-focus/mk3/kronik-sorunlar",
+          "title": "Ford Focus Mk3 Kronik Sorunlar ve Bilinen Arızalar (Araclo)",
+          "domain": "araclo.com"
+        }
+      ],
+      "researchedAt": "2026-11-23"
+    },
+    {
+      "id": "focusmk3-tdci-dpf-egr-enjektor",
+      "system": "emisyon",
+      "title": "1.5 / 1.6 TDCi DPF, EGR tıkanması ve enjektör pulu kaçırma sorunu",
+      "description": "Araclo Ford Focus Mk3 sayfası 1.5 TDCi ve 1.6 TDCi dizel motorlarda şehir içi kısa mesafe kullanıma bağlı DPF ve EGR tıkanmasını, ayrıca yüksek kilometrede enjektör bakır pullarının kaçırmasıyla kaput altında kurum ve yanık egzoz kokusu oluşmasını yaygın sorun olarak listeliyor. Tek kaynaklı bilgidir.",
+      "symptoms": [
+        "kaput altında siyah kurum ve egzoz kokusu",
+        "çekiş düşüklüğü ve arıza lambası",
+        "DPF tıkanma uyarısı",
+        "rölantide düzensizlik"
+      ],
+      "matchKeywords": [
+        "TDCi",
+        "DPF",
+        "EGR",
+        "enjektör pulu",
+        "kurum kaçağı"
+      ],
+      "obdCodes": [
+        "P2463",
+        "P0401",
+        "P0404"
+      ],
+      "engineCodes": [
+        "1.6 TDCi (DV6)",
+        "1.5 TDCi (XWDB)"
+      ],
+      "priceItemId": null,
+      "sources": [
+        {
+          "url": "https://www.araclo.com/vehicles/ford-focus/mk3/kronik-sorunlar",
+          "title": "Ford Focus Mk3 Kronik Sorunlar ve Bilinen Arızalar (Araclo)",
+          "domain": "araclo.com"
+        }
+      ],
+      "researchedAt": "2026-11-23"
+    }
+  ],
+  "priceItems": []
+}

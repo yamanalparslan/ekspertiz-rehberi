@@ -1,0 +1,105 @@
+{
+  "vehicle": {
+    "id": "togg-t10x",
+    "brand": "Togg",
+    "model": "T10X",
+    "generation": "T10X (2023-2026)",
+    "aliases": ["T10X", "Togg T10X V1", "Togg T10X V2", "T10X RWD", "Togg"],
+    "yearFrom": 2023,
+    "yearTo": 2026,
+    "engines": [
+      { "code": "RWD 160 kW", "cc": 0, "fuel": "elektrik" },
+      { "code": "AWD 320 kW", "cc": 0, "fuel": "elektrik" }
+    ],
+    "segment": "suv"
+  },
+  "chronicIssues": [
+    {
+      "id": "t10x-12v-aku-uyanmama",
+      "system": "elektrik",
+      "title": "12V yardımcı akünün boşalması ve aracın uyanmaması",
+      "description": "Araclo'nun Togg T10X sayfası ve Elektrikli Türkiye'nin kullanıcı deneyimleri derlemesi, erken dönem ve yazılımı güncellenmemiş araçlarda 12V yardımcı akünün park halinde boşalması sonucu kapıların açılmaması veya aracın uyanmaması şikayetlerinin görüldüğünü aktarıyor. Ekspertizde 12V akü sağlığı, akü değişim kaydı ve güncel yazılım sürümü kontrol edilmelidir.",
+      "symptoms": ["aracın uyanmaması", "kapıların kilit açmaması", "12V akü uyarısı", "marş/hazır moduna geçmeme"],
+      "matchKeywords": ["12V akü", "uyanmama", "akü boşalması", "yardımcı akü", "araç açılmıyor"],
+      "obdCodes": [],
+      "engineCodes": null,
+      "priceItemId": null,
+      "sources": [
+        {
+          "url": "https://www.araclo.com/vehicles/togg-t10x/t10x/kronik-sorunlar",
+          "title": "Togg T10X Kronik Sorunlar ve Bilinen Arızalar (Araclo)",
+          "domain": "araclo.com"
+        },
+        {
+          "url": "https://elektrikliturkiye.com/togg-t10x-kullanici-deneyimleri-ve-sorunlari",
+          "title": "Togg T10X Kullanıcı Deneyimleri ve Sorunları (Elektrikli Türkiye)",
+          "domain": "elektrikliturkiye.com"
+        }
+      ],
+      "researchedAt": "2026-11-23"
+    },
+    {
+      "id": "t10x-ekran-yazilim-donma",
+      "system": "elektronik",
+      "title": "Multimedya/gösterge ekranlarının kararması veya donması (OTA 1.5+ güncelleme kontrolü)",
+      "description": "Araclo ve Elektrikli Türkiye kaynakları, uçtan uca gösterge ve multimedya ekranlarında geçici kararma, donma veya Trumore/profil senkronizasyonu hataları yaşanabildiğini ve OTA 1.5+ yazılım güncellemeleriyle kararlılığın iyileştirildiğini belirtiyor. Ekspertizde yazılım sürümünün OTA 1.5 ve üzeri olup olmadığı ve ekran tepkileri kontrol edilmelidir.",
+      "symptoms": ["gösterge ekranı kararması", "multimedya ekranı donması", "dokunmatik tepkisizliği", "yazılım hatası"],
+      "matchKeywords": ["ekran kararması", "ekran donması", "OTA", "1.5", "yazılım", "Trumore", "gösterge ekranı"],
+      "obdCodes": [],
+      "engineCodes": null,
+      "priceItemId": null,
+      "sources": [
+        {
+          "url": "https://www.araclo.com/vehicles/togg-t10x/t10x/kronik-sorunlar",
+          "title": "Togg T10X Kronik Sorunlar ve Bilinen Arızalar (Araclo)",
+          "domain": "araclo.com"
+        },
+        {
+          "url": "https://elektrikliturkiye.com/togg-t10x-kullanici-deneyimleri-ve-sorunlari",
+          "title": "Togg T10X Kullanıcı Deneyimleri ve Sorunları (Elektrikli Türkiye)",
+          "domain": "elektrikliturkiye.com"
+        }
+      ],
+      "researchedAt": "2026-11-23"
+    },
+    {
+      "id": "t10x-ac-sarj-obc",
+      "system": "elektrik",
+      "title": "AC şarj istasyonlarında şarj kesilmesi / dahili şarj birimi (OBC) arızası",
+      "description": "Elektrikli Türkiye'nin Togg T10X kullanıcı deneyimleri yazısı, bazı kullanıcılarda AC şarj istasyonlarında şarjın erken kesilmesi, şarj başlatamama ve dahili şarj birimi (OBC) arızası nedeniyle parça değişimi ya da yazılım müdahalesi gerektiğini aktarıyor. Alım öncesi aracın AC ve DC şarj testlerinin yapılması önerilir. Tek kaynaklı bilgidir.",
+      "symptoms": ["AC şarjın kesilmesi", "şarj başlatılamaması", "şarj soketi kilitleme hatası"],
+      "matchKeywords": ["AC şarj", "OBC", "dahili şarj", "şarj kesilmesi", "şarj olmuyor"],
+      "obdCodes": [],
+      "engineCodes": null,
+      "priceItemId": null,
+      "sources": [
+        {
+          "url": "https://elektrikliturkiye.com/togg-t10x-kullanici-deneyimleri-ve-sorunlari",
+          "title": "Togg T10X Kullanıcı Deneyimleri ve Sorunları (Elektrikli Türkiye)",
+          "domain": "elektrikliturkiye.com"
+        }
+      ],
+      "researchedAt": "2026-11-23"
+    },
+    {
+      "id": "t10x-adas-uyari-lambalari",
+      "system": "surus_destek",
+      "title": "Sürüş destek (ADAS) ve kamera/radar geçici arıza uyarıları",
+      "description": "Araclo Togg T10X sayfası, ön kamera ve radar sensörlerine bağlı sürüş destek (ADAS) sistemlerinde zaman zaman geçici arıza uyarılarının ekranda belirebildiğini, özellikle yağışlı veya kirli sensör koşullarında uyarıların tetiklenebildiğini belirtiyor. Kalıcı hata kodu olup olmadığı diagnostik cihazla kontrol edilmelidir. Tek kaynaklı bilgidir.",
+      "symptoms": ["ADAS arıza uyarısı", "şerit takip devre dışı uyarısı", "ön çarpışma uyarısı hatası"],
+      "matchKeywords": ["ADAS", "sürüş destek", "kamera uyarısı", "radar", "şerit takip", "arıza uyarısı"],
+      "obdCodes": [],
+      "engineCodes": null,
+      "priceItemId": null,
+      "sources": [
+        {
+          "url": "https://www.araclo.com/vehicles/togg-t10x/t10x/kronik-sorunlar",
+          "title": "Togg T10X Kronik Sorunlar ve Bilinen Arızalar (Araclo)",
+          "domain": "araclo.com"
+        }
+      ],
+      "researchedAt": "2026-11-23"
+    }
+  ],
+  "priceItems": []
+}

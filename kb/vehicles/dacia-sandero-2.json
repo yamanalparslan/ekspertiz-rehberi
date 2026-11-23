@@ -1,0 +1,101 @@
+{
+  "vehicle": {
+    "id": "dacia-sandero-2",
+    "brand": "Dacia",
+    "model": "Sandero",
+    "generation": "Sandero II / Stepway (B52, 2012-2020)",
+    "aliases": ["Sandero", "Sandero Stepway", "Sandero 1.5 dCi", "Sandero 0.9 TCe", "Sandero Easy-R"],
+    "yearFrom": 2012,
+    "yearTo": 2020,
+    "engines": [
+      { "code": "0.9 TCe (H4Bt)", "cc": 898, "fuel": "benzin" },
+      { "code": "1.5 dCi (K9K)", "cc": 1461, "fuel": "dizel" },
+      { "code": "1.2 16V (D4F)", "cc": 1149, "fuel": "benzin" }
+    ],
+    "segment": "a_b"
+  },
+  "chronicIssues": [
+    {
+      "id": "sandero2-easyr-debriyaj-titreme",
+      "system": "sanziman",
+      "title": "Easy-R yarı otomatik ve manuel şanzımanda baskı-balata erken aşınması ve kalkışta titreme",
+      "description": "Araclo'nun Dacia Sandero II sayfası ve Araç Pazarı'nın Sandero kronik sorunları yazısı, özellikle yoğun şehir içi trafikte Easy-R yarı otomatik şanzımanlı ve manuel modellerde baskı-balatanın erken aşınabildiğini, kalkışta titreme, vites geçişinde silkeleme ve yokuşta geç kavrama yaşandığını belirtiyor. Fiyat kalemi yalnızca debriyaj seti değişimi işçiliğidir, parça dahil değildir.",
+      "symptoms": ["kalkışta titreme", "vites geçişinde silkeleme", "debriyaj kaçırması", "yokuşta geç kavrama"],
+      "matchKeywords": ["Easy-R", "debriyaj", "baskı balata", "kalkışta titreme", "kavrama", "yarı otomatik"],
+      "obdCodes": [],
+      "engineCodes": null,
+      "priceItemId": "generic-debriyaj-seti-iscilik",
+      "sources": [
+        {
+          "url": "https://www.araclo.com/vehicles/dacia-sandero/sandero2/kronik-sorunlar",
+          "title": "Dacia Sandero II Kronik Sorunlar ve Bilinen Arızalar (Araclo)",
+          "domain": "araclo.com"
+        },
+        {
+          "url": "https://aracpazari.com.tr/dacia-sandero-kronik-sorunlari",
+          "title": "Dacia Sandero Kronik Sorunları (Araç Pazarı)",
+          "domain": "aracpazari.com.tr"
+        }
+      ],
+      "researchedAt": "2026-11-23"
+    },
+    {
+      "id": "sandero2-far-sinyal-kolu",
+      "system": "elektrik",
+      "title": "Far ve sinyal kumanda kolu arızası (sinyal verirken farların sönmesi veya kornanın çalışmaması)",
+      "description": "Araclo Dacia Sandero II sayfası, direksiyon solundaki far-sinyal-korna kombine kolunun iç kontak aşınması nedeniyle arızalanabildiğini; sinyal verirken kısa farların sönmesi, kornanın belirli direksiyon açılarında çalışmaması veya selektörün takılması gibi belirtiler verdiğini aktarıyor. Tek kaynaklı bilgidir.",
+      "symptoms": ["sinyal verirken farların sönmesi", "kornanın çalışmaması", "far kolunda temassızlık"],
+      "matchKeywords": ["sinyal kolu", "far kolu", "korna çalışmıyor", "far sönmesi", "kombinasyon kolu"],
+      "obdCodes": [],
+      "engineCodes": null,
+      "priceItemId": null,
+      "sources": [
+        {
+          "url": "https://www.araclo.com/vehicles/dacia-sandero/sandero2/kronik-sorunlar",
+          "title": "Dacia Sandero II Kronik Sorunlar ve Bilinen Arızalar (Araclo)",
+          "domain": "araclo.com"
+        }
+      ],
+      "researchedAt": "2026-11-23"
+    },
+    {
+      "id": "sandero2-medianav-ekran",
+      "system": "elektronik",
+      "title": "Media Nav ekranının donması, kararması ve telefon bağlantı kopması",
+      "description": "Araclo Dacia Sandero II sayfası Media Nav multimedya ünitesinde dokunmatik ekranın tepkisiz kalması, siyah ekrana düşme, geri görüş kamerası gecikmesi ve Bluetooth/telefon bağlantısının kopması şikayetlerini listeliyor. Ekspertiz sırasında ekran tepkileri, radyo ve geri görüş kamerası kontrol edilmelidir. Tek kaynaklı bilgidir.",
+      "symptoms": ["ekran donması", "siyah ekran", "Bluetooth bağlantı kopması", "dokunmatik gecikmesi"],
+      "matchKeywords": ["Media Nav", "multimedya", "ekran kararması", "ekran donması", "Bluetooth"],
+      "obdCodes": [],
+      "engineCodes": null,
+      "priceItemId": null,
+      "sources": [
+        {
+          "url": "https://www.araclo.com/vehicles/dacia-sandero/sandero2/kronik-sorunlar",
+          "title": "Dacia Sandero II Kronik Sorunlar ve Bilinen Arızalar (Araclo)",
+          "domain": "araclo.com"
+        }
+      ],
+      "researchedAt": "2026-11-23"
+    },
+    {
+      "id": "sandero2-on-takim-trim",
+      "system": "suspansiyon",
+      "title": "Ön takım (rot başı, viraj demiri) erken boşluk yapması ve kabin trim sesleri",
+      "description": "Araclo Dacia Sandero II sayfası özellikle bozuk zeminlerde kullanılan araçlarda ön takım elemanlarının (rot başı, salıncak burcu, viraj demiri lastikleri) erken boşluk yapabildiğini ve sert plastik kabin aksamından trim sesleri gelebildiğini belirtiyor. Alt takım lifte alınarak boşluk kontrolü yapılmalıdır. Tek kaynaklı bilgidir.",
+      "symptoms": ["ön takımdan lakırtı sesi", "direksiyonda boşluk", "kabin içi trim gıcırtısı"],
+      "matchKeywords": ["ön takım", "rot başı", "viraj demiri", "salıncak", "trim sesi", "lakırtı"],
+      "obdCodes": [],
+      "engineCodes": null,
+      "priceItemId": null,
+      "sources": [
+        {
+          "url": "https://www.araclo.com/vehicles/dacia-sandero/sandero2/kronik-sorunlar",
+          "title": "Dacia Sandero II Kronik Sorunlar ve Bilinen Arızalar (Araclo)",
+          "domain": "araclo.com"
+        }
+      ],
+      "researchedAt": "2026-11-23"
+    }
+  ],
+  "priceItems": []
+}

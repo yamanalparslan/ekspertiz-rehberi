@@ -24,11 +24,11 @@ Not: Yalnızca 1-4 numaralı kaynaklarda adı geçen modeller 1-14. sıralarda l
 | 7 | Ford Fiesta | 1, 2 | yazıldı: `ford-fiesta-mk8` (2017-2021; eski nesiller henüz yok) |
 | 8 | Volkswagen Golf (1.6 TDI) | 1, 2 | yazıldı: `volkswagen-golf-7` |
 | 9 | Fiat Linea | 1, 2 | yazıldı: `fiat-linea` |
-| 10 | Hyundai Getz | 1, 2 | sırada (eski model) |
-| 11 | Toyota C-HR | 4 | sırada |
-| 12 | Dacia Sandero (Stepway) | 4 | sırada |
-| 13 | Tesla Model Y | 4 | sırada (elektrikli) |
-| 14 | Togg T10X, BYD Seal U | 4 | sırada (elektrikli/yeni) |
+| 10 | Hyundai Getz | 1, 2 | yazıldı: `hyundai-getz` |
+| 11 | Toyota C-HR | 4 | yazıldı: `toyota-c-hr` |
+| 12 | Dacia Sandero (Stepway) | 4 | yazıldı: `dacia-sandero-2` |
+| 13 | Tesla Model Y | 4 | yazıldı: `tesla-model-y` |
+| 14 | Togg T10X, BYD Seal U | 4 | yazıldı: `togg-t10x` (BYD Seal U henüz yok) |
 
 ## Ek olarak yazılan model (kullanıcı kararı)
 
@@ -36,6 +36,19 @@ Not: Yalnızca 1-4 numaralı kaynaklarda adı geçen modeller 1-14. sıralarda l
 |-------|-----|
 | BMW 3 Serisi (G20, 2019+; B48 1.6 170 HP "320i" dahil) | yazıldı: `bmw-3-serisi-g20`. Kaynaklarda doğrudan sıralanmadı; denetleyici kararıyla eklendi. |
 
-## Kaynaksız adaylar (Adım 7 için, sıralama doğrulanmamış)
+## Türkiye ikinci el pazarında yaygın ek modeller (Adım 7, 3. ve 4. tur)
 
-Volkswagen Passat (B8), Hyundai i20, Hyundai Accent Blue, Hyundai Tucson, Skoda Octavia, Opel Astra, Opel Corsa, Peugeot 301, Peugeot 208, Citroen C-Elysee, Dacia Duster, Nissan Qashqai, Ford Focus, Ford Courier, Seat Leon, Mercedes C Serisi, Audi A3, Toyota Yaris. Bu 18 aday listeyi yaklaşık 30'a tamamlar; her biri için sıralama gerekçesi Adım 7 sırasında bir kaynakla desteklenmelidir.
+| # | Model | Durum |
+|---|-------|-------|
+| 15 | Volkswagen Passat (B8) | yazıldı: `volkswagen-passat-b8` |
+| 16 | Hyundai i20 (GB/BC3) | yazıldı: `hyundai-i20-gb` |
+| 17 | Hyundai Accent Blue (RB) | yazıldı: `hyundai-accent-blue` |
+| 18 | Skoda Octavia (A7) | yazıldı: `skoda-octavia-a7` |
+| 19 | Opel Astra (J) | yazıldı: `opel-astra-j` |
+| 20 | Peugeot 301 | yazıldı: `peugeot-301` |
+| 21 | Citroen C-Elysée | yazıldı: `citroen-c-elysee` |
+| 22 | Dacia Duster (HS/HM) | yazıldı: `dacia-duster-2` |
+| 23 | Nissan Qashqai (J11) | yazıldı: `nissan-qashqai-j11` |
+| 24 | Ford Focus (Mk3) | yazıldı: `ford-focus-mk3` |
+
+Diğer adaylar (henüz yazılmadı): Hyundai Tucson, Opel Corsa, Peugeot 208, Ford Courier, Seat Leon, Mercedes C Serisi, Audi A3, Toyota Yaris.

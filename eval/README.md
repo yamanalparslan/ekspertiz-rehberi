@@ -26,7 +26,7 @@ Dosyalar ada göre sıralı okunur (.jpg, .jpeg, .png, .webp, .pdf). Etiket dosy
 ## Çalıştırma
 
 ```
-npm run eval -- --cases ~/ekspertiz-eval
+npm run degerlendir -- --cases ~/ekspertiz-eval
 ```
 
 `ANTHROPIC_API_KEY` ortam değişkeninden ya da `.dev.vars` dosyasından okunur. Gerçek Claude çağrıları yapılır, bilgi tabanı diskten (`kb/`) yüklenir, harcama tavanı bu çalıştırma için 50 USD'dir. Çıktı: vaka başına bir satır (araç alanları doğru/toplam, grup doğruluğu, dikkat altında gösterilen sayısı, USD), toplam harcama ve vaka başına `dikkatShownBelow` listesi. Ham okuma çıktısı basılmaz.

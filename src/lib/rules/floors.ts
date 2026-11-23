@@ -19,6 +19,7 @@ const ORIGINAL_LIKE: ReadonlySet<StatusKind> = new Set<StatusKind>([
   "orijinal",
   "saglam",
   "orijinalinde_yok",
+  "calisiyor",
 ]);
 
 type Limit = { kind: "max" | "min"; value: number; abs: boolean };
@@ -67,8 +68,9 @@ export function computeFloors(
       add(m.id, "belirsiz");
       continue;
     }
+    const isSideSlip = m.test === "yanal_kayma_on" || m.test === "yanal_kayma_arka";
     const limits: Limit[] = [];
-    if (m.printedPassMax !== null) limits.push({ kind: "max", value: m.printedPassMax, abs: false });
+    if (m.printedPassMax !== null) limits.push({ kind: "max", value: Math.abs(m.printedPassMax), abs: isSideSlip });
     if (m.printedPassMin !== null) limits.push({ kind: "min", value: m.printedPassMin, abs: false });
     if (limits.length === 0) {
       const d = defaultLimit(m.test, t);

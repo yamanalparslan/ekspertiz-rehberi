@@ -95,4 +95,26 @@ test("yanal kayma: varsayılan sınır yoksa kural yok; verilen eşikle mutlak d
     sideSlipMaxAbsMPerKm: { value: 5, source: "x" },
   };
   expect(computeFloors(n, t).get(id)).toBe("dikkat");
+
+  const rawPrinted = clone();
+  const ym = rawPrinted.measurements.find((x) => x.test === "yanal_kayma_on")!;
+  ym.value = -9;
+  ym.printedPassMax = 5;
+  const np = normalizeExtraction(rawPrinted).extraction;
+  const pid = np.measurements.find((x) => x.test === "yanal_kayma_on")!.id;
+  expect(computeFloors(np).get(pid)).toBe("dikkat");
+});
+
+test("airbag calisiyor kural tetiklemez", () => {
+  const raw = clone();
+  raw.items.push({
+    section: "airbag",
+    part: "Sürücü Hava Yastığı",
+    rawStatus: "Çalışıyor",
+    statusKind: "calisiyor",
+    note: null,
+  });
+  const n = normalizeExtraction(raw).extraction;
+  const id = n.items.find((i) => i.part === "Sürücü Hava Yastığı")!.id;
+  expect(computeFloors(n).get(id)).toBeUndefined();
 });

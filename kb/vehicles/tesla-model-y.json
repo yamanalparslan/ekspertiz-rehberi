@@ -1,0 +1,96 @@
+{
+  "vehicle": {
+    "id": "tesla-model-y",
+    "brand": "Tesla",
+    "model": "Model Y",
+    "generation": "Model Y (2020-2026)",
+    "aliases": ["Model Y", "Tesla Model Y RWD", "Tesla Model Y Long Range", "Tesla Model Y Performance"],
+    "yearFrom": 2020,
+    "yearTo": 2026,
+    "engines": [
+      { "code": "RWD (LFP)", "cc": 0, "fuel": "elektrik" },
+      { "code": "Long Range AWD (NMC)", "cc": 0, "fuel": "elektrik" },
+      { "code": "Performance AWD (NMC)", "cc": 0, "fuel": "elektrik" }
+    ],
+    "segment": "suv"
+  },
+  "chronicIssues": [
+    {
+      "id": "modely-direksiyon-sertlesmesi",
+      "system": "direksiyon",
+      "title": "Soğuk havada elektrikli direksiyon desteğinde sertleşme veya takılma (geri çağırma / yazılım güncellemesi)",
+      "description": "Araclo'nun Tesla Model Y sayfası, soğuk havalarda elektrikli direksiyon (EPAS) sisteminde sertleşme, çentikli dönüş hissi veya geçici direksiyon desteği uyarısı görülebildiğini ve bununla ilgili yazılım güncellemesi / geri çağırma kayıtları bulunduğunu listeliyor. Araç yazılım sürümü ve servis geçmişi kontrol edilmelidir. Tek kaynaklı bilgidir.",
+      "symptoms": ["direksiyonda sertleşme", "dönüşte takılma hissi", "direksiyon desteği uyarısı"],
+      "matchKeywords": ["direksiyon sertleşmesi", "EPAS", "direksiyon takılması", "geri çağırma", "direksiyon uyarısı"],
+      "obdCodes": [],
+      "engineCodes": null,
+      "priceItemId": null,
+      "sources": [
+        {
+          "url": "https://www.araclo.com/vehicles/tesla-model-y/model-y/kronik-sorunlar",
+          "title": "Tesla Model Y Kronik Sorunlar ve Bilinen Arızalar (Araclo)",
+          "domain": "araclo.com"
+        }
+      ],
+      "researchedAt": "2026-11-23"
+    },
+    {
+      "id": "modely-hayalet-frenleme",
+      "system": "surus_destek",
+      "title": "Otopilot ve sürüş destek sisteminde hayalet frenleme (phantom braking)",
+      "description": "Araclo Tesla Model Y sayfası, adaptif hız sabitleyici ve Otopilot devredeyken yol üzerindeki gölge, köprü veya şerit algılama hataları nedeniyle aracın beklenmedik şekilde ani yavaşlama (phantom braking / hayalet frenleme) yapabildiğini belirtiyor. Kamera kalibrasyonu ve sürüş destek uyarı geçmişi incelenmelidir. Tek kaynaklı bilgidir.",
+      "symptoms": ["otopilot açıkken ani frenleme", "adaptif hız sabitleyicide beklenmedik yavaşlama"],
+      "matchKeywords": ["hayalet frenleme", "phantom braking", "otopilot", "autopilot", "ani fren", "sürüş destek"],
+      "obdCodes": [],
+      "engineCodes": null,
+      "priceItemId": null,
+      "sources": [
+        {
+          "url": "https://www.araclo.com/vehicles/tesla-model-y/model-y/kronik-sorunlar",
+          "title": "Tesla Model Y Kronik Sorunlar ve Bilinen Arızalar (Araclo)",
+          "domain": "araclo.com"
+        }
+      ],
+      "researchedAt": "2026-11-23"
+    },
+    {
+      "id": "modely-suspansiyon-salincak-sesi",
+      "system": "suspansiyon",
+      "title": "Ön üst salıncak burçlarından gıcırtı sesi ve sert süspansiyon tepkisi",
+      "description": "Araclo Tesla Model Y sayfası, ön üst salıncak rotil/burçlarından özellikle dönüşlerde ve kasis geçişlerinde gıcırtı veya tıkırtı sesi gelebildiğini, ayrıca süspansiyon sönümlemesinin sert yapısından dolayı burçların erken aşınabildiğini aktarıyor. Lifte alınarak salıncak boşluğu ve körük durumu kontrol edilmelidir. Tek kaynaklı bilgidir.",
+      "symptoms": ["ön takımdan gıcırtı sesi", "kasislerde vuruntu", "dönüşlerde salıncak sesi"],
+      "matchKeywords": ["salıncak", "üst salıncak", "burç", "gıcırtı", "süspansiyon sesi", "ön takım"],
+      "obdCodes": [],
+      "engineCodes": null,
+      "priceItemId": null,
+      "sources": [
+        {
+          "url": "https://www.araclo.com/vehicles/tesla-model-y/model-y/kronik-sorunlar",
+          "title": "Tesla Model Y Kronik Sorunlar ve Bilinen Arızalar (Araclo)",
+          "domain": "araclo.com"
+        }
+      ],
+      "researchedAt": "2026-11-23"
+    },
+    {
+      "id": "modely-ekran-mcu-donma",
+      "system": "elektronik",
+      "title": "Merkezi ekran (MCU) donması ve kamera görüntülerinde gecikme",
+      "description": "Araclo Tesla Model Y sayfası, tüm araç kontrollerinin toplandığı merkezi ekranda (MCU) zaman zaman donma, yeniden başlama ve geri vites ya da yan kör nokta kamera görüntülerinde siyah ekran / gecikme yaşanabildiğini listeliyor. Ekspertizde servis menüsü hata kayıtları ve tüm kameraların görüntüsü kontrol edilmelidir. Tek kaynaklı bilgidir.",
+      "symptoms": ["merkezi ekran donması", "kamera görüntüsünde siyah ekran", "ekranın yeniden başlaması", "dokunmatik gecikmesi"],
+      "matchKeywords": ["MCU", "merkezi ekran", "ekran donması", "kamera gecikmesi", "siyah ekran"],
+      "obdCodes": [],
+      "engineCodes": null,
+      "priceItemId": null,
+      "sources": [
+        {
+          "url": "https://www.araclo.com/vehicles/tesla-model-y/model-y/kronik-sorunlar",
+          "title": "Tesla Model Y Kronik Sorunlar ve Bilinen Arızalar (Araclo)",
+          "domain": "araclo.com"
+        }
+      ],
+      "researchedAt": "2026-11-23"
+    }
+  ],
+  "priceItems": []
+}

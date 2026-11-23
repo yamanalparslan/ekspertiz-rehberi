@@ -1,0 +1,162 @@
+{
+  "vehicle": {
+    "id": "skoda-octavia-a7",
+    "brand": "Skoda",
+    "model": "Octavia",
+    "generation": "Octavia III (A7 / 5E, 2013-2020)",
+    "aliases": [
+      "Octavia",
+      "Octavia A7",
+      "Octavia 1.6 TDI",
+      "Octavia 1.4 TSI",
+      "Octavia 1.0 TSI",
+      "Octavia III"
+    ],
+    "yearFrom": 2013,
+    "yearTo": 2020,
+    "engines": [
+      {
+        "code": "EA288-1.6TDI",
+        "cc": 1598,
+        "fuel": "dizel"
+      },
+      {
+        "code": "EA211-1.4TSI",
+        "cc": 1395,
+        "fuel": "benzin"
+      },
+      {
+        "code": "EA211-1.0TSI",
+        "cc": 999,
+        "fuel": "benzin"
+      }
+    ],
+    "segment": "c"
+  },
+  "chronicIssues": [
+    {
+      "id": "octaviaa7-dsg7-kavrama-mekatronik",
+      "system": "sanziman",
+      "title": "7 ileri kuru kavrama DSG (DQ200) kalkışta titreme ve mekatronik basınç kaybı",
+      "description": "Araclo Skoda Octavia A7 sayfası 7 ileri kuru kavramalı DSG (DQ200) şanzımanda kalkışta titreme, kavrama erken aşınması ve mekatronik basınç tüpü / hidrolik ünite basınç kaybını yüksek maliyetli kritik sorun olarak listeliyor. Şanzıman arıza kodları okutulmalı ve düşük hızda kalkış davranışı test edilmelidir. Tek kaynaklı bilgidir. Fiyat kalemi yalnızca çift kavrama işçiliğidir, parça dahil değildir.",
+      "symptoms": [
+        "kalkışta titreme",
+        "vites geçişlerinde sarsıntı",
+        "vites seçici arıza uyarısı"
+      ],
+      "matchKeywords": [
+        "DSG",
+        "DQ200",
+        "mekatronik",
+        "basınç kaybı",
+        "çift kavrama",
+        "titreme"
+      ],
+      "obdCodes": [],
+      "engineCodes": null,
+      "priceItemId": "generic-cift-kavrama-iscilik",
+      "sources": [
+        {
+          "url": "https://www.araclo.com/vehicles/skoda-octavia/a7/kronik-sorunlar",
+          "title": "Skoda Octavia III (A7) Kronik Sorunlar ve Bilinen Arızalar (Araclo)",
+          "domain": "araclo.com"
+        }
+      ],
+      "researchedAt": "2026-11-23"
+    },
+    {
+      "id": "octaviaa7-16tdi-devirdaim",
+      "system": "motor",
+      "title": "1.6 TDI ayarlı devirdaim pompasının kilitlenmesi ve ani hararet yükselmesi",
+      "description": "Araclo Skoda Octavia A7 sayfası EA288 1.6 TDI motorda elektronik kumandalı ayarlı devirdaim pompasının kapağının takılı kalmasıyla ani hararet yükselmesi ve soğutma sıvısı kaybını yüksek önemde listeliyor. Triger seti ve devirdaim değişim kaydı mutlaka sorulmalıdır. Tek kaynaklı bilgidir.",
+      "symptoms": [
+        "ani hararet yükselmesi",
+        "kaloriferin soğuk üflemesi",
+        "soğutma suyu eksiltme"
+      ],
+      "matchKeywords": [
+        "devirdaim",
+        "ayarlı devirdaim",
+        "hararet",
+        "su pompası",
+        "1.6 TDI"
+      ],
+      "obdCodes": [],
+      "engineCodes": [
+        "EA288-1.6TDI"
+      ],
+      "priceItemId": null,
+      "sources": [
+        {
+          "url": "https://www.araclo.com/vehicles/skoda-octavia/a7/kronik-sorunlar",
+          "title": "Skoda Octavia III (A7) Kronik Sorunlar ve Bilinen Arızalar (Araclo)",
+          "domain": "araclo.com"
+        }
+      ],
+      "researchedAt": "2026-11-23"
+    },
+    {
+      "id": "octaviaa7-tsi-su-pompasi-termostat",
+      "system": "motor",
+      "title": "1.0 / 1.4 TSI termostat yuvası ve su pompasından antifriz sızıntısı",
+      "description": "Araclo Skoda Octavia A7 sayfası EA211 1.0 TSI ve 1.4 TSI benzinli motorlarda termostat yuvası ve su pompası bağlantılarından yavaş antifriz sızıntısını yaygın sorun olarak listeliyor. Genleşme kabı seviyesi ve termostat çevresinde kurumuş antifriz kalıntısı incelenmelidir. Tek kaynaklı bilgidir.",
+      "symptoms": [
+        "antifriz seviyesinin düşmesi",
+        "termostat gövdesi çevresinde sızıntı izi"
+      ],
+      "matchKeywords": [
+        "termostat",
+        "su pompası",
+        "devirdaim",
+        "antifriz sızıntısı",
+        "TSI"
+      ],
+      "obdCodes": [],
+      "engineCodes": [
+        "EA211-1.4TSI",
+        "EA211-1.0TSI"
+      ],
+      "priceItemId": null,
+      "sources": [
+        {
+          "url": "https://www.araclo.com/vehicles/skoda-octavia/a7/kronik-sorunlar",
+          "title": "Skoda Octavia III (A7) Kronik Sorunlar ve Bilinen Arızalar (Araclo)",
+          "domain": "araclo.com"
+        }
+      ],
+      "researchedAt": "2026-11-23"
+    },
+    {
+      "id": "octaviaa7-16tdi-egr-dpf",
+      "system": "emisyon",
+      "title": "1.6 TDI EGR soğutucusu ve partikül filtresi (DPF) tıkanması",
+      "description": "Araclo Skoda Octavia A7 sayfası EA288 1.6 TDI motorda EGR soğutucusu arızası/sızıntısı ve kısa mesafe kullanıma bağlı partikül filtresi (DPF) tıkanmasını orta-yüksek önemde listeliyor. Arıza lambası ve DPF kurum yükü OBD cihazıyla doğrulanmalıdır. Tek kaynaklı bilgidir.",
+      "symptoms": [
+        "DPF uyarı lambası",
+        "çekiş düşüşü",
+        "kızdırma bujisi lambası yanıp sönmesi"
+      ],
+      "matchKeywords": [
+        "EGR soğutucusu",
+        "EGR",
+        "DPF",
+        "partikül filtresi",
+        "1.6 TDI"
+      ],
+      "obdCodes": [],
+      "engineCodes": [
+        "EA288-1.6TDI"
+      ],
+      "priceItemId": null,
+      "sources": [
+        {
+          "url": "https://www.araclo.com/vehicles/skoda-octavia/a7/kronik-sorunlar",
+          "title": "Skoda Octavia III (A7) Kronik Sorunlar ve Bilinen Arızalar (Araclo)",
+          "domain": "araclo.com"
+        }
+      ],
+      "researchedAt": "2026-11-23"
+    }
+  ],
+  "priceItems": []
+}
