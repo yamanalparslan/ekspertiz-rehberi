@@ -1,0 +1,1179 @@
+{
+  "isReport": true,
+  "notReportReason": null,
+  "vehicle": {
+    "brand": "BMW",
+    "model": "320i",
+    "variant": null,
+    "year": 2021,
+    "engineCc": 1597,
+    "powerHp": 170,
+    "fuel": "benzin",
+    "transmission": "otomatik",
+    "km": 135689
+  },
+  "report": {
+    "firm": "Yavuzlar Oto Ekspertiz",
+    "reportNo": null,
+    "date": "2026-11-23",
+    "package": "Gezen Usta Full",
+    "platform": null,
+    "onlineReportQrPresent": true
+  },
+  "sectionsPresent": [
+    "kaporta_boya",
+    "mor_isik",
+    "sasi",
+    "ust_motor",
+    "motor_alt_mekanik",
+    "ic_dis_donanim",
+    "conta_kacak",
+    "airbag",
+    "obd",
+    "test_hatti",
+    "km_sorgusu",
+    "hasar_sorgusu"
+  ],
+  "items": [
+    {
+      "section": "kaporta_boya",
+      "part": "Sol Ön Çamurluk",
+      "rawStatus": "Orijinal",
+      "statusKind": "orijinal",
+      "note": "Boyasız Göçük Düzeltme"
+    },
+    {
+      "section": "kaporta_boya",
+      "part": "Sol Ön Kapı",
+      "rawStatus": "Orijinal",
+      "statusKind": "orijinal",
+      "note": null
+    },
+    {
+      "section": "kaporta_boya",
+      "part": "Sol Arka Kapı",
+      "rawStatus": "Orijinal",
+      "statusKind": "orijinal",
+      "note": null
+    },
+    {
+      "section": "kaporta_boya",
+      "part": "Sol Arka Çamurluk",
+      "rawStatus": "Tadilat Boya",
+      "statusKind": "tadilat_boyali",
+      "note": "750+ µm"
+    },
+    {
+      "section": "kaporta_boya",
+      "part": "Sol Marşpiyel",
+      "rawStatus": "Orijinal",
+      "statusKind": "orijinal",
+      "note": "Kaplama"
+    },
+    {
+      "section": "kaporta_boya",
+      "part": "Motor Kaputu",
+      "rawStatus": "Değişen",
+      "statusKind": "degisen",
+      "note": null
+    },
+    {
+      "section": "kaporta_boya",
+      "part": "Ön Tampon",
+      "rawStatus": "Değişen",
+      "statusKind": "degisen",
+      "note": null
+    },
+    {
+      "section": "kaporta_boya",
+      "part": "Tavan",
+      "rawStatus": "Orijinal",
+      "statusKind": "orijinal",
+      "note": null
+    },
+    {
+      "section": "kaporta_boya",
+      "part": "Sağ Ön Çamurluk",
+      "rawStatus": "Orijinal",
+      "statusKind": "orijinal",
+      "note": "Ayar"
+    },
+    {
+      "section": "kaporta_boya",
+      "part": "Sağ Ön Kapı",
+      "rawStatus": "Orijinal",
+      "statusKind": "orijinal",
+      "note": null
+    },
+    {
+      "section": "kaporta_boya",
+      "part": "Sağ Arka Kapı",
+      "rawStatus": "Orijinal",
+      "statusKind": "orijinal",
+      "note": null
+    },
+    {
+      "section": "kaporta_boya",
+      "part": "Sağ Arka Çamurluk",
+      "rawStatus": "Orijinal",
+      "statusKind": "orijinal",
+      "note": null
+    },
+    {
+      "section": "kaporta_boya",
+      "part": "Sağ Marşpiyel",
+      "rawStatus": "Orijinal",
+      "statusKind": "orijinal",
+      "note": "Kaplama"
+    },
+    {
+      "section": "kaporta_boya",
+      "part": "Bagaj Kapağı",
+      "rawStatus": "Orijinal",
+      "statusKind": "orijinal",
+      "note": null
+    },
+    {
+      "section": "kaporta_boya",
+      "part": "Arka Tampon",
+      "rawStatus": "Lokal Boyalı",
+      "statusKind": "lokal_boyali",
+      "note": null
+    },
+    {
+      "section": "kaporta_boya",
+      "part": "Ağır İşlem Mevcut mu?",
+      "rawStatus": "Sağlam",
+      "statusKind": "saglam",
+      "note": null
+    },
+    {
+      "section": "mor_isik",
+      "part": "Sol Ön Çamurluk",
+      "rawStatus": "Orijinal",
+      "statusKind": "orijinal",
+      "note": null
+    },
+    {
+      "section": "mor_isik",
+      "part": "Sol Ön Kapı",
+      "rawStatus": "Orijinal",
+      "statusKind": "orijinal",
+      "note": null
+    },
+    {
+      "section": "mor_isik",
+      "part": "Sol Arka Kapı",
+      "rawStatus": "Orijinal",
+      "statusKind": "orijinal",
+      "note": null
+    },
+    {
+      "section": "mor_isik",
+      "part": "Sol Arka Çamurluk",
+      "rawStatus": "Tadilat Boya",
+      "statusKind": "tadilat_boyali",
+      "note": null
+    },
+    {
+      "section": "mor_isik",
+      "part": "Sol Marşpiyel",
+      "rawStatus": "Orijinal",
+      "statusKind": "orijinal",
+      "note": null
+    },
+    {
+      "section": "mor_isik",
+      "part": "Motor Kaputu",
+      "rawStatus": "Değişen",
+      "statusKind": "degisen",
+      "note": null
+    },
+    {
+      "section": "mor_isik",
+      "part": "Ön Tampon",
+      "rawStatus": "Değişen",
+      "statusKind": "degisen",
+      "note": null
+    },
+    {
+      "section": "mor_isik",
+      "part": "Tavan",
+      "rawStatus": "Orijinal",
+      "statusKind": "orijinal",
+      "note": null
+    },
+    {
+      "section": "mor_isik",
+      "part": "Sağ Ön Çamurluk",
+      "rawStatus": "Orijinal",
+      "statusKind": "orijinal",
+      "note": null
+    },
+    {
+      "section": "mor_isik",
+      "part": "Sağ Ön Kapı",
+      "rawStatus": "Orijinal",
+      "statusKind": "orijinal",
+      "note": null
+    },
+    {
+      "section": "mor_isik",
+      "part": "Sağ Arka Kapı",
+      "rawStatus": "Orijinal",
+      "statusKind": "orijinal",
+      "note": null
+    },
+    {
+      "section": "mor_isik",
+      "part": "Sağ Arka Çamurluk",
+      "rawStatus": "Orijinal",
+      "statusKind": "orijinal",
+      "note": null
+    },
+    {
+      "section": "mor_isik",
+      "part": "Sağ Marşpiyel",
+      "rawStatus": "Orijinal",
+      "statusKind": "orijinal",
+      "note": null
+    },
+    {
+      "section": "mor_isik",
+      "part": "Bagaj Kapağı",
+      "rawStatus": "Orijinal",
+      "statusKind": "orijinal",
+      "note": null
+    },
+    {
+      "section": "mor_isik",
+      "part": "Arka Tampon",
+      "rawStatus": "Lokal Boyalı",
+      "statusKind": "lokal_boyali",
+      "note": null
+    },
+    {
+      "section": "sasi",
+      "part": "Ön Panel",
+      "rawStatus": "Değişen",
+      "statusKind": "degisen",
+      "note": null
+    },
+    {
+      "section": "sasi",
+      "part": "Sol Üst Frangart",
+      "rawStatus": "Lokal Boyalı",
+      "statusKind": "lokal_boyali",
+      "note": null
+    },
+    {
+      "section": "sasi",
+      "part": "Sağ Ön Şase",
+      "rawStatus": "Orijinal",
+      "statusKind": "orijinal",
+      "note": null
+    },
+    {
+      "section": "sasi",
+      "part": "Sol Ön Şase",
+      "rawStatus": "Orijinal",
+      "statusKind": "orijinal",
+      "note": null
+    },
+    {
+      "section": "sasi",
+      "part": "Sağ Ön Podye",
+      "rawStatus": "Orijinal",
+      "statusKind": "orijinal",
+      "note": null
+    },
+    {
+      "section": "sasi",
+      "part": "Sol Ön Podye",
+      "rawStatus": "Orijinal",
+      "statusKind": "orijinal",
+      "note": null
+    },
+    {
+      "section": "sasi",
+      "part": "Sağ Ön Amortisör Kulesi",
+      "rawStatus": "Orijinal",
+      "statusKind": "orijinal",
+      "note": null
+    },
+    {
+      "section": "sasi",
+      "part": "Sol Ön Amortisör Kulesi",
+      "rawStatus": "Orijinal",
+      "statusKind": "orijinal",
+      "note": null
+    },
+    {
+      "section": "sasi",
+      "part": "Sağ Ön Direk",
+      "rawStatus": "Orijinal",
+      "statusKind": "orijinal",
+      "note": null
+    },
+    {
+      "section": "sasi",
+      "part": "Sol Ön Direk",
+      "rawStatus": "Orijinal",
+      "statusKind": "orijinal",
+      "note": null
+    },
+    {
+      "section": "sasi",
+      "part": "Arka Panel",
+      "rawStatus": "Orijinal",
+      "statusKind": "orijinal",
+      "note": null
+    },
+    {
+      "section": "sasi",
+      "part": "Sağ Orta Direk",
+      "rawStatus": "Orijinal",
+      "statusKind": "orijinal",
+      "note": null
+    },
+    {
+      "section": "sasi",
+      "part": "Sol Orta Direk",
+      "rawStatus": "Orijinal",
+      "statusKind": "orijinal",
+      "note": null
+    },
+    {
+      "section": "sasi",
+      "part": "Sağ Üst Frangart",
+      "rawStatus": "Orijinal",
+      "statusKind": "orijinal",
+      "note": null
+    },
+    {
+      "section": "sasi",
+      "part": "Sağ Arka Şase",
+      "rawStatus": "Orijinal",
+      "statusKind": "orijinal",
+      "note": null
+    },
+    {
+      "section": "sasi",
+      "part": "Sol Arka Şase",
+      "rawStatus": "Orijinal",
+      "statusKind": "orijinal",
+      "note": null
+    },
+    {
+      "section": "sasi",
+      "part": "Sol Arka Direk (kilit karşılığı)",
+      "rawStatus": "Orijinal",
+      "statusKind": "orijinal",
+      "note": null
+    },
+    {
+      "section": "sasi",
+      "part": "Sağ Arka Direk (kilit karşılığı)",
+      "rawStatus": "Orijinal",
+      "statusKind": "orijinal",
+      "note": null
+    },
+    {
+      "section": "sasi",
+      "part": "Havuz Sacı",
+      "rawStatus": "Orijinal",
+      "statusKind": "orijinal",
+      "note": null
+    },
+    {
+      "section": "sasi",
+      "part": "Taban Sacı",
+      "rawStatus": "Orijinal",
+      "statusKind": "orijinal",
+      "note": "Aracın altı arka şase kısımları kapalı aksam olduğu için sökülmeden kontrol edilmiştir."
+    },
+    {
+      "section": "sasi",
+      "part": "Ön Tampon Demiri",
+      "rawStatus": "Orijinal",
+      "statusKind": "orijinal",
+      "note": null
+    },
+    {
+      "section": "sasi",
+      "part": "Arka Tampon Demiri",
+      "rawStatus": "Orijinal",
+      "statusKind": "orijinal",
+      "note": null
+    },
+    {
+      "section": "sasi",
+      "part": "Ağır İşlem Mevcut mu?",
+      "rawStatus": "Hayır",
+      "statusKind": "saglam",
+      "note": null
+    },
+    {
+      "section": "airbag",
+      "part": "Direksiyon Airbag",
+      "rawStatus": "Sağlam",
+      "statusKind": "saglam",
+      "note": null
+    },
+    {
+      "section": "airbag",
+      "part": "Sağ Torpido Airbag",
+      "rawStatus": "Sağlam",
+      "statusKind": "saglam",
+      "note": null
+    },
+    {
+      "section": "airbag",
+      "part": "Sol Perde Airbag",
+      "rawStatus": "Sağlam",
+      "statusKind": "saglam",
+      "note": null
+    },
+    {
+      "section": "airbag",
+      "part": "Sağ Perde Airbag",
+      "rawStatus": "Sağlam",
+      "statusKind": "saglam",
+      "note": null
+    },
+    {
+      "section": "airbag",
+      "part": "Sağ Ön Koltuk Airbag",
+      "rawStatus": "Sağlam",
+      "statusKind": "saglam",
+      "note": null
+    },
+    {
+      "section": "airbag",
+      "part": "Sol Ön Koltuk Airbag",
+      "rawStatus": "Sağlam",
+      "statusKind": "saglam",
+      "note": null
+    },
+    {
+      "section": "airbag",
+      "part": "Sağ Ön Emniyet Kemeri Fişeği",
+      "rawStatus": "Sağlam",
+      "statusKind": "saglam",
+      "note": null
+    },
+    {
+      "section": "airbag",
+      "part": "Sol Ön Emniyet Kemeri Fişeği",
+      "rawStatus": "Sağlam",
+      "statusKind": "saglam",
+      "note": null
+    },
+    {
+      "section": "airbag",
+      "part": "Sol Diz Airbag",
+      "rawStatus": "Orijinalinde Yok",
+      "statusKind": "orijinalinde_yok",
+      "note": null
+    },
+    {
+      "section": "airbag",
+      "part": "Sağ Ön Kapı Airbag",
+      "rawStatus": "Orijinalinde Yok",
+      "statusKind": "orijinalinde_yok",
+      "note": null
+    },
+    {
+      "section": "airbag",
+      "part": "Sol Ön Kapı Airbag",
+      "rawStatus": "Orijinalinde Yok",
+      "statusKind": "orijinalinde_yok",
+      "note": null
+    },
+    {
+      "section": "airbag",
+      "part": "Kaput Fişeği",
+      "rawStatus": "Orijinalinde Yok",
+      "statusKind": "orijinalinde_yok",
+      "note": null
+    },
+    {
+      "section": "airbag",
+      "part": "Airbag Arıza Lambası Yanıyor mu?",
+      "rawStatus": "Hayır",
+      "statusKind": "saglam",
+      "note": null
+    },
+    {
+      "section": "ust_motor",
+      "part": "Motor Koruyucu Kapağı",
+      "rawStatus": "Sağlam",
+      "statusKind": "saglam",
+      "note": null
+    },
+    {
+      "section": "ust_motor",
+      "part": "Hava Filtre Kutusu ve Hortumları",
+      "rawStatus": "Sağlam",
+      "statusKind": "saglam",
+      "note": null
+    },
+    {
+      "section": "ust_motor",
+      "part": "Motor Üst Bölge Yağ Sızdırmazlığı",
+      "rawStatus": "Terletme",
+      "statusKind": "terleme",
+      "note": "Yağ Sızdırıyor"
+    },
+    {
+      "section": "ust_motor",
+      "part": "Motor Yağ Seviyesi",
+      "rawStatus": "Bakım Önerilir",
+      "statusKind": "bakim_onerilir",
+      "note": "Orta"
+    },
+    {
+      "section": "ust_motor",
+      "part": "Turbo Genel Kontrolü",
+      "rawStatus": "İyi",
+      "statusKind": "saglam",
+      "note": "Anlık olarak sorun görülmedi bakım kontrolü tavsiye edilir"
+    },
+    {
+      "section": "ust_motor",
+      "part": "Triger Kayışı ve Zincir Kontrolü",
+      "rawStatus": "Yetkili Servis Değişim Kilometresi Takip Edilmeli",
+      "statusKind": "kontrol_onerilir",
+      "note": null
+    },
+    {
+      "section": "ust_motor",
+      "part": "V Kayışı ve Rulman Grubu",
+      "rawStatus": "Kayış Kasnak Rulman Grubu Bakım Önerilir",
+      "statusKind": "bakim_onerilir",
+      "note": null
+    },
+    {
+      "section": "ust_motor",
+      "part": "Radyatör Grubu ve Su Sızdırmazlığı",
+      "rawStatus": "Anlık Kaçak Yok",
+      "statusKind": "saglam",
+      "note": null
+    },
+    {
+      "section": "ust_motor",
+      "part": "Fren Hidroliği",
+      "rawStatus": "Bakım Önerilir",
+      "statusKind": "bakim_onerilir",
+      "note": "Orta"
+    },
+    {
+      "section": "ust_motor",
+      "part": "Enjektör ve enjeksiyon Durumu",
+      "rawStatus": "Anlık Arıza Görülmedi Bakım Temizlik Önerilir",
+      "statusKind": "bakim_onerilir",
+      "note": null
+    },
+    {
+      "section": "ust_motor",
+      "part": "Motor Üfleme Var Mı?",
+      "rawStatus": "Anlık Olarak Üfleme Yok",
+      "statusKind": "saglam",
+      "note": null
+    },
+    {
+      "section": "ust_motor",
+      "part": "Motor Su Kaçağı / Eksiltme",
+      "rawStatus": "Anlık Kaçak Yok",
+      "statusKind": "saglam",
+      "note": null
+    },
+    {
+      "section": "ust_motor",
+      "part": "Akü",
+      "rawStatus": "Zayıf",
+      "statusKind": "zayif",
+      "note": "Kontrol tavsiye edilir"
+    },
+    {
+      "section": "ust_motor",
+      "part": "Şarj Dinamosu",
+      "rawStatus": "Çalışıyor",
+      "statusKind": "calisiyor",
+      "note": null
+    },
+    {
+      "section": "ust_motor",
+      "part": "Marş Motoru",
+      "rawStatus": "Çalışıyor",
+      "statusKind": "calisiyor",
+      "note": null
+    },
+    {
+      "section": "ust_motor",
+      "part": "Servis Bakımı",
+      "rawStatus": "Önerilir",
+      "statusKind": "bakim_onerilir",
+      "note": null
+    },
+    {
+      "section": "ust_motor",
+      "part": "Sağ / Sol Kule Bilyaları",
+      "rawStatus": "Orta",
+      "statusKind": "asinmis",
+      "note": null
+    },
+    {
+      "section": "motor_alt_mekanik",
+      "part": "Yay ve Amortisör (Ön)",
+      "rawStatus": "Deforme",
+      "statusKind": "deforme",
+      "note": null
+    },
+    {
+      "section": "motor_alt_mekanik",
+      "part": "Yay ve Amortisör (Arka)",
+      "rawStatus": "Deforme",
+      "statusKind": "deforme",
+      "note": null
+    },
+    {
+      "section": "motor_alt_mekanik",
+      "part": "Fren Balata Durumu (Ön)",
+      "rawStatus": "Orta",
+      "statusKind": "asinmis",
+      "note": null
+    },
+    {
+      "section": "motor_alt_mekanik",
+      "part": "Fren Balata Durumu (Arka)",
+      "rawStatus": "Orta",
+      "statusKind": "asinmis",
+      "note": null
+    },
+    {
+      "section": "motor_alt_mekanik",
+      "part": "Fren Disk (Ön)",
+      "rawStatus": "Aşınmış",
+      "statusKind": "asinmis",
+      "note": null
+    },
+    {
+      "section": "motor_alt_mekanik",
+      "part": "Fren Disk (Arka)",
+      "rawStatus": "Aşınmış",
+      "statusKind": "asinmis",
+      "note": null
+    },
+    {
+      "section": "motor_alt_mekanik",
+      "part": "Rot Kolları ve Rot Başları",
+      "rawStatus": "Deforme",
+      "statusKind": "deforme",
+      "note": null
+    },
+    {
+      "section": "motor_alt_mekanik",
+      "part": "Salıncak Burç Rotilleri",
+      "rawStatus": "Deforme",
+      "statusKind": "deforme",
+      "note": null
+    },
+    {
+      "section": "motor_alt_mekanik",
+      "part": "Travers Kontrolü",
+      "rawStatus": "Sağlam",
+      "statusKind": "saglam",
+      "note": null
+    },
+    {
+      "section": "motor_alt_mekanik",
+      "part": "Torsiyon Burç /Salıncak ve Denge Kolları",
+      "rawStatus": "Sağlam",
+      "statusKind": "saglam",
+      "note": null
+    },
+    {
+      "section": "motor_alt_mekanik",
+      "part": "Jantlar",
+      "rawStatus": "Ezik ve Çizik",
+      "statusKind": "diger",
+      "note": null
+    },
+    {
+      "section": "motor_alt_mekanik",
+      "part": "Ön Aks ve Körükleri",
+      "rawStatus": "Yok",
+      "statusKind": "orijinalinde_yok",
+      "note": null
+    },
+    {
+      "section": "motor_alt_mekanik",
+      "part": "Arka Aks ve Aks Körükleri",
+      "rawStatus": "Sağlam",
+      "statusKind": "saglam",
+      "note": null
+    },
+    {
+      "section": "motor_alt_mekanik",
+      "part": "Motor Ve Şanzıman Alt Takozlar",
+      "rawStatus": "Sağlam",
+      "statusKind": "saglam",
+      "note": null
+    },
+    {
+      "section": "motor_alt_mekanik",
+      "part": "Şanzıman Fiziki Kontrol",
+      "rawStatus": "Bakım Önerilir",
+      "statusKind": "bakim_onerilir",
+      "note": "Terletme"
+    },
+    {
+      "section": "motor_alt_mekanik",
+      "part": "Arazi Şanzımanı",
+      "rawStatus": "Orijinalinde Yok",
+      "statusKind": "orijinalinde_yok",
+      "note": null
+    },
+    {
+      "section": "motor_alt_mekanik",
+      "part": "Ön Diferansiyel",
+      "rawStatus": "Orijinalinde Yok",
+      "statusKind": "orijinalinde_yok",
+      "note": null
+    },
+    {
+      "section": "motor_alt_mekanik",
+      "part": "Arka Diferansiyel",
+      "rawStatus": "Bakım Önerilir",
+      "statusKind": "bakim_onerilir",
+      "note": "Anlık olarak sorun görülmedi"
+    },
+    {
+      "section": "motor_alt_mekanik",
+      "part": "Debriyaj Kontrol / Yarı Otomatik/Otomatik Şanzıman",
+      "rawStatus": "Anlık Olarak Kontrol Edilmiştir. Servis Kontrolü Gereklidir",
+      "statusKind": "kontrol_onerilir",
+      "note": "Anlık olarak sorun görülmedi"
+    },
+    {
+      "section": "motor_alt_mekanik",
+      "part": "Egzoz Boru Ve Susturucuları",
+      "rawStatus": "Pas / Korozyon Mevcut",
+      "statusKind": "diger",
+      "note": null
+    },
+    {
+      "section": "motor_alt_mekanik",
+      "part": "Arka Krank Keçesi",
+      "rawStatus": "Terletme",
+      "statusKind": "terleme",
+      "note": null
+    },
+    {
+      "section": "motor_alt_mekanik",
+      "part": "Ön Krank Keçesi",
+      "rawStatus": "Sağlam",
+      "statusKind": "saglam",
+      "note": null
+    },
+    {
+      "section": "motor_alt_mekanik",
+      "part": "Yağ Filtresi ve Soğutucusu",
+      "rawStatus": "Terletme",
+      "statusKind": "terleme",
+      "note": "Hafif terleme mevcut"
+    },
+    {
+      "section": "motor_alt_mekanik",
+      "part": "Karter",
+      "rawStatus": "Terletme",
+      "statusKind": "terleme",
+      "note": "Hafif terleme"
+    },
+    {
+      "section": "motor_alt_mekanik",
+      "part": "Motor Alt Muhafaza",
+      "rawStatus": "Deforme",
+      "statusKind": "deforme",
+      "note": null
+    },
+    {
+      "section": "motor_alt_mekanik",
+      "part": "Fren Hortumları",
+      "rawStatus": "Sağlam",
+      "statusKind": "saglam",
+      "note": null
+    },
+    {
+      "section": "motor_alt_mekanik",
+      "part": "Davlumbazların Kontrolü",
+      "rawStatus": "Deforme",
+      "statusKind": "deforme",
+      "note": null
+    },
+    {
+      "section": "ic_dis_donanim",
+      "part": "Ön Panjur",
+      "rawStatus": "Deforme",
+      "statusKind": "deforme",
+      "note": null
+    },
+    {
+      "section": "ic_dis_donanim",
+      "part": "İç Dikiz Aynası",
+      "rawStatus": "Deforme",
+      "statusKind": "deforme",
+      "note": null
+    },
+    {
+      "section": "ic_dis_donanim",
+      "part": "Güneşlikler Kontrol",
+      "rawStatus": "Deforme",
+      "statusKind": "deforme",
+      "note": null
+    },
+    {
+      "section": "ic_dis_donanim",
+      "part": "Direksiyon Simidi Kontrol",
+      "rawStatus": "Deforme",
+      "statusKind": "deforme",
+      "note": null
+    },
+    {
+      "section": "ic_dis_donanim",
+      "part": "Ön ve Arka Emniyet Kemerleri Kontrol",
+      "rawStatus": "Deforme",
+      "statusKind": "deforme",
+      "note": null
+    },
+    {
+      "section": "ic_dis_donanim",
+      "part": "Torpido Genel Durum",
+      "rawStatus": "Deforme",
+      "statusKind": "deforme",
+      "note": null
+    },
+    {
+      "section": "ic_dis_donanim",
+      "part": "Ön Arka Döşemeler",
+      "rawStatus": "Deforme",
+      "statusKind": "deforme",
+      "note": null
+    },
+    {
+      "section": "ic_dis_donanim",
+      "part": "Göğüs / Orta Konsol Kontrol",
+      "rawStatus": "Deforme",
+      "statusKind": "deforme",
+      "note": null
+    },
+    {
+      "section": "ic_dis_donanim",
+      "part": "Farlar",
+      "rawStatus": "Değişen",
+      "statusKind": "degisen",
+      "note": null
+    },
+    {
+      "section": "ic_dis_donanim",
+      "part": "Ön - Arka Sisler ve Plaka Aydınlatması",
+      "rawStatus": "Deforme",
+      "statusKind": "deforme",
+      "note": null
+    },
+    {
+      "section": "ic_dis_donanim",
+      "part": "Ön Silecekler",
+      "rawStatus": "Deforme",
+      "statusKind": "deforme",
+      "note": null
+    },
+    {
+      "section": "ic_dis_donanim",
+      "part": "Sunroof Veya Cam Tavan",
+      "rawStatus": "Fitilleri Deforme",
+      "statusKind": "deforme",
+      "note": null
+    },
+    {
+      "section": "ic_dis_donanim",
+      "part": "Camlar",
+      "rawStatus": "Değişen",
+      "statusKind": "degisen",
+      "note": "ön cam değişen"
+    },
+    {
+      "section": "ic_dis_donanim",
+      "part": "Lastik (Ön) Durum - Tarih",
+      "rawStatus": "Değişim Gerekli",
+      "statusKind": "degisim_gerekli",
+      "note": "2020"
+    },
+    {
+      "section": "ic_dis_donanim",
+      "part": "Lastik (Arka) Durum - Tarih",
+      "rawStatus": "Değişim Gerekli",
+      "statusKind": "degisim_gerekli",
+      "note": "2020"
+    },
+    {
+      "section": "ic_dis_donanim",
+      "part": "Stepne",
+      "rawStatus": "İyi",
+      "statusKind": "saglam",
+      "note": null
+    },
+    {
+      "section": "ic_dis_donanim",
+      "part": "Klima ve Kalorifer Sistemi",
+      "rawStatus": "Çalışıyor",
+      "statusKind": "calisiyor",
+      "note": null
+    },
+    {
+      "section": "ic_dis_donanim",
+      "part": "Far Yıkama",
+      "rawStatus": "Orijinalinde Yok",
+      "statusKind": "orijinalinde_yok",
+      "note": null
+    },
+    {
+      "section": "ic_dis_donanim",
+      "part": "Arka Silecek",
+      "rawStatus": "Yok",
+      "statusKind": "orijinalinde_yok",
+      "note": null
+    },
+    {
+      "section": "conta_kacak",
+      "part": "Conta kaçak testi (CO/HC)",
+      "rawStatus": "Negatif - Kaçak Yok",
+      "statusKind": "saglam",
+      "note": null
+    }
+  ],
+  "measurements": [
+    {
+      "test": "fren_sapma_on",
+      "position": "ön",
+      "value": 8,
+      "unit": "%",
+      "performed": true,
+      "printedPassMin": null,
+      "printedPassMax": 30
+    },
+    {
+      "test": "fren_sapma_arka",
+      "position": "arka",
+      "value": 7,
+      "unit": "%",
+      "performed": true,
+      "printedPassMin": null,
+      "printedPassMax": 30
+    },
+    {
+      "test": "el_freni_sapma",
+      "position": "arka",
+      "value": 7,
+      "unit": "%",
+      "performed": true,
+      "printedPassMin": null,
+      "printedPassMax": 30
+    },
+    {
+      "test": "yanal_kayma_on",
+      "position": "ön",
+      "value": -2,
+      "unit": "m/km",
+      "performed": true,
+      "printedPassMin": null,
+      "printedPassMax": null
+    },
+    {
+      "test": "yanal_kayma_arka",
+      "position": "arka",
+      "value": 3,
+      "unit": "m/km",
+      "performed": true,
+      "printedPassMin": null,
+      "printedPassMax": null
+    },
+    {
+      "test": "suspansiyon_tutunma",
+      "position": "sol ön",
+      "value": 78,
+      "unit": "%",
+      "performed": true,
+      "printedPassMin": 40,
+      "printedPassMax": null
+    },
+    {
+      "test": "suspansiyon_tutunma",
+      "position": "sağ ön",
+      "value": 76,
+      "unit": "%",
+      "performed": true,
+      "printedPassMin": 40,
+      "printedPassMax": null
+    },
+    {
+      "test": "suspansiyon_tutunma",
+      "position": "sol arka",
+      "value": 72,
+      "unit": "%",
+      "performed": true,
+      "printedPassMin": 40,
+      "printedPassMax": null
+    },
+    {
+      "test": "suspansiyon_tutunma",
+      "position": "sağ arka",
+      "value": 74,
+      "unit": "%",
+      "performed": true,
+      "printedPassMin": 40,
+      "printedPassMax": null
+    },
+    {
+      "test": "dinamometre_guc",
+      "position": "motor",
+      "value": 0,
+      "unit": "HP",
+      "performed": false,
+      "printedPassMin": null,
+      "printedPassMax": null
+    }
+  ],
+  "obd": {
+    "summary": [
+      {
+        "system": "motor",
+        "unitName": "Motor Elektroniği",
+        "hasFault": true
+      },
+      {
+        "system": "multimedya",
+        "unitName": "Multi Medya",
+        "hasFault": true
+      },
+      {
+        "system": "direksiyon",
+        "unitName": "Direksiyon Kumanda Elektroniği",
+        "hasFault": true
+      },
+      {
+        "system": "govde_elektronik",
+        "unitName": "Merkezi Elektronik",
+        "hasFault": true
+      },
+      {
+        "system": "airbag",
+        "unitName": "Hava Yastığı",
+        "hasFault": false
+      },
+      {
+        "system": "sanziman",
+        "unitName": "Otomatik Şanzıman Elektroniği",
+        "hasFault": false
+      },
+      {
+        "system": "gosterge",
+        "unitName": "Gösterge Panel Elektronikleri",
+        "hasFault": false
+      },
+      {
+        "system": "fren",
+        "unitName": "Fren Sistemleri",
+        "hasFault": false
+      },
+      {
+        "system": "klima",
+        "unitName": "Dijital Klima Elektroniği",
+        "hasFault": false
+      }
+    ],
+    "rawFaults": [
+      {
+        "system": "motor",
+        "unitName": "DME/DDE",
+        "code": "101F01",
+        "description": "Hava kütlesi sistemi, anlamlılık: Hava emi sisteminde hesaplanan hava kütleleri anlamsız",
+        "type": "intermittent"
+      },
+      {
+        "system": "direksiyon",
+        "unitName": "EPS",
+        "code": "482394",
+        "description": "EPS kontrol ünitesi: Direksiyon açısı başlangıç ayarına getirme hatası",
+        "type": "intermittent"
+      },
+      {
+        "system": "surus_destek",
+        "unitName": "KAFAS",
+        "code": "800ABF",
+        "description": "KAFAS kamerası: Görüş alanı kısa süreli bozuk",
+        "type": "intermittent"
+      },
+      {
+        "system": "multimedya",
+        "unitName": "HU-H",
+        "code": "031793",
+        "description": "HU-H: WLAN bağlantısı fonksiyon kısıtlaması",
+        "type": "intermittent"
+      },
+      {
+        "system": "multimedya",
+        "unitName": "HU-H",
+        "code": "03179A",
+        "description": "HU-H: Apple CarPlay bağlantısı fonksiyon kısıtlaması",
+        "type": "permanent"
+      },
+      {
+        "system": "multimedya",
+        "unitName": "HU-H",
+        "code": "B7F81A",
+        "description": "WLAN anten: Hat kesinti",
+        "type": "permanent"
+      },
+      {
+        "system": "klima",
+        "unitName": "IHKA",
+        "code": "801127",
+        "description": "Sol arka karıştırma klapesi motoru veya arka karıştırma klapesi motoru: Bloke etme tanındı",
+        "type": "intermittent"
+      }
+    ]
+  },
+  "kmHistory": [
+    {
+      "date": "2024-09-03",
+      "km": 87870
+    },
+    {
+      "date": "2026-09-12",
+      "km": 130693
+    }
+  ],
+  "damageRecords": [
+    {
+      "date": "2023-10-28",
+      "cause": "ERP-Çarpışma",
+      "amountTry": 263322.55
+    },
+    {
+      "date": "2024-05-30",
+      "cause": "Çarpışma",
+      "amountTry": 32400
+    }
+  ],
+  "expertNotes": [
+    "Kaporta boya genelinde muhtelif yerlerde ezik/çizik/rötuş vb. boya deformesi mevcut. Araç kirli olduğu için göz ile boya kontrolü sağlıklı yapılamamıştır. Folyo / kaplama bulunan parçaların boya kontrolü yapılamamıştır. Sökülüp takılmış parçalar yetkili serviste parça seri numarası ve şase numarası ile teyit edilmesi önerilir",
+    "Aracın kilometresi ve zamanı gelmiş tüm bakımlarının yetkili servisinden sorgulanıp yapılması önerilir. Motor numarası okunamamıştır. Anlık olarak kontrol yapıldı, sonradan çıkan arıza ve sorunlardan kullanıcı sorumludur, ağır bakım kontrolü tavsiye edilir",
+    "Aracın ön ve arka takım yürüyen aksam kauçuk burçlarında araç yaşı ve kilometre orantılı kılcal çatlak deforme mevcut, rot ayarı önerilir. Araç altında sürtme izleri mevcuttur.",
+    "Araç yaşına ve kilometresine bağlı deformeler mevcuttur. İç döşemelerde kullanıma bağlı deformasyonlar mevcuttur.",
+    "Arıza kayıtları servis kontrolü gerekli",
+    "Yol testi yapıldı, anlık olarak sorun görülmedi"
+  ],
+  "unreadable": []
+}
