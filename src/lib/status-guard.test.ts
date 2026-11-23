@@ -1,6 +1,7 @@
 import { describe, expect, test } from "vitest";
 import { coerceGeminiJson } from "@/lib/claude/gemini-coerce";
 import { EXTRACTION_SYSTEM } from "@/lib/claude/prompts";
+import bmwFixture from "@/lib/__fixtures__/bmw-320i-2021.extraction.json";
 import { preclassify } from "@/lib/claude/interpret";
 import { normalizeExtraction } from "@/lib/normalize";
 import { computeFloors } from "@/lib/rules/floors";
@@ -22,10 +23,15 @@ const DOWNGRADE: Row[] = [
   ["airbag", "Yolcu hava yastığı", "Yok", "orijinalinde_yok", "diger"],
   ["ic_dis_donanim", "Yolcu hava yastığı", "Yok", "orijinalinde_yok", "diger"],
   ["airbag", "Airbag ikaz lambası", "Yok", "saglam", "diger"],
-  ["airbag", "Airbag Arıza Lambası Yanıyor mu?", "Hayır", "saglam", "diger"],
-  ["airbag", "Sol Diz Airbag", "Orijinalinde Yok", "orijinalinde_yok", "diger"],
+  // R42: airbag satırında çıplak "Yok"/"Yok."/"Bulunmuyor" donanım yokluğu sayılmaz.
+  ["airbag", "Sağ Perde Airbag", "Yok.", "orijinalinde_yok", "diger"],
+  ["airbag", "Sürücü Airbag", "Bulunmuyor", "orijinalinde_yok", "diger"],
+  ["airbag", "Sol Diz Airbag", "Orijinalinde Yok (sökülmüş)", "orijinalinde_yok", "diger"],
+  // Lamba sorusuna "Yok" (ampul yok olabilir) temiz değildir; yalnız Hayır/Yanmıyor.
+  ["airbag", "Airbag ikaz lambası yanıyor mu?", "Yok", "saglam", "diger"],
   ["sasi", "Sol Ön Direk", "Yok", "orijinalinde_yok", "diger"],
   ["diger", "Sağ Podye", "Orijinalinde Yok", "orijinalinde_yok", "diger"],
+  ["sasi", "Sol Ön Direk", "Orijinalinde Yok", "orijinalinde_yok", "diger"],
   ["sasi", "Hasar", "Yok", "saglam", "diger"],
   // Önemli 2: temiz etiket, ham durum doğrulamıyorsa düşer.
   ["ust_motor", "Şarj Dinamosu", "Çalışmıyor", "calisiyor", "diger"],
@@ -58,6 +64,13 @@ const KEEP: Row[] = [
   ["sasi", "Sağ Ön Şase", "Orijinal", "orijinal", "keep"],
   ["sasi", "Ağır İşlem Mevcut mu?", "Hayır", "saglam", "keep"],
   ["airbag", "Direksiyon Airbag", "Sağlam", "saglam", "keep"],
+  // R42: firmanın açık "Orijinalinde Yok" ifadesi airbag satırında temiz kalır (büyük/küçük harf,
+  // aksan ve boşluk farkı gözetilmez); airbag lambası sorusuna olumsuz yanıt temizdir.
+  ["airbag", "Sol Diz Airbag", "Orijinalinde Yok", "orijinalinde_yok", "keep"],
+  ["airbag", "Sol Ön Kapı Airbag", "ORİJİNALİNDE  YOK", "orijinalinde_yok", "keep"],
+  ["airbag", "Kaput Fişeği", "orijinalinde yok.", "orijinalinde_yok", "keep"],
+  ["airbag", "Airbag Arıza Lambası Yanıyor mu?", "Hayır", "saglam", "keep"],
+  ["airbag", "Airbag ikaz lambası yanıyor mu?", "Hayır", "saglam", "keep"],
   ["ust_motor", "Marş Motoru", "Çalışıyor", "calisiyor", "keep"],
   ["ust_motor", "Motor Su Kaçağı / Eksiltme", "Anlık Kaçak Yok", "saglam", "keep"],
   ["ust_motor", "Motor Üfleme Var Mı?", "Anlık Olarak Üfleme Yok", "saglam", "keep"],
@@ -137,10 +150,36 @@ describe("Claude yolu: normalizeExtraction korumayı uygular", () => {
   });
 });
 
+test("BMW örneği (R42): basılı 'Orijinalinde Yok' airbag satırları ve lamba sorusuna Hayır dikkat almaz; 'Yolcu hava yastığı: Yok' alır", () => {
+  const raw = RawExtractionSchema.parse(bmwFixture);
+  raw.items.push({ section: "airbag", part: "Yolcu hava yastığı", rawStatus: "Yok", statusKind: "orijinalinde_yok", note: null });
+  const { extraction } = normalizeExtraction(raw);
+  const floors = computeFloors(extraction);
+  const { done } = preclassify(extraction, floors);
+  const doneIds = new Set(done.map((d) => d.itemId));
+  const airbag = (part: string) => extraction.items.find((i) => i.section === "airbag" && i.part === part)!;
+  for (const part of ["Sol Diz Airbag", "Sağ Ön Kapı Airbag", "Sol Ön Kapı Airbag", "Kaput Fişeği"]) {
+    const it = airbag(part);
+    expect(it.statusKind, part).toBe("orijinalinde_yok");
+    expect(floors.get(it.id), part).toBeUndefined();
+    expect(doneIds.has(it.id), part).toBe(true);
+  }
+  const lamp = airbag("Airbag Arıza Lambası Yanıyor mu?");
+  expect(lamp.statusKind).toBe("saglam");
+  expect(floors.get(lamp.id)).toBeUndefined();
+  const passenger = airbag("Yolcu hava yastığı");
+  expect(passenger.statusKind).toBe("diger");
+  expect(floors.get(passenger.id)).toBe("dikkat");
+  expect(doneIds.has(passenger.id)).toBe(false);
+});
+
 test("okuma talimatı güvenlik parçaları için orijinalinde_yok/saglam istisnasını içerir", () => {
   expect(EXTRACTION_SYSTEM).toContain("İSTİSNA (güvenlik parçaları)");
   expect(EXTRACTION_SYSTEM).toContain('"Yolcu hava yastığı: Yok" ve "Airbag ikaz lambası: Yok" -> "diger"');
   expect(EXTRACTION_SYSTEM).toMatch(/-sız\/-siz" soruları olumlu sorudur/);
+  // R42 ile uyumlu: airbag satırında basılı "Orijinalinde Yok" ve lamba sorusuna "Hayır".
+  expect(EXTRACTION_SYSTEM).toContain('airbag satırında raporda tam olarak "Orijinalinde Yok" yazıyorsa "orijinalinde_yok"');
+  expect(EXTRACTION_SYSTEM).toContain('"Airbag arıza lambası yanıyor mu? Hayır" -> "saglam"');
 });
 
 describe("Gemini yolu: dönüştürücü + normalizeExtraction aynı sonucu verir", () => {

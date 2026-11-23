@@ -124,8 +124,11 @@ function isNegativeStatement(head: string): boolean {
  *   "Orijinal : 70-90 µ") ve nitelikleri yalnız ölçüm/birim.
  * - Airbag dışında: "<sorun> yok" ifadesi ya da sorun öznesine olumsuz yanıt ("Ağır işlem
  *   var mı? = Hayır"). Şasi satırında olumsuz yanıt yalnız soru biçimindeki özneye geçerlidir.
- * - "orijinalinde_yok": şasi/airbag bölümünde, airbag/şasi/fren/kemer parça adlarında asla;
- *   başka yerde yalnız "Orijinalinde yok" yazıyorsa.
+ * - Airbag satırında yalnız sorun sorusuna "Hayır"/"Yanmıyor" ("Airbag arıza lambası yanıyor
+ *   mu? = Hayır"); "Airbag ikaz lambası: Yok" temiz değildir.
+ * - "orijinalinde_yok": airbag satırında yalnız tam "Orijinalinde Yok" ifadesiyle; şasi
+ *   bölümünde ve şasi/fren/kemer parça adlarında asla; başka yerde yalnız "Orijinalinde yok"
+ *   yazıyorsa.
  * `section` bilinmiyorsa (null) yalnız parça adına bakılır.
  */
 export function confirmCleanStatus<K extends string>(
@@ -142,12 +145,19 @@ export function confirmCleanStatus<K extends string>(
   if (!benign || hasWordPrefix(words(text), NEGATION_STEMS)) return "diger";
 
   if (kind === "orijinalinde_yok") {
+    // R42: airbag satırında firmanın tam "Orijinalinde Yok" ifadesi (harf/aksan/boşluk farkı
+    // gözetilmez) kabul edilir; çıplak "Yok"/"Bulunmuyor" ve şasi satırları asla.
+    if (airbag && !chassis && text.replace(/[.!]+$/, "").trim() === "orijinalinde yok") return kind;
     if (airbag || chassis || SAFETY_EQUIPMENT_PART.test(p)) return "diger";
     if (FACTORY_ABSENT.has(head)) return kind;
   }
   if (POSITIVE_STATUS.has(head) || ORIGINAL_STATUS.has(head) || WORKING_STATUS.has(head)) return kind;
-  // Airbag: "Yok"/"Hayır" (ör. sökülmüş ikaz lambası) asla temiz değildir.
-  if (airbag) return "diger";
+  if (airbag) {
+    // R42: yalnız sorun sorusuna (ör. "Airbag ikaz lambası yanıyor mu?") "Hayır"/"Yanmıyor" temizdir.
+    // Soru olmayan satırda ya da "Yok" yanıtında (ampul sökülmüş olabilir) temiz değildir.
+    const answer = head === "hayir" || head === "yanmiyor";
+    return answer && IS_QUESTION.test(p) && isProblemSubject(part) ? kind : "diger";
+  }
   if (isNegativeStatement(head)) return kind;
   if (NEGATIVE_ANSWERS.has(head) && isProblemSubject(part) && (!chassis || IS_QUESTION.test(p))) return kind;
   return "diger";
