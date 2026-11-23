@@ -13,18 +13,38 @@ export const MEDIA: Record<string, UploadFile["mediaType"]> = {
   ".pdf": "application/pdf",
 };
 
-export function loadApiKey(): string | undefined {
-  if (process.env.ANTHROPIC_API_KEY) return process.env.ANTHROPIC_API_KEY;
-  if (process.env.GEMINI_API_KEY) return process.env.GEMINI_API_KEY;
+/** `.dev.vars` satırı (`#` ile başlayan satırlar yok sayılır). */
+function devVar(name: string): string | undefined {
   if (!existsSync(".dev.vars")) return undefined;
-  const text = readFileSync(".dev.vars", "utf8");
-  for (const keyName of ["ANTHROPIC_API_KEY", "GEMINI_API_KEY"]) {
-    for (const line of text.split(/\r?\n/)) {
-      const m = new RegExp(`^\\s*${keyName}\\s*=\\s*(.*?)\\s*$`).exec(line);
-      if (m && m[1]) return m[1].replace(/^["']|["']$/g, "");
-    }
+  for (const line of readFileSync(".dev.vars", "utf8").split(/\r?\n/)) {
+    const m = new RegExp(`^\\s*${name}\\s*=\\s*(.*?)\\s*$`).exec(line);
+    if (m && m[1]) return m[1].replace(/^["']|["']$/g, "");
   }
   return undefined;
+}
+
+/** Ortam değişkeni, yoksa `.dev.vars` satırı. */
+export function loadVar(name: string): string | undefined {
+  return process.env[name] || devVar(name);
+}
+
+export function loadApiKey(): string | undefined {
+  return (
+    process.env.ANTHROPIC_API_KEY ||
+    process.env.GEMINI_API_KEY ||
+    devVar("ANTHROPIC_API_KEY") ||
+    devVar("GEMINI_API_KEY")
+  );
+}
+
+/** Gemini yolu ayarları (sunucudaki buildDeps ile aynı değişkenler). */
+export function geminiOptions(): { geminiModel?: string; geminiFallbackModel?: string; geminiMaxOutputTokens?: number } {
+  const max = Number(loadVar("GEMINI_MAX_OUTPUT_TOKENS"));
+  return {
+    geminiModel: loadVar("GEMINI_MODEL"),
+    geminiFallbackModel: loadVar("GEMINI_FALLBACK_MODEL"),
+    geminiMaxOutputTokens: Number.isFinite(max) && max > 0 ? max : undefined,
+  };
 }
 
 // Plaka (ör. 34 ABC 123) veya 10 haneli telefon benzeri desen.

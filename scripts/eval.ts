@@ -1,12 +1,12 @@
 // Değerlendirme: etiketli vakalarda hattı çalıştırır, tablo basar.
-// Kullanım: npm run eval -- --cases ~/ekspertiz-eval
+// Kullanım: npm run degerlendir -- --cases ~/ekspertiz-eval
 // Çıkış: 0 tamam, 1 en az bir "dikkat altında gösterildi" (veya vaka hatası), 2 anahtar/girdi eksik.
 // Ham çıkarım JSON'u basılmaz; model çıktısından türeyen metinler PII taramasından geçer.
 import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
 import { homedir } from "node:os";
 import { join } from "node:path";
 import { randomBytes } from "node:crypto";
-import { createClaude } from "../src/lib/claude/client";
+import { createClaude, providerLabel } from "../src/lib/claude/client";
 import { matchKnowledge } from "../src/lib/kb/match";
 import { scoreCase, type CaseScore, type Label } from "../src/lib/eval/score";
 import { runAnalysis, type PipelineDeps } from "../src/lib/pipeline/run";
@@ -15,7 +15,7 @@ import { verifyExtraction } from "../src/lib/pipeline/token";
 import type { Extraction } from "../src/lib/schema/extraction";
 import type { AnalysisEvent } from "../src/lib/schema/events";
 import type { AnalysisResult } from "../src/lib/schema/result";
-import { loadApiKey, loadKb, piiHits, readUploadFiles } from "./shared";
+import { geminiOptions, loadApiKey, loadKb, piiHits, readUploadFiles } from "./shared";
 
 const CAP_USD = 50;
 
@@ -78,13 +78,13 @@ async function runCase(
 async function main() {
   const casesDir = parseArgs();
   if (!casesDir || !existsSync(casesDir)) {
-    console.error("Kullanım: npm run eval -- --cases ~/ekspertiz-eval (klasör bulunamadı)");
+    console.error("Kullanım: npm run degerlendir -- --cases ~/ekspertiz-eval (klasör bulunamadı)");
     process.exit(2);
   }
   const apiKey = loadApiKey();
   if (!apiKey) {
     console.error(
-      "ANTHROPIC_API_KEY bulunamadı. Değerlendirmeyi çalıştırmak için anahtarı .dev.vars dosyasına ANTHROPIC_API_KEY=... olarak ekleyin (veya ortam değişkeni verin).",
+      "ANTHROPIC_API_KEY veya GEMINI_API_KEY bulunamadı. Değerlendirmeyi çalıştırmak için anahtarı .dev.vars dosyasına ekleyin (veya ortam değişkeni verin).",
     );
     process.exit(2);
   }
@@ -97,7 +97,10 @@ async function main() {
     process.exit(2);
   }
 
-  const claude = createClaude(apiKey);
+  const gemini = geminiOptions();
+  // Harcama, çalışan sağlayıcının fiyat tablosuyla hesaplanır (usageToUsd Gemini kullanımını tanır).
+  console.log(`sağlayıcı: ${providerLabel(apiKey, gemini)}`);
+  const claude = createClaude(apiKey, gemini);
   const kb = loadKb();
   const rows: Row[] = [];
   for (const name of caseNames) {

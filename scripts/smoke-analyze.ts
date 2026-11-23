@@ -1,7 +1,7 @@
 // Canlı deneme: klasördeki rapor dosyalarını okutur, yalnızca ÖZET basar.
 // Kullanım: npx tsx scripts/smoke-analyze.ts <klasör> [--extract-only]
 // Tam mod bilgi tabanını diskten (kb/) yükler; D1'e dokunmaz.
-import { createClaude } from "../src/lib/claude/client";
+import { createClaude, providerLabel } from "../src/lib/claude/client";
 import { extractReport } from "../src/lib/claude/extract";
 import { interpretReport } from "../src/lib/claude/interpret";
 import { normalizeExtraction } from "../src/lib/normalize";
@@ -9,7 +9,7 @@ import { buildResult } from "../src/lib/pipeline/result";
 import { computeFloors } from "../src/lib/rules/floors";
 import { computeSignals } from "../src/lib/signals/signals";
 import { matchKnowledge } from "../src/lib/kb/match";
-import { loadApiKey, loadKb, piiHits, readUploadFiles } from "./shared";
+import { geminiOptions, loadApiKey, loadKb, piiHits, readUploadFiles } from "./shared";
 
 async function main() {
   const [dir, flag] = process.argv.slice(2);
@@ -20,7 +20,7 @@ async function main() {
   const extractOnly = flag === "--extract-only";
   const apiKey = loadApiKey();
   if (!apiKey) {
-    console.error("ANTHROPIC_API_KEY bulunamadı (ortam değişkeni veya .dev.vars).");
+    console.error("ANTHROPIC_API_KEY veya GEMINI_API_KEY bulunamadı (ortam değişkeni veya .dev.vars).");
     process.exit(2);
   }
 
@@ -30,11 +30,15 @@ async function main() {
     process.exit(2);
   }
 
-  const claude = createClaude(apiKey);
+  const gemini = geminiOptions();
+  // Harcama, çalışan sağlayıcının fiyat tablosuyla hesaplanır (usageToUsd Gemini kullanımını tanır).
+  const provider = providerLabel(apiKey, gemini);
+  const claude = createClaude(apiKey, gemini);
   const { raw, usd } = await extractReport(claude, files);
   const dyno = raw.measurements.find((m) => m.test === "dinamometre_guc");
   const lines = [
     "SUMMARY",
+    `provider: ${provider}`,
     `files: ${files.length}`,
     `isReport: ${raw.isReport}`,
     `vehicle: ${[raw.vehicle.brand, raw.vehicle.model, raw.vehicle.variant, raw.vehicle.year, raw.vehicle.engineCc, raw.vehicle.powerHp, raw.vehicle.fuel, raw.vehicle.transmission, raw.vehicle.km].join(" | ")}`,
@@ -64,7 +68,7 @@ async function main() {
   const signals = [...normSignals, ...computeSignals(extraction, { now })];
   const knowledge = matchKnowledge(
     loadKb(),
-    { vehicle: extraction.vehicle, firm: extraction.report.firm },
+    { vehicle: extraction.vehicle, firm: extraction.report.firm, inferred: extraction.vehicleInferred },
     now,
   );
   const { interpretation, usd: usd2 } = await interpretReport(claude, {
@@ -80,6 +84,7 @@ async function main() {
     [
       "SUMMARY",
       `kb vehicle: ${knowledge.vehicleId ?? "none"}`,
+      `vehicle inferred: ${Object.keys(extraction.vehicleInferred ?? {}).join(",") || "none"}`,
       `counts: ${Object.entries(result.counts).map(([g, n]) => `${g}=${n}`).join(" ")}`,
       `dikkat: ${titles("dikkat").join(" | ")}`,
       `kronik: ${titles("kronik").join(" | ")}`,
@@ -92,8 +97,8 @@ async function main() {
 }
 
 main().catch((e) => {
-  const cause = e && typeof e === "object" && "cause" in e ? (e as { cause?: unknown }).cause : undefined;
-  const causeMsg = cause instanceof Error ? cause.message : String(cause ?? "");
-  console.error(`smoke failed: ${e instanceof Error ? e.name + " " + (e as { code?: string }).code + " " + e.message + " | " + causeMsg : "error"}`);
+  // Yalnız hata adı ve kodu: ileti/neden model yanıtından veya rapordan metin taşıyabilir.
+  const code = e && typeof e === "object" && "code" in e ? String((e as { code?: unknown }).code) : "-";
+  console.error(`smoke failed: ${e instanceof Error ? e.name : "error"} ${code}`);
   process.exit(1);
 });

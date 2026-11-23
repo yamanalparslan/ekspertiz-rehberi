@@ -1,7 +1,7 @@
 import { APIConnectionError } from "@anthropic-ai/sdk";
 import { expect, test } from "vitest";
 import { z } from "zod";
-import { AnalysisError, createClaude, runStructured } from "./client";
+import { AnalysisError, createClaude, providerLabel, runStructured } from "./client";
 import { fakeClient, textMsg } from "./testing";
 
 const schema = z.strictObject({ a: z.number() });
@@ -107,6 +107,25 @@ test("Gemini anahtarı (AIza...) ile createClaude: yapılandırılmış JSON yan
   const r = await runStructured(client, base);
   expect(r.data).toEqual({ a: 42 });
   expect(calledUrl).toContain("generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent");
+});
+
+test("betik etiketi hangi sağlayıcının ve hangi fiyat tablosunun kullanıldığını söyler", () => {
+  expect(providerLabel("sk-ant-test")).toBe("anthropic claude-opus-5-5 (girdi 4 $/Mtok, çıktı 20 $/Mtok)");
+  expect(providerLabel("AIzaTest", { geminiModel: "gemini-3.8-flash" })).toBe(
+    "gemini gemini-3.8-flash (girdi 1.5 $/Mtok, çıktı 7.5 $/Mtok)",
+  );
+  expect(providerLabel("AIzaTest", { geminiModel: "gemini-yeni" })).toContain("üst sınır");
+});
+
+test("SDK hatası günlüğe yalnız ad/durum olarak yazılır, ileti yazılmaz", async () => {
+  const err = Object.assign(new Error("gizli yanıt gövdesi"), { status: 529 });
+  const spy = (await import("vitest")).vi.spyOn(console, "error").mockImplementation(() => {});
+  const client = { beta: { messages: { stream: () => ({ finalMessage: async () => { throw err; } }) } } } as never;
+  await runStructured(client, base).catch(() => {});
+  const logged = JSON.stringify(spy.mock.calls);
+  expect(logged).not.toContain("gizli");
+  expect(logged).toContain("529");
+  spy.mockRestore();
 });
 
 // Gemini generateContent sahtesi: istek gövdelerini kaydeder, sıradaki yanıtı döndürür.

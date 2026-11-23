@@ -3,7 +3,7 @@ import type { BetaContentBlockParam } from "@anthropic-ai/sdk/resources/beta/mes
 import { betaZodOutputFormat } from "@anthropic-ai/sdk/helpers/beta/zod";
 import type { ZodType } from "zod";
 import type { ErrorCode } from "@/lib/schema/events";
-import { ProviderCallError, usageToUsd } from "./cost";
+import { geminiRates, ProviderCallError, usageToUsd } from "./cost";
 import { createGeminiClient, GEMINI_DEFAULT_MODEL } from "./gemini";
 
 export const MODEL = "claude-opus-5-5";
@@ -51,6 +51,19 @@ export function createClaude(apiKey: string, opts: CreateClaudeOptions = {}): Cl
     });
   }
   return new Anthropic({ apiKey });
+}
+
+/**
+ * Betikler (smoke/değerlendirme) için: çalışacak sağlayıcı, model ve harcamanın hangi fiyat
+ * tablosuyla hesaplanacağı. Gemini kullanımında `usageToUsd` Gemini tablosunu kendisi seçer.
+ */
+export function providerLabel(apiKey: string, opts: { geminiModel?: string } = {}): string {
+  if (providerOf(apiKey) === "anthropic") {
+    return `anthropic ${MODEL} (girdi 4 $/Mtok, çıktı 20 $/Mtok)`;
+  }
+  const model = opts.geminiModel || process.env.GEMINI_MODEL || GEMINI_DEFAULT_MODEL;
+  const r = geminiRates(model);
+  return `gemini ${model} (girdi ${r.input} $/Mtok, çıktı ${r.output} $/Mtok${r.upperBound ? ", bilinmeyen model: Opus fiyatı üst sınır" : ""})`;
 }
 
 /** Günlük sözleşmesi: yalnız hata adı ve kodu/durumu; ileti ya da yanıt gövdesi yazılmaz. */
