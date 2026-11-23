@@ -214,14 +214,14 @@ Ayrıca her "Dikkat" maddesinde "Bir ustaya veya ekspertize danışın" yönlend
 - Sonuç tarayıcıda gösterilir. v1'de sonuç sunucuda saklanmaz. Sayfa kapanınca sonuç kaybolur.
 - Herkese açık yayından önce bir aydınlatma metni gerekir. Bu metin, verinin yurt dışındaki bir yapay zeka hizmetine gönderildiğini belirtmelidir.
 - Yükleme akışında, sorumluluk onayından ayrı bir açık rıza kutusu bulunur: "Raporumun analiz için yurt dışındaki bir yapay zeka hizmetine aktarılmasını kabul ediyorum."
-- 2024 değişikliğinden sonra KVKK'nın yurt dışı aktarım kuralları (madde 9) yalnızca açık rızayla karşılanmayabilir. Herkese açık yayından önce hukuki görüş alınmalıdır (§17, soru 4).
+- 2024 değişikliğinden sonra KVKK'nın yurt dışı aktarım kuralları (madde 9) yalnızca açık rızayla karşılanmayabilir. Herkese açık yayından önce hukuki görüş alınır (2. aşama, §19).
 
 ## 14. Maliyet kontrolü ve kötüye kullanım
 
 - Analizden önce Cloudflare Turnstile doğrulaması yapılır.
 - Tarayıcı başına (imzalı çerez) günlük analiz sınırı vardır. Başlangıç değeri 3'tür.
 - IP başına sınır daha yüksektir, başlangıç değeri 15'tir. Mobil operatörler birçok telefonu aynı IP adresinin arkasına koyar (CGNAT). Düşük bir IP sınırı, galerideki gerçek kullanıcıları yanlışlıkla engeller.
-- Uygulama genelinde günlük harcama tavanı vardır. Tavan dolunca yeni analiz kabul edilmez ve kullanıcıya "Bugünlük kapasite doldu, yarın tekrar deneyin" mesajı gösterilir. Tavanın değeri açık bir sorudur (§17, soru 3).
+- Uygulama genelinde günlük harcama tavanı vardır. Tavan dolunca yeni analiz kabul edilmez ve kullanıcıya "Bugünlük kapasite doldu, yarın tekrar deneyin" mesajı gösterilir. Test aşamasında tavan 10 $ ile başlar (§16).
 - Tüm sınırlar yapılandırmadan değiştirilebilir.
 - Dosya boyutu ve sayfa sayısı sınırlanır (§6).
 - Yüklenen dosyanın ekspertiz raporu olmadığı anlaşılırsa, okuma adımı bunu bildirir ve yorumlama adımı çalışmaz.
@@ -244,7 +244,7 @@ Tasarıma etkileri:
 - **Rapor kendi sınırlarını basıyor.** Örnekler: fren sapması %0–30 geçer, %31–100 kalır. Süspansiyon tutunması 0–20 arızalı, 80–100 mükemmel. Yanal kaymada iyi, kritik ve kötü bantları var. Kural katmanı (§10.2) önce raporda basılı sınırı kullanır. Raporda sınır yoksa yapılandırmadaki varsayılanı kullanır.
 - **Firma başına okuyucu yazılmaz.** Rapor altında "ekspertiz.app ile hazırlanmıştır" yazıyor. Piyasada başka ekspertiz yazılımları da var (Goeksper, B2EL, ProNspect gibi). Bu yüzden tüm formatlar için tek bir genel okuma şeması kullanılır.
 - **Ham OBD çıktısında Türkçe karakterler bozuk** ("Elektronii", "Grü alanı" gibi). Okuma adımı bozuk metni anlamına göre okumalıdır.
-- **Raporda yoğun kişisel veri var:** Alıcı ve satıcının adı soyadı, açık telefon numaraları, maskeli TC kimlik numarası, plaka ve şasi numarası. Bu fotoğraflar depoya konmaz. Değerlendirme setine girmeden önce kişisel veriler karartılır. Bu durum §17'deki 4. soruyu daha da önemli kılıyor.
+- **Raporda yoğun kişisel veri var:** Alıcı ve satıcının adı soyadı, açık telefon numaraları, maskeli TC kimlik numarası, plaka ve şasi numarası. Bu fotoğraflar depoya konmaz. Değerlendirme setine girmeden önce kişisel veriler karartılır. Bu durum 2. aşamadaki hukuki çalışmayı (§19) daha da önemli kılıyor.
 - **Çapraz kontroller bu raporda işe yaradı** (§11):
   - Km tutarlı: Rapor 135.689 km, son TÜVTÜRK muayenesi 130.693 km (12.09.2026).
   - Hasar tutarlı: 28.10.2023 tarihli 263.322,55 TL'lik çarpışma kaydı ile değişen kaput, ön tampon, ön panel, farlar ve ön cam aynı önden darbeyi gösteriyor.
