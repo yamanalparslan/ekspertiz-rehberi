@@ -29,7 +29,7 @@ Dosyalar ada göre sıralı okunur (.jpg, .jpeg, .png, .webp, .pdf). Etiket dosy
 npm run degerlendir -- --cases ~/ekspertiz-eval
 ```
 
-`ANTHROPIC_API_KEY` ortam değişkeninden ya da `.dev.vars` dosyasından okunur. Gerçek Claude çağrıları yapılır, bilgi tabanı diskten (`kb/`) yüklenir, harcama tavanı bu çalıştırma için 50 USD'dir. Çıktı: vaka başına bir satır (araç alanları doğru/toplam, grup doğruluğu, dikkat altında gösterilen sayısı, USD), toplam harcama ve vaka başına `dikkatShownBelow` listesi. Ham okuma çıktısı basılmaz.
+`ANTHROPIC_API_KEY` ya da `GEMINI_API_KEY` ortam değişkeninden ya da `.dev.vars` dosyasından okunur (Gemini için `GEMINI_MODEL` vb. de aynı yerden). Gerçek model çağrıları yapılır (ilk satır sağlayıcıyı ve fiyat tablosunu yazar), bilgi tabanı diskten (`kb/`) yüklenir, harcama tavanı bu çalıştırma için 50 USD'dir. Çıktı: vaka başına bir satır (araç alanları doğru/toplam, grup doğruluğu, dikkat altında gösterilen sayısı, USD), toplam harcama ve vaka başına `dikkatShownBelow` listesi. Ham okuma çıktısı basılmaz.
 
 ## Çıkış kodları
 
@@ -37,7 +37,7 @@ npm run degerlendir -- --cases ~/ekspertiz-eval
 |---|---|
 | 0 | Hiçbir vakada `dikkatShownBelow` yok, tüm vakalar çalıştı |
 | 1 | En az bir vakada `dikkatShownBelow` boş değil (ya da bir vaka çalışamadı) |
-| 2 | `ANTHROPIC_API_KEY` yok ya da `--cases` klasörü bulunamadı |
+| 2 | API anahtarı (`ANTHROPIC_API_KEY` / `GEMINI_API_KEY`) yok ya da `--cases` klasörü bulunamadı |
 
 `dikkatShownBelow` girdileri `"<bölüm>/<parça>"` biçimindedir. Eşleşen madde hiç yoksa başına `"eksik: "` eklenir.
 
