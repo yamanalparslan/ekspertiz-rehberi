@@ -39,7 +39,7 @@ Uygulama ayrıca raporun sahte veya değiştirilmiş olabileceğine dair işaret
 - Mobil uygulama mağazası sürümü (iOS/Android). Uygulama web'de çalışır.
 - Aracın piyasa değerini biçmek veya "bu fiyata değer" demek.
 - Ekspertiz yerine geçmek ya da fotoğraftan hasar tespiti yapmak.
-- Kullanıcı hesabı ve ödeme. Bunlar §17'deki açık soruya göre sonra eklenir.
+- Ödeme. Test aşamasında ödeme yoktur. Sorgu başına ödeme, yayından önceki 2. aşamada eklenir (§19).
 - Model fine-tune etmek (bkz. §7).
 - Bilgi tabanı için yönetim paneli. v1'de veriler dosyadan yüklenir.
 
@@ -57,6 +57,7 @@ Uygulama teknik olarak çalışsa bile, aşağıdakilerden biri olursa başarıs
 
 - Web altyapısı, kullanıcının diğer projeleriyle (CourtMax, Lumind) aynıdır: Next.js 16, React 19, Tailwind 4, OpenNext ile Cloudflare Workers.
 - Yapay zeka: Claude Opus 5.5 (`claude-opus-5-5`), resmi `@anthropic-ai/sdk` ile çağrılır.
+- API hesabı: Test aşamasında kullanıcının kendi Anthropic hesabı kullanılır. Claude aboneliği (claude.ai, Claude Code) uygulamanın API çağrılarını karşılamaz. Claude Console'dan alınmış, ön ödemeli bir API anahtarı gerekir. Anahtar Cloudflare'de gizli değişken (secret) olarak tutulur, depoya yazılmaz.
 - Claude'a giden istek en fazla 32 MB olabilir. PDF en fazla 600 sayfa olabilir. İlk gerçek örnek rapor 15 sayfa ve ek sorgu sayfalarıyla birlikte 18 fotoğraftan oluşuyor (§15.1). Uygulama en fazla 25 fotoğraf kabul eder. Fotoğraflar göndermeden önce tarayıcıda küçültülür. Kesin görsel sınırları uygulayıcı Claude belgelerinden doğrular.
 - Fiyatlar TL cinsindendir ve enflasyon nedeniyle hızlı eskir. Her fiyatın bir tarihi olmalıdır.
 - KVKK: Raporlarda plaka, şasi numarası ve bazen araç sahibinin adı bulunur.
@@ -148,7 +149,7 @@ Hat iki Claude çağrısından oluşur. Akışı kod yönetir (ajan değil):
    - Taşıyıcı parçalarda (direk, şasi, podye, tavan, bagaj havuzu ve benzeri) "değişen" veya "işlem görmüş" bulgusu en az Dikkat olur.
    - Ölçülen değerler sınırı aşarsa en az Dikkat olur: fren dengesizliği, yanal kayma, amortisör etkinliği gibi.
    - Airbag, ABS ve ESP ile ilgili arıza kodları en az Dikkat olur.
-   - Sınır değerleri TÜVTÜRK muayene ölçütlerinden alınır ve uzman kontrolünden geçer (§17, soru 2). Değerler bir yapılandırma dosyasında tutulur.
+   - Sınır değerleri önce raporda basılı sınırlardan alınır (§15.1). Raporda sınır yoksa TÜVTÜRK muayene ölçütleri kullanılır. Her değerin kaynağı yazılır. Değerler bir yapılandırma dosyasında tutulur.
 4. **Yorumlama.** Girdi: 1. adımın JSON'u, 2. adımın kayıtları ve 3. adımın en düşük grupları. Çıktı: her madde için grup, sade açıklama, neden önemli, tahmini maliyet aralığı ve kaynağı, satıcıya sorulacak soru. Ayrıca "Kontrol ettir" listesi, kısa genel özet ve güvenilirlik işaretleri.
 
 Claude çağrı ayarları:
@@ -174,9 +175,11 @@ Kronik sorun ve fiyat kayıtları, her biri kaynak ve tarih bilgisiyle, depodaki
 ### 10.4 Bilgi tabanının doldurulması
 
 - İlk hedef: Türkiye ikinci el pazarında en çok satılan yaklaşık 30 model. Liste bir sonraki adımda çıkarılacak.
-- Claude, web araştırmasıyla her model için taslak kayıtlar hazırlar. Her kayıt kaynak bağlantısı taşır.
-- Taslak kayıtlar "onaylanmamış" olarak işaretlenir. Bir insan kontrol edip onaylayana kadar arayüzde "doğrulanmamış" etiketiyle gösterilir.
-- Kayıtları kimin onaylayacağı açık bir sorudur (§17).
+- Kronik sorunlar ve fiyatlar internet araştırmasıyla öğrenilir (kullanıcının kararı). İnsan uzman onayı yoktur.
+- Claude, web araştırmasıyla her model için kayıtlar hazırlar. Her kayıt en az bir kaynak bağlantısı taşır.
+- Güven düzeyi kaynak sayısına göre verilir. Aynı sorunu birbirinden bağımsız en az iki kaynak söylüyorsa (servis bülteni, geri çağırma, marka forumu, haber, ustaların yazıları gibi) güven "yüksek" olur. Tek kaynak varsa güven "düşük" olur.
+- Arayüz her kronik sorunda "internet kaynaklı" etiketini ve kaynak bağlantılarını gösterir. Düşük güvenli kayıtlar ayrıca "tek kaynak" diye işaretlenir.
+- Kayıtlar araştırma tarihini taşır. 12 aydan eski kayıtlar yeniden araştırılır.
 
 ## 11. Rapor güvenilirlik işaretleri
 
@@ -226,7 +229,7 @@ Ayrıca her "Dikkat" maddesinde "Bir ustaya veya ekspertize danışın" yönlend
 ## 15. Kalite ölçümü
 
 - Gerçek raporlardan (farklı firmalar, PDF ve fotoğraf) 10–20 örneklik bir değerlendirme seti hazırlanır.
-- Her örnek için beklenen gruplar elle işaretlenir. Bu işaretleri bilen bir kişinin kontrol etmesi gerekir.
+- Her örnek için beklenen gruplar elle işaretlenir. İşaretleri kullanıcı koyar. Claude bir öneri hazırlar, kullanıcı düzeltir.
 - Ölçülenler: araç bilgisinin doğru okunması, maddelerin eksiksiz çıkarılması, grupların doğruluğu. En önemli ölçüt: hiçbir "Dikkat" maddesinin "Normal" olarak gösterilmemesi.
 - İstem (prompt) veya model ayarı her değiştiğinde set yeniden çalıştırılır.
 
@@ -257,6 +260,9 @@ Kullanıcının kararları:
 - Gruplar: normal, kronik, dikkat ve her biri için ortalama çözüm fiyatı.
 - Sahte rapor için bir kontrol yolu bulunacak.
 - Sorumluluğun kullanıcıda olduğu vurgulanacak.
+- Kronik sorunlar internet araştırmasıyla öğrenilecek. Uzman onayı yok.
+- Test aşamasında kullanıcının kendi hesabı kullanılacak. Ürün sorgu başına ücretli olacak.
+- KVKK ve hukuki konular yayından önce çözülecek.
 
 Benim kararlarım (kullanıcı değiştirebilir):
 
@@ -272,15 +278,20 @@ Benim kararlarım (kullanıcı değiştirebilir):
 - Sabit kural katmanı, taşıyıcı parçaları ve sınırı aşan ölçümleri en az Dikkat grubunda tutar.
 - Sınırlar tarayıcı başına (3), IP başına (15) ve uygulama genelinde günlük harcama tavanı olarak uygulanır.
 - Yurt dışı aktarım için ayrı bir açık rıza kutusu bulunur.
+- Test aşamasında uygulamaya erişim Cloudflare Access (e-posta ile giriş) ile yalnızca kullanıcıya açılır.
+- Test aşamasında uygulama genelindeki günlük harcama tavanı 10 $ olarak başlar ve yapılandırmadan değiştirilebilir.
+- Kronik sorun güven düzeyi kaynak sayısına göre verilir (§10.4).
 
 ## 17. Açık sorular
 
-Bu sorular yalnızca kullanıcı tarafından cevaplanabilir ve cevapları planı değiştirir.
+Tasarımı etkileyen açık soru kalmadı. Verilen cevaplar:
 
-1. **Örnek raporlar:** Cevaplandı. İlk rapor geldi (§15.1). Değerlendirme seti için farklı firmalardan 10–20 rapor daha gerekiyor. Bunlar plan sırasında toplanır.
-2. **Uzman:** Kronik sorun kayıtlarını, sınır değerlerini ve test etiketlerini kim onaylayacak (usta, eksper)? Yayın bu onayı bekleyecek mi? Bekleyecekse v1 onaylı 30 model verisiyle çıkar. Beklemeyecekse v1 "doğrulanmamış" etiketli bilgiyle çıkar ve bilgi tabanı sonradan dolar.
-3. **Bütçe ve gelir:** API maliyetini kim ödüyor? Günlük veya aylık harcama tavanı ne olsun? Uygulama ücretsiz mi olacak, rapor başına ücretli mi, yoksa galericilere mi satılacak? Ücretliyse v1'e hesap ve ödeme eklenir.
-4. **Hukuk:** Herkese açık yayından önce KVKK yurt dışı aktarım konusunda avukat görüşü alınacak mı? Görüş gelene kadar uygulama kapalı beta (davetli kullanıcılar) olarak çalışabilir. Cevaba göre rapor gönderilmeden önce plaka, şasi numarası ve kişi adını karartan bir adım da gerekebilir.
+1. **Örnek raporlar:** İlk rapor geldi (§15.1). Değerlendirme seti için farklı firmalardan 10–20 rapor daha gerekiyor. Bunlar plan sırasında toplanır.
+2. **Uzman:** Uzman yok. Kronik sorunlar internet araştırmasıyla öğrenilir (§10.4).
+3. **Bütçe ve gelir:** Test aşamasında kullanıcının kendi hesabı kullanılır. Ürün sorgu başına ücretli olacak (§19).
+4. **Hukuk:** Yayından önce çözülecek. O zamana kadar uygulama yalnızca kullanıcıya açık çalışır (§19).
+
+Uygulamaya geçerken gereken: Claude Console'dan alınmış bir API anahtarı (§6).
 
 ## 18. Uygulayıcıya bırakılanlar
 
@@ -289,3 +300,20 @@ Bu sorular yalnızca kullanıcı tarafından cevaplanabilir ve cevapları planı
 - Uzun süren analiz için yöntem: doğrudan akış (SSE) ya da Cloudflare Queues/Durable Objects. Ölçüm sonrası seçilir.
 - PDF üst verisini okuyan kütüphane seçimi (Workers üzerinde çalışmalı).
 - Görsel tasarım ayrıntıları (renk tonları, tipografi). Grupların renk anlamı korunmalıdır.
+
+## 19. Aşamalar
+
+**1. aşama: Test (bu tasarımın kapsamı)**
+- Uygulama yalnızca kullanıcıya açıktır (Cloudflare Access).
+- API maliyetini kullanıcının kendi Anthropic hesabı karşılar.
+- Kapsam: yükleme, analiz, sonuç ekranı, kural katmanı, güvenilirlik işaretleri, sorumluluk notu.
+- Bilgi tabanı yaklaşık 30 model için internet araştırmasıyla doldurulur.
+- Değerlendirme seti 10–20 rapora ulaşır.
+
+**2. aşama: Yayın hazırlığı (ayrı tasarım gerekir)**
+- Sorgu başına ödeme. Türkiye'de çalışan bir ödeme sağlayıcısı seçilir (iyzico, PayTR gibi). Hesap gerekip gerekmediği o tasarımda kararlaştırılır.
+- KVKK hukuki görüşü, aydınlatma metni, yurt dışı aktarım için gereken yasal dayanak. Gerekirse kişisel verileri karartma adımı eklenir.
+- Sorumluluk metninin hukuki gözden geçirmesi.
+
+**3. aşama: Herkese açık yayın**
+- Cloudflare Access kaldırılır. Turnstile, kullanım sınırları ve harcama tavanı devreye girer.
