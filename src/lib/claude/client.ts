@@ -12,7 +12,7 @@ const BETAS: ["server-side-fallback-2026-07-01"] = ["server-side-fallback-2026-0
 export type ClaudeLike = Pick<Anthropic, "beta">;
 export type ContentBlockParam = BetaContentBlockParam;
 
-export const GEMINI_DEFAULT_MODEL = "gemini-2.5-flash";
+export const GEMINI_DEFAULT_MODEL = "gemini-3.8-flash";
 
 type StreamParams = {
   max_tokens: number;
@@ -96,19 +96,17 @@ function createGeminiClaudeLike(
                 body.tools = [{ googleSearch: {} }];
               }
 
-              const vtxUrl = `https://aiplatform.googleapis.com/v1/publishers/google/models/${encodeURIComponent(model)}:generateContent`;
               const genUrl = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent`;
-              const firstUrl = apiKey.startsWith("AQ.") ? vtxUrl : genUrl;
-              const secondUrl = apiKey.startsWith("AQ.") ? genUrl : vtxUrl;
+              const vtxUrl = `https://aiplatform.googleapis.com/v1/publishers/google/models/${encodeURIComponent(model)}:generateContent`;
 
-              let res = await fetchFn(firstUrl, {
+              let res = await fetchFn(genUrl, {
                 method: "POST",
                 headers: { "Content-Type": "application/json", "x-goog-api-key": apiKey },
                 body: JSON.stringify(body),
               });
               if (!res.ok) {
                 const firstErr = await res.text().catch(() => "");
-                const altRes = await fetchFn(secondUrl, {
+                const altRes = await fetchFn(vtxUrl, {
                   method: "POST",
                   headers: { "Content-Type": "application/json", "x-goog-api-key": apiKey },
                   body: JSON.stringify(body),
@@ -117,7 +115,9 @@ function createGeminiClaudeLike(
                   res = altRes;
                 } else {
                   const secondErr = await altRes.text().catch(() => "");
-                  throw new Error(`Gemini HTTP ${res.status}: ${firstErr.slice(0, 250)} | Alt HTTP ${altRes.status}: ${secondErr.slice(0, 250)}`);
+                  const errMsg = `Gemini HTTP ${res.status}: ${firstErr.slice(0, 250)} | Alt HTTP ${altRes.status}: ${secondErr.slice(0, 250)}`;
+                  console.error("[Gemini API Error]", errMsg);
+                  throw new Error(errMsg);
                 }
               }
               const data = (await res.json()) as {

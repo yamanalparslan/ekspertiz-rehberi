@@ -102,5 +102,5 @@ test("Gemini anahtarı (AIza...) ile createClaude: yapılandırılmış JSON yan
   const client = createClaude("AIzaSyTestKey123", { fetchFn: fakeFetch });
   const r = await runStructured(client, base);
   expect(r.data).toEqual({ a: 42 });
-  expect(calledUrl).toContain("generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent");
+  expect(calledUrl).toContain("generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent");
 });
