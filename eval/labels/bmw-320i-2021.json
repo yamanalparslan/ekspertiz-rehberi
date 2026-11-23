@@ -1,0 +1,42 @@
+{
+  "case": "bmw-320i-2021",
+  "vehicle": {
+    "brand": "BMW",
+    "model": "320i",
+    "year": 2021,
+    "engineCc": 1597,
+    "km": 135689,
+    "fuel": "benzin",
+    "transmission": "otomatik"
+  },
+  "mustBeDikkat": [
+    { "section": "sasi", "part": "Ön Panel" },
+    { "section": "sasi", "part": "Sol Üst Frangart" }
+  ],
+  "expected": [
+    { "section": "sasi", "part": "Ön Panel", "group": "dikkat" },
+    { "section": "sasi", "part": "Sol Üst Frangart", "group": "dikkat" },
+    { "section": "kaporta_boya", "part": "Sol Arka Çamurluk", "group": "dikkat" },
+    { "section": "ic_dis_donanim", "part": "Lastik (Ön) Durum - Tarih", "group": "dikkat" },
+    { "section": "ic_dis_donanim", "part": "Lastik (Arka) Durum - Tarih", "group": "dikkat" },
+    { "section": "ust_motor", "part": "Motor Üst Bölge Yağ Sızdırmazlığı", "group": "dikkat" },
+    { "section": "motor_alt_mekanik", "part": "Arka Krank Keçesi", "group": "dikkat" },
+    { "section": "motor_alt_mekanik", "part": "Yağ Filtresi ve Soğutucusu", "group": "kronik" },
+    { "section": "kaporta_boya", "part": "Motor Kaputu", "group": "normal" },
+    { "section": "kaporta_boya", "part": "Ön Tampon", "group": "normal" },
+    { "section": "kaporta_boya", "part": "Arka Tampon", "group": "normal" },
+    { "section": "kaporta_boya", "part": "Tavan", "group": "normal" },
+    { "section": "kaporta_boya", "part": "Sol Ön Kapı", "group": "normal" },
+    { "section": "kaporta_boya", "part": "Bagaj Kapağı", "group": "normal" },
+    { "section": "sasi", "part": "Sağ Ön Şase", "group": "normal" },
+    { "section": "sasi", "part": "Arka Panel", "group": "normal" },
+    { "section": "sasi", "part": "Taban Sacı", "group": "normal" },
+    { "section": "airbag", "part": "Direksiyon Airbag", "group": "normal" },
+    { "section": "airbag", "part": "Sol Diz Airbag", "group": "normal" },
+    { "section": "motor_alt_mekanik", "part": "Karter", "group": "normal" },
+    { "section": "test_hatti", "part": "dinamometre_guc", "group": "belirsiz" },
+    { "section": "test_hatti", "part": "fren_sapma_on", "group": "normal" },
+    { "section": "test_hatti", "part": "yanal_kayma_on", "group": "normal" },
+    { "section": "test_hatti", "part": "suspansiyon_tutunma sol ön", "group": "normal" }
+  ]
+}

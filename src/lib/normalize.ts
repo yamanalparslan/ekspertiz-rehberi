@@ -1,8 +1,10 @@
 import type { Extraction, RawExtraction } from "@/lib/schema/extraction";
 import type { Signal } from "@/lib/schema/result";
 
-const normalizePart = (part: string): string =>
-  part.toLocaleLowerCase("tr-TR").trim().replace(/\s+/g, " ");
+export function normalizePartName(s: string): string {
+  return s.toLocaleLowerCase("tr-TR").trim().replace(/\s+/g, " ");
+}
+const normalizePart = normalizePartName;
 
 export function normalizeExtraction(raw: RawExtraction): {
   extraction: Extraction;
