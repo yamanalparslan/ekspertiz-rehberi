@@ -1,24 +1,36 @@
 import { existsSync, readFileSync } from "node:fs";
-import firmsJson from "../../../kb/firms.json";
-import genericPricesJson from "../../../kb/generic-prices.json";
-import bmwG20Json from "../../../kb/vehicles/bmw-3-serisi-g20.json";
-import kiaPicantoJson from "../../../kb/vehicles/kia-picanto-ja.json";
-import { createClaude } from "@/lib/claude/client";
+import { createClaude, type ClaudeLike } from "@/lib/claude/client";
 import { ERROR_MESSAGES } from "@/lib/copy";
 import { loadKnowledge, savePriceCache } from "@/lib/kb/d1";
 import { matchKnowledge, type KbData } from "@/lib/kb/match";
 import type { AnalysisEvent, ErrorCode } from "@/lib/schema/events";
-import { FirmsFileSchema, GenericPricesFileSchema, VehicleKbFileSchema } from "@/lib/schema/kb";
 import { getServerEnv, type ServerEnv } from "./env";
 import type { PipelineDeps } from "./run";
 import { d1SpendStore, parseCap, type SpendStore } from "./spend";
 
-const FALLBACK_KB: KbData = {
-  vehicles: [VehicleKbFileSchema.parse(kiaPicantoJson), VehicleKbFileSchema.parse(bmwG20Json)],
-  generic: GenericPricesFileSchema.parse(genericPricesJson).priceItems,
-  firms: FirmsFileSchema.parse(firmsJson).firms,
-};
-const memSpend = new Map<string, number>();
+// Yalnız geliştirme yedekleri: D1 yoksa bellek içi harcama ve iki araçlık yerel bilgi tabanı.
+const devMemSpend = new Map<string, number>();
+let devFallbackKb: Promise<KbData> | null = null;
+
+/** Yedek bilgi tabanı ilk ihtiyaçta yüklenir (modül yüklenirken değil). */
+function loadDevFallbackKb(): Promise<KbData> {
+  devFallbackKb ??= (async () => {
+    const [{ FirmsFileSchema, GenericPricesFileSchema, VehicleKbFileSchema }, firms, generic, picanto, bmw] =
+      await Promise.all([
+        import("@/lib/schema/kb"),
+        import("../../../kb/firms.json"),
+        import("../../../kb/generic-prices.json"),
+        import("../../../kb/vehicles/kia-picanto-ja.json"),
+        import("../../../kb/vehicles/bmw-3-serisi-g20.json"),
+      ]);
+    return {
+      vehicles: [VehicleKbFileSchema.parse(picanto.default), VehicleKbFileSchema.parse(bmw.default)],
+      generic: GenericPricesFileSchema.parse(generic.default).priceItems,
+      firms: FirmsFileSchema.parse(firms.default).firms,
+    };
+  })();
+  return devFallbackKb;
+}
 
 const HEADERS = {
   "Content-Type": "application/x-ndjson; charset=utf-8",
@@ -60,7 +72,7 @@ export function ndjsonResponse(
   return new Response(stream, { headers: HEADERS });
 }
 
-/** Yapılandırma eksikse null döner ve yalnızca değişken adını günlüğe yazar. */
+/** Yalnız geliştirmede okunur: `.dev.vars` satırları (`#` ile başlayanlar yok sayılır). */
 function readDevVars(): Record<string, string> {
   try {
     if (!existsSync(".dev.vars")) return {};
@@ -75,84 +87,136 @@ function readDevVars(): Record<string, string> {
   }
 }
 
-export function buildDeps(usd: { total: number }): PipelineDeps | null {
+const configMissing = (name: string) => console.log(JSON.stringify({ event: "config_missing", name }));
+
+/**
+ * İstek başına bağımlılıklar. Yapılandırma eksikse null döner (çağıran `internal` hatası
+ * gösterir) ve günlüğe yalnızca değişken adını yazar.
+ */
+export async function buildDeps(usd: { total: number }): Promise<PipelineDeps | null> {
   const isDev = process.env.NODE_ENV === "development";
   let env: Partial<ServerEnv> = {};
   try {
     env = getServerEnv() ?? {};
   } catch {
-    if (!isDev) return null;
+    if (!isDev) {
+      configMissing("cloudflare_env");
+      return null;
+    }
   }
-  const devVars = isDev ? readDevVars() : {};
-  const apiKey =
-    env.ANTHROPIC_API_KEY ||
-    env.GEMINI_API_KEY ||
-    process.env.ANTHROPIC_API_KEY ||
-    process.env.GEMINI_API_KEY ||
-    devVars.ANTHROPIC_API_KEY ||
-    devVars.GEMINI_API_KEY ||
-    (isDev ? "offline-local-demo" : undefined);
-  if (!apiKey) {
-    console.log(JSON.stringify({ event: "config_missing", name: "ANTHROPIC_API_KEY" }));
-    return null;
+  return buildDepsFrom(usd, {
+    isDev,
+    env,
+    devVars: isDev ? readDevVars() : {},
+    processEnv: process.env,
+  });
+}
+
+export type DepsContext = {
+  /** Yalnız `NODE_ENV === "development"` iken true; yedekler ve demo yalnız o zaman açılır. */
+  isDev: boolean;
+  env: Partial<ServerEnv>;
+  devVars: Record<string, string>;
+  processEnv: Record<string, string | undefined>;
+};
+
+const DEV_HMAC_SECRET = "local-dev-hmac-secret-ekspertiz-rehberi-2026";
+
+export async function buildDepsFrom(usd: { total: number }, ctx: DepsContext): Promise<PipelineDeps | null> {
+  const { isDev, env } = ctx;
+  const pick = (name: Exclude<keyof ServerEnv, "DB">): string | undefined =>
+    env[name] || ctx.processEnv[name] || (isDev ? ctx.devVars[name] : undefined) || undefined;
+
+  let claude: ClaudeLike;
+  if (isDev && pick("OFFLINE_DEMO") === "1") {
+    const { createOfflineDemoClient } = await import("@/lib/claude/offline-demo");
+    claude = createOfflineDemoClient({ fixtureSha256: (pick("OFFLINE_DEMO_PDF_SHA256") ?? "").split(",") });
+  } else {
+    const apiKey = pick("ANTHROPIC_API_KEY") || pick("GEMINI_API_KEY");
+    if (!apiKey) {
+      configMissing("ANTHROPIC_API_KEY");
+      return null;
+    }
+    claude = createClaude(apiKey, { geminiModel: pick("GEMINI_MODEL") });
   }
-  const secret =
-    env.EXTRACTION_HMAC_SECRET ||
-    process.env.EXTRACTION_HMAC_SECRET ||
-    (isDev ? "local-dev-hmac-secret-ekspertiz-rehberi-2026" : undefined);
+
+  const secret = pick("EXTRACTION_HMAC_SECRET") || (isDev ? DEV_HMAC_SECRET : undefined);
   if (!secret) {
-    console.log(JSON.stringify({ event: "config_missing", name: "EXTRACTION_HMAC_SECRET" }));
+    configMissing("EXTRACTION_HMAC_SECRET");
     return null;
   }
-  const inner = env.DB ? d1SpendStore(env.DB) : null;
+
+  const db = env.DB;
+  if (!db && !isDev) {
+    // Üretimde D1 olmadan harcama tavanı çalışmaz: istek reddedilir.
+    configMissing("DB");
+    return null;
+  }
+
+  const common = { claude, secret, now: () => new Date(), capUsd: parseCap(pick("DAILY_SPEND_CAP_USD")) };
+
+  if (!isDev) {
+    const inner = d1SpendStore(db!);
+    return {
+      ...common,
+      spend: {
+        get: (day) => inner.get(day),
+        add: async (day, v) => {
+          usd.total += v;
+          await inner.add(day, v);
+        },
+      },
+      loadKnowledge: (q) => loadKnowledge(db!, q, new Date()),
+      savePrices: (key, prices) => savePriceCache(db!, key, prices),
+    };
+  }
+
+  // Geliştirme: D1 yoksa ya da hata verirse bellek içi harcama ve yerel bilgi tabanı.
+  const inner = db ? d1SpendStore(db) : null;
   const spend: SpendStore = {
     get: async (day) => {
       if (inner) {
         try {
           return await inner.get(day);
         } catch {
-          if (!isDev) throw new Error("d1 spend get failed");
+          // yerel yedeğe düş
         }
       }
-      return memSpend.get(day) ?? 0;
+      return devMemSpend.get(day) ?? 0;
     },
     add: async (day, v) => {
       usd.total += v;
-      memSpend.set(day, (memSpend.get(day) ?? 0) + v);
+      devMemSpend.set(day, (devMemSpend.get(day) ?? 0) + v);
       if (inner) {
         try {
           await inner.add(day, v);
         } catch {
-          if (!isDev) throw new Error("d1 spend add failed");
+          // yerel yedek yeterli
         }
       }
     },
   };
   return {
-    claude: createClaude(apiKey),
+    ...common,
+    spend,
     loadKnowledge: async (q) => {
-      if (env.DB) {
+      if (db) {
         try {
-          return await loadKnowledge(env.DB, q, new Date());
+          return await loadKnowledge(db, q, new Date());
         } catch {
-          if (!isDev) throw new Error("d1 loadKnowledge failed");
+          // yerel yedeğe düş
         }
       }
-      return matchKnowledge(FALLBACK_KB, q, new Date());
+      return matchKnowledge(await loadDevFallbackKb(), q, new Date());
     },
     savePrices: async (key, prices) => {
-      if (env.DB) {
-        try {
-          await savePriceCache(env.DB, key, prices);
-        } catch {
-          if (!isDev) throw new Error("d1 savePriceCache failed");
-        }
+      if (!db) return;
+      try {
+        await savePriceCache(db, key, prices);
+      } catch {
+        // geliştirmede önbellek yazımı isteğe bağlı
       }
     },
-    spend,
-    secret,
-    now: () => new Date(),
-    capUsd: parseCap(env.DAILY_SPEND_CAP_USD),
   };
 }
 

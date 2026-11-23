@@ -4,7 +4,6 @@ import { betaZodOutputFormat } from "@anthropic-ai/sdk/helpers/beta/zod";
 import type { ZodType } from "zod";
 import type { ErrorCode } from "@/lib/schema/events";
 import { usageToUsd } from "./cost";
-import { buildPicantoInterpretation, PICANTO_RAW_EXTRACTION } from "./offline-demo";
 
 export const MODEL = "claude-opus-5-5";
 const BETAS: ["server-side-fallback-2026-07-01"] = ["server-side-fallback-2026-07-01"];
@@ -514,59 +513,17 @@ function createGeminiClaudeLike(
   } as unknown as ClaudeLike;
 }
 
-function createOfflineDemoClaudeLike(): ClaudeLike {
-  return {
-    beta: {
-      messages: {
-        stream(params: StreamParams) {
-          return {
-            async finalMessage() {
-              const priceTool = (params.tools ?? []).find((t) => t.name === "fiyatlari_kaydet");
-              const usage = {
-                input_tokens: 0,
-                output_tokens: 0,
-                cache_creation_input_tokens: 0,
-                cache_read_input_tokens: 0,
-              };
-              if (priceTool) {
-                return {
-                  stop_reason: "tool_use",
-                  usage,
-                  content: [{ type: "tool_use", id: "offline_price_1", name: "fiyatlari_kaydet", input: { fiyatlar: [] } }],
-                };
-              }
-              const blocks = Array.isArray(params.messages[0]?.content) ? params.messages[0].content : [];
-              const hasMedia = blocks.some(
-                (b: Record<string, unknown>) => b.type === "document" || b.type === "image",
-              );
-              if (hasMedia) {
-                return {
-                  stop_reason: "end_turn",
-                  usage,
-                  content: [{ type: "text", text: JSON.stringify(PICANTO_RAW_EXTRACTION) }],
-                };
-              }
-              const firstText = String((blocks[0] as { text?: string } | undefined)?.text ?? "{}");
-              const interp = buildPicantoInterpretation(firstText);
-              return {
-                stop_reason: "end_turn",
-                usage,
-                content: [{ type: "text", text: JSON.stringify(interp) }],
-              };
-            },
-          };
-        },
-      },
-    },
-  } as unknown as ClaudeLike;
-}
-
+/**
+ * Anahtara göre istemci: Gemini anahtarı (AIza… / AQ.…) Gemini uyarlayıcısını, diğerleri
+ * Anthropic SDK'sını döndürür. Anahtar yoksa hata fırlatır; çevrimdışı demo yalnız
+ * geliştirmede `OFFLINE_DEMO=1` ile `buildDeps` üzerinden açılır.
+ */
 export function createClaude(
   apiKey: string,
   opts?: { geminiModel?: string; fetchFn?: typeof fetch },
 ): ClaudeLike {
-  if (!apiKey || apiKey === "offline-local-demo") {
-    return createOfflineDemoClaudeLike();
+  if (!apiKey || apiKey.trim() === "") {
+    throw new Error("createClaude: API anahtarı yok");
   }
   if (apiKey.startsWith("AIza") || apiKey.startsWith("AQ.")) {
     return createGeminiClaudeLike(apiKey, opts);

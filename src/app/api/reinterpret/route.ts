@@ -21,7 +21,7 @@ export async function POST(req: Request): Promise<Response> {
       const parsed = BodySchema.safeParse(body);
       if (!parsed.success) return emit(errorEvent("internal"));
       if (!parsed.data.token) return emit(errorEvent("token_invalid"));
-      const deps = buildDeps(usd);
+      const deps = await buildDeps(usd);
       if (!deps) return emit(errorEvent("internal"));
       await runReinterpret(deps, { token: parsed.data.token, vehicle: parsed.data.vehicle }, emit);
     },
