@@ -1,0 +1,47 @@
+import type { Extraction, RawExtraction } from "@/lib/schema/extraction";
+import type { Signal } from "@/lib/schema/result";
+
+const normalizePart = (part: string): string =>
+  part.toLocaleLowerCase("tr-TR").trim().replace(/\s+/g, " ");
+
+export function normalizeExtraction(raw: RawExtraction): {
+  extraction: Extraction;
+  signals: Signal[];
+} {
+  const kaporta = new Map<string, RawExtraction["items"][number]>();
+  for (const item of raw.items) {
+    if (item.section !== "kaporta_boya") continue;
+    const key = normalizePart(item.part);
+    if (!kaporta.has(key)) kaporta.set(key, item);
+  }
+
+  const conflicting = new Set<RawExtraction["items"][number]>();
+  const kept = raw.items.filter((item) => {
+    if (item.section !== "mor_isik") return true;
+    const match = kaporta.get(normalizePart(item.part));
+    if (!match) return true;
+    if (match.statusKind !== item.statusKind) conflicting.add(match);
+    return false;
+  });
+
+  const signals: Signal[] = [];
+  if (conflicting.size > 0) {
+    signals.push({
+      code: "mor_isik_celiski",
+      level: "warn",
+      message: "Mor ışık sonucu kaporta-boya sonucuyla çelişiyor.",
+      details: raw.items.filter((i) => conflicting.has(i)).map((i) => i.part),
+    });
+  }
+
+  const extraction: Extraction = {
+    ...structuredClone(raw),
+    items: kept.map((item, n) => ({ id: `i${n + 1}`, ...structuredClone(item) })),
+    measurements: raw.measurements.map((m, n) => ({ id: `m${n + 1}`, ...structuredClone(m) })),
+    obd: {
+      summary: structuredClone(raw.obd.summary),
+      rawFaults: raw.obd.rawFaults.map((f, n) => ({ id: `f${n + 1}`, ...structuredClone(f) })),
+    },
+  };
+  return { extraction, signals };
+}

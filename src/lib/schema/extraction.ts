@@ -143,3 +143,18 @@ export const RawExtractionSchema = z.strictObject({
   unreadable: z.array(z.string()),
 });
 export type RawExtraction = z.infer<typeof RawExtractionSchema>;
+
+// Normalleştirilmiş çıktı: her madde, ölçüm ve ham arıza kaydına kimlik eklenir.
+const withId = <T extends z.ZodRawShape>(shape: T) =>
+  z.strictObject({ id: z.string(), ...shape });
+
+export const ExtractionSchema = z.strictObject({
+  ...RawExtractionSchema.shape,
+  items: z.array(withId(RawExtractionSchema.shape.items.element.shape)),
+  measurements: z.array(withId(RawExtractionSchema.shape.measurements.element.shape)),
+  obd: z.strictObject({
+    summary: RawExtractionSchema.shape.obd.shape.summary,
+    rawFaults: z.array(withId(RawExtractionSchema.shape.obd.shape.rawFaults.element.shape)),
+  }),
+});
+export type Extraction = z.infer<typeof ExtractionSchema>;
