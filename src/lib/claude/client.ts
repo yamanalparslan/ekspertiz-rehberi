@@ -96,29 +96,49 @@ function createGeminiClaudeLike(
                 body.tools = [{ googleSearch: {} }];
               }
 
-              const genUrl = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent`;
-              const vtxUrl = `https://aiplatform.googleapis.com/v1/publishers/google/models/${encodeURIComponent(model)}:generateContent`;
+              const candidateModels = [
+                model,
+                "gemini-3.8-flash-lite",
+                "gemini-3.8-pro",
+                "gemini-3.5-flash",
+                "gemini-3.5-pro",
+                "gemini-3.0-flash",
+                "gemini-2.5-pro",
+              ];
+              // Tekrarları kaldır.
+              const modelsToTry = Array.from(new Set(candidateModels));
 
-              let res = await fetchFn(genUrl, {
-                method: "POST",
-                headers: { "Content-Type": "application/json", "x-goog-api-key": apiKey },
-                body: JSON.stringify(body),
-              });
-              if (!res.ok) {
-                const firstErr = await res.text().catch(() => "");
-                const altRes = await fetchFn(vtxUrl, {
-                  method: "POST",
-                  headers: { "Content-Type": "application/json", "x-goog-api-key": apiKey },
-                  body: JSON.stringify(body),
-                });
-                if (altRes.ok) {
-                  res = altRes;
-                } else {
-                  const secondErr = await altRes.text().catch(() => "");
-                  const errMsg = `Gemini HTTP ${res.status}: ${firstErr.slice(0, 250)} | Alt HTTP ${altRes.status}: ${secondErr.slice(0, 250)}`;
-                  console.error("[Gemini API Error]", errMsg);
-                  throw new Error(errMsg);
+              let res: Response | null = null;
+              const errors: string[] = [];
+
+              for (const mName of modelsToTry) {
+                const genUrl = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(mName)}:generateContent`;
+                for (let attempt = 0; attempt < 2; attempt++) {
+                  const r = await fetchFn(genUrl, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json", "x-goog-api-key": apiKey },
+                    body: JSON.stringify(body),
+                  });
+                  if (r.ok) {
+                    res = r;
+                    break;
+                  }
+                  const errTxt = await r.text().catch(() => "");
+                  errors.push(`${mName}#${attempt + 1}(${r.status}): ${errTxt.slice(0, 140)}`);
+                  // Yalnızca 503 (yoğunluk) durumunda aynı modeli 1 kez daha dene; 404/429 ise hemen sonraki modele geç.
+                  if (r.status === 503 && attempt === 0) {
+                    await new Promise((resolve) => setTimeout(resolve, 800));
+                    continue;
+                  }
+                  break;
                 }
+                if (res) break;
+              }
+
+              if (!res) {
+                const errMsg = errors.join(" | ");
+                console.error("[Gemini API Error]", errMsg);
+                throw new Error(errMsg);
               }
               const data = (await res.json()) as {
                 candidates?: Array<{
