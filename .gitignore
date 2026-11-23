@@ -2,3 +2,12 @@
 node_modules/
 .env*
 .dev.vars
+
+# build output / local
+.open-next/
+.wrangler/
+.next/
+kb/seed.sql
+next-env.d.ts
+*.tsbuildinfo
+.DS_Store
