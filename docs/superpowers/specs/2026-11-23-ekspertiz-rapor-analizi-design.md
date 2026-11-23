@@ -1,7 +1,7 @@
 # Ekspertiz Rapor Analizi: Tasarım Belgesi
 
 - Tarih: 2026-11-23
-- Durum: Taslak, onay bekliyor
+- Durum: Onaylandı (2026-11-23)
 - Çalışma adı: `ekspertiz-rehberi` (ürün adı henüz seçilmedi)
 
 ## 1. Amaç ve neden
