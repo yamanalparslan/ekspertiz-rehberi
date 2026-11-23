@@ -16,6 +16,9 @@
       "migrations_dir": "migrations"
     }
   ],
+  "vars": {
+    "DAILY_SPEND_CAP_USD": "10"
+  },
   "limits": {
     "cpu_ms": 30000
   }
