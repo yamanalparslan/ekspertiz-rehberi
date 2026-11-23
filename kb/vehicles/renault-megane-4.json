@@ -1,0 +1,340 @@
+{
+  "vehicle": {
+    "id": "renault-megane-4",
+    "brand": "Renault",
+    "model": "Megane",
+    "generation": "Megane IV (2016-2020; makyajlı 2021+)",
+    "aliases": [
+      "Megane IV",
+      "Megane 4",
+      "Megane 1.5 dCi",
+      "Megane 1.3 TCe",
+      "Megane Sedan",
+      "Megane Sport Tourer"
+    ],
+    "yearFrom": 2016,
+    "yearTo": 2023,
+    "engines": [
+      {
+        "code": "K9K-1.5dCi",
+        "cc": 1461,
+        "fuel": "dizel"
+      },
+      {
+        "code": "H5Ht-1.3TCe",
+        "cc": 1332,
+        "fuel": "benzin"
+      },
+      {
+        "code": "H5Ft-1.2TCe",
+        "cc": 1198,
+        "fuel": "benzin"
+      },
+      {
+        "code": "R9M-1.6dCi",
+        "cc": 1598,
+        "fuel": "dizel"
+      }
+    ],
+    "segment": "c"
+  },
+  "chronicIssues": [
+    {
+      "id": "megane4-13tce-termostat-kacak",
+      "system": "motor",
+      "title": "1.3 TCe termostat yuvasından soğutma suyu kaçağı (2018-2020)",
+      "description": "Araclo Megane IV sayfası H5Ht 1.3 TCe motorunda termostat yuvasından kademeli soğutma suyu kaybını, 2018-2020 aralığında ve 60.000-100.000 km arasında kritik, yüksek maliyetli sorun olarak listeliyor; ihmal edilirse motor kilitlenebilir. Autoscore da aynı motorda plastik termostat yuvasından küçük soğutma suyu kaçaklarını yaygın bir sorun olarak ve tipik olarak yaklaşık 60.000 km'de anlatıyor (düşük ciddiyet, kendi tahmini 300-600 euro onarım). İki kaynak ciddiyet konusunda ayrışıyor: Araclo kritik, Autoscore düşük diyor. Soğutma suyu seviyesine ve motor önündeki kuru antifriz izine bakılmalıdır.",
+      "symptoms": [
+        "soğutma suyu seviyesinin düşmesi",
+        "kalorifer zayıf ısıtma",
+        "hararet uyarısı"
+      ],
+      "matchKeywords": [
+        "termostat yuvası",
+        "soğutma suyu",
+        "antifriz kaçağı",
+        "hararet",
+        "1.3 TCe"
+      ],
+      "obdCodes": [],
+      "engineCodes": [
+        "H5Ht-1.3TCe"
+      ],
+      "priceItemId": null,
+      "sources": [
+        {
+          "url": "https://www.araclo.com/vehicles/renault-megane/megane4/kronik-sorunlar",
+          "title": "Renault Megane IV Kronik Sorunlar ve Bilinen Arızalar (Araclo)",
+          "domain": "araclo.com"
+        },
+        {
+          "url": "https://autoscore.pro/engine/renault-1.3-tce-h5ht",
+          "title": "Renault 1.3 TCe H5Ht engine reliability (Autoscore)",
+          "domain": "autoscore.pro"
+        }
+      ],
+      "researchedAt": "2026-11-23"
+    },
+    {
+      "id": "megane4-13tce-yakit-yaga-karisma",
+      "system": "motor",
+      "title": "1.3 TCe enjeksiyon arızası ve yağa yakıt karışması (2018-2019)",
+      "description": "Araclo Megane IV sayfası H5Ht 1.3 TCe için 2018-2019 aralığında enjeksiyon arızasını ve yağa yakıt karışmasını orta önemde listeliyor: enjeksiyon uyarısı, yağ seviyesinde yükselme ve yanlış motor uyarıları. Tek kaynaklı bilgidir.",
+      "symptoms": [
+        "enjeksiyon uyarısı",
+        "yağ seviyesinin yükselmesi",
+        "motor arıza ışığı"
+      ],
+      "matchKeywords": [
+        "yağa yakıt karışması",
+        "yağ seviyesi yükseldi",
+        "enjeksiyon arızası",
+        "1.3 TCe"
+      ],
+      "obdCodes": [],
+      "engineCodes": [
+        "H5Ht-1.3TCe"
+      ],
+      "priceItemId": null,
+      "sources": [
+        {
+          "url": "https://www.araclo.com/vehicles/renault-megane/megane4/kronik-sorunlar",
+          "title": "Renault Megane IV Kronik Sorunlar ve Bilinen Arızalar (Araclo)",
+          "domain": "araclo.com"
+        }
+      ],
+      "researchedAt": "2026-11-23"
+    },
+    {
+      "id": "megane4-12tce-yag-tuketimi",
+      "system": "motor",
+      "title": "1.2 TCe'de aşırı yağ tüketimi (2012-2016)",
+      "description": "Araclo Megane IV sayfası H5Ft 1.2 TCe motorunda 40.000 km sonrası, 2012-2016 aralığında aşırı yağ tüketimini ve motor hasarını kritik, yüksek maliyetli sorun olarak listeliyor: yağın hızla düşmesi, egzozdan mavi duman, çekiş kaybı. Listelenen yıl aralığı Megane IV'ün üretim başlangıcından (2016) öncesini de kapsıyor, bu nedenle kapsam araç bazında doğrulanmalıdır. Tek kaynaklı bilgidir.",
+      "symptoms": [
+        "yağ seviyesinin hızla düşmesi",
+        "egzozdan mavi duman",
+        "çekiş kaybı"
+      ],
+      "matchKeywords": [
+        "yağ tüketimi",
+        "yağ yakma",
+        "mavi duman",
+        "1.2 TCe"
+      ],
+      "obdCodes": [],
+      "engineCodes": [
+        "H5Ft-1.2TCe"
+      ],
+      "priceItemId": null,
+      "sources": [
+        {
+          "url": "https://www.araclo.com/vehicles/renault-megane/megane4/kronik-sorunlar",
+          "title": "Renault Megane IV Kronik Sorunlar ve Bilinen Arızalar (Araclo)",
+          "domain": "araclo.com"
+        }
+      ],
+      "researchedAt": "2026-11-23"
+    },
+    {
+      "id": "megane4-dci-enjektor-yakit-pompasi",
+      "system": "yakit",
+      "title": "1.5 dCi yakıt pompası talaşı ve enjektör arızası",
+      "description": "Araclo Megane IV sayfası K9K 1.5 dCi için yakıt pompasında talaş ve enjektör arızasını 60.000 km sonrası yüksek önemde listeliyor: zor çalışma, siyah duman, tekleme, güç kaybı ve uyarı lambası. Tek kaynaklı bilgidir.",
+      "symptoms": [
+        "zor çalışma",
+        "siyah duman",
+        "tekleme",
+        "güç kaybı",
+        "arıza ışığı"
+      ],
+      "matchKeywords": [
+        "enjektör",
+        "yakıt pompası",
+        "siyah duman",
+        "1.5 dCi"
+      ],
+      "obdCodes": [],
+      "engineCodes": [
+        "K9K-1.5dCi"
+      ],
+      "priceItemId": null,
+      "sources": [
+        {
+          "url": "https://www.araclo.com/vehicles/renault-megane/megane4/kronik-sorunlar",
+          "title": "Renault Megane IV Kronik Sorunlar ve Bilinen Arızalar (Araclo)",
+          "domain": "araclo.com"
+        }
+      ],
+      "researchedAt": "2026-11-23"
+    },
+    {
+      "id": "megane4-dci-radyator-fan-karti",
+      "system": "motor",
+      "title": "1.5 dCi radyatör fanı elektronik kartı çatlaması (geri çağırma, 2018)",
+      "description": "Araclo Megane IV sayfası 1.5 dCi / 1.5 Blue dCi'de radyatör fanı elektronik kartındaki kondansatörlerin çatlayabildiğini, fanın durup motorun aşırı ısınabildiğini ve yangın riski oluşturabildiğini 2018 için geri çağırma kapsamında kritik sorun olarak listeliyor. Araclo geri çağırma kapsamında listeliyor; kampanyanın Türkiye'deki kapsamı bu kaynakta ayrıca doğrulanmıyor, yetkili serviste şasi numarasıyla sorulmalıdır. Tek kaynaklı bilgidir.",
+      "symptoms": [
+        "fan çalışmıyor",
+        "aşırı ısınma",
+        "hararet uyarısı"
+      ],
+      "matchKeywords": [
+        "radyatör fanı",
+        "fan kartı",
+        "geri çağırma",
+        "hararet"
+      ],
+      "obdCodes": [],
+      "engineCodes": [
+        "K9K-1.5dCi"
+      ],
+      "priceItemId": null,
+      "sources": [
+        {
+          "url": "https://www.araclo.com/vehicles/renault-megane/megane4/kronik-sorunlar",
+          "title": "Renault Megane IV Kronik Sorunlar ve Bilinen Arızalar (Araclo)",
+          "domain": "araclo.com"
+        }
+      ],
+      "researchedAt": "2026-11-23"
+    },
+    {
+      "id": "megane4-yan-perde-hava-yastigi",
+      "system": "guvenlik",
+      "title": "Yan perde hava yastıklarının açılmama riski (geri çağırma, 2016)",
+      "description": "Araclo Megane IV sayfası 2016 araçlarda yan çarpmada perde hava yastıklarının açılmayabileceğini ve sürücüye uyarı verilmediğini geri çağırma kapsamında kritik sorun olarak listeliyor. Araclo geri çağırma kapsamında listeliyor; kampanyanın Türkiye'deki kapsamı bu kaynakta ayrıca doğrulanmıyor, yetkili serviste şasi numarasıyla sorulmalıdır. Tek kaynaklı bilgidir.",
+      "symptoms": [],
+      "matchKeywords": [
+        "perde hava yastığı",
+        "hava yastığı",
+        "geri çağırma"
+      ],
+      "obdCodes": [],
+      "engineCodes": null,
+      "priceItemId": null,
+      "sources": [
+        {
+          "url": "https://www.araclo.com/vehicles/renault-megane/megane4/kronik-sorunlar",
+          "title": "Renault Megane IV Kronik Sorunlar ve Bilinen Arızalar (Araclo)",
+          "domain": "araclo.com"
+        }
+      ],
+      "researchedAt": "2026-11-23"
+    },
+    {
+      "id": "megane4-abs-esp-hidrolik-unite",
+      "system": "fren",
+      "title": "ABS/ESP hidrolik ünitesinde kirlenme (geri çağırma, 2016)",
+      "description": "Araclo Megane IV sayfası 2016 araçlarda ABS ve ESP hidrolik ünitesindeki kirin fren kontrolünü bozabildiğini, ABS/ESP uyarı lambalarının yanabildiğini geri çağırma kapsamında kritik sorun olarak listeliyor. Araclo geri çağırma kapsamında listeliyor; kampanyanın Türkiye'deki kapsamı bu kaynakta ayrıca doğrulanmıyor, yetkili serviste şasi numarasıyla sorulmalıdır. Tek kaynaklı bilgidir.",
+      "symptoms": [
+        "ABS uyarı lambası",
+        "ESP uyarı lambası"
+      ],
+      "matchKeywords": [
+        "ABS",
+        "ESP",
+        "hidrolik ünite",
+        "geri çağırma",
+        "fren"
+      ],
+      "obdCodes": [],
+      "engineCodes": null,
+      "priceItemId": null,
+      "sources": [
+        {
+          "url": "https://www.araclo.com/vehicles/renault-megane/megane4/kronik-sorunlar",
+          "title": "Renault Megane IV Kronik Sorunlar ve Bilinen Arızalar (Araclo)",
+          "domain": "araclo.com"
+        }
+      ],
+      "researchedAt": "2026-11-23"
+    },
+    {
+      "id": "megane4-fren-park-freni-uyarilari",
+      "system": "fren",
+      "title": "ABS, aktif fren ve elektronik park freni uyarıları",
+      "description": "Araclo Megane IV sayfası 15 km/h üzeri hızda fren sistemi uyarılarının yanmasını, hız sabitleyicinin devreden çıkmasını ve park freni lambasının yanıp sönmesini yüksek önemde listeliyor; bazen kontak kapatıp açınca geçiyor. Olası nedenler olarak ABS konektör teması, fren yazılımı veya park freni modülü sayılıyor. Tek kaynaklı bilgidir.",
+      "symptoms": [
+        "fren uyarısı",
+        "hız sabitleyici devreden çıkıyor",
+        "park freni lambası yanıp sönüyor"
+      ],
+      "matchKeywords": [
+        "park freni",
+        "ABS uyarısı",
+        "aktif fren",
+        "hız sabitleyici"
+      ],
+      "obdCodes": [],
+      "engineCodes": null,
+      "priceItemId": null,
+      "sources": [
+        {
+          "url": "https://www.araclo.com/vehicles/renault-megane/megane4/kronik-sorunlar",
+          "title": "Renault Megane IV Kronik Sorunlar ve Bilinen Arızalar (Araclo)",
+          "domain": "araclo.com"
+        }
+      ],
+      "researchedAt": "2026-11-23"
+    },
+    {
+      "id": "megane4-rlink2-ekran",
+      "system": "elektronik",
+      "title": "R-Link 2 multimedya ekranının donması veya kararması",
+      "description": "Araclo Megane IV sayfası R-Link 2 multimedya ünitesinde yavaş açılma, donma, siyah ekran, telefon bağlantısı kopması ve navigasyon hatalarını orta önemde listeliyor; başarısız bir güncelleme ünitenin kullanılamaz hale gelmesine yol açabiliyor. Tek kaynaklı bilgidir.",
+      "symptoms": [
+        "ekran donması",
+        "siyah ekran",
+        "telefon bağlantısı kopması"
+      ],
+      "matchKeywords": [
+        "R-Link",
+        "multimedya",
+        "ekran donuyor",
+        "navigasyon"
+      ],
+      "obdCodes": [],
+      "engineCodes": null,
+      "priceItemId": null,
+      "sources": [
+        {
+          "url": "https://www.araclo.com/vehicles/renault-megane/megane4/kronik-sorunlar",
+          "title": "Renault Megane IV Kronik Sorunlar ve Bilinen Arızalar (Araclo)",
+          "domain": "araclo.com"
+        }
+      ],
+      "researchedAt": "2026-11-23"
+    },
+    {
+      "id": "megane4-edc7-sanziman",
+      "system": "sanziman",
+      "title": "7 ileri EDC şanzımanda şanzıman beyni ve kavrama arızası",
+      "description": "Araclo Megane IV sayfası 7 ileri EDC şanzıman için şanzıman beyni ve kavrama arızasını kritik/yüksek maliyetli (devir yükselmesi, sarsıntılı geçişler, uyarı lambası, limp mod), 3-4 vites geçişinde uğultu ve hafif titremeyi ise 33.000-70.000 km aralığında orta önemde listeliyor. Tek kaynaklı bilgidir. Fiyat kalemi yalnızca çift kavrama işçiliğidir, parça dahil değildir.",
+      "symptoms": [
+        "devir yükselmesi",
+        "sarsıntılı vites geçişi",
+        "3-4 vites geçişinde uğultu",
+        "uyarı lambası",
+        "limp mod"
+      ],
+      "matchKeywords": [
+        "EDC",
+        "çift kavrama",
+        "şanzıman beyni",
+        "vites sarsıntısı",
+        "otomatik şanzıman"
+      ],
+      "obdCodes": [],
+      "engineCodes": null,
+      "priceItemId": "generic-cift-kavrama-iscilik",
+      "sources": [
+        {
+          "url": "https://www.araclo.com/vehicles/renault-megane/megane4/kronik-sorunlar",
+          "title": "Renault Megane IV Kronik Sorunlar ve Bilinen Arızalar (Araclo)",
+          "domain": "araclo.com"
+        }
+      ],
+      "researchedAt": "2026-11-23"
+    }
+  ],
+  "priceItems": []
+}

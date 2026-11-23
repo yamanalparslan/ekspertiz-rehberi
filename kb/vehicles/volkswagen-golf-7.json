@@ -1,0 +1,434 @@
+{
+  "vehicle": {
+    "id": "volkswagen-golf-7",
+    "brand": "Volkswagen",
+    "model": "Golf",
+    "generation": "Golf VII (2012-2017)",
+    "aliases": [
+      "Golf 7",
+      "Golf VII",
+      "Golf 1.6 TDI",
+      "Golf 1.4 TSI",
+      "Golf 1.2 TSI",
+      "Golf Mk7"
+    ],
+    "yearFrom": 2012,
+    "yearTo": 2017,
+    "engines": [
+      {
+        "code": "EA211-1.2TSI",
+        "cc": 1197,
+        "fuel": "benzin"
+      },
+      {
+        "code": "EA211-1.4TSI",
+        "cc": 1395,
+        "fuel": "benzin"
+      },
+      {
+        "code": "EA288-1.6TDI",
+        "cc": 1598,
+        "fuel": "dizel"
+      },
+      {
+        "code": "EA888-Gen3-2.0TSI",
+        "cc": 1984,
+        "fuel": "benzin"
+      }
+    ],
+    "segment": "c"
+  },
+  "chronicIssues": [
+    {
+      "id": "golf7-far-buharlanma",
+      "system": "aydinlatma",
+      "title": "Far ve sis lambası buğulanması ve arızası",
+      "description": "Araclo Golf VII sayfası far ve sis lambalarında içeriden buğulanma veya güneşten sararmayı yüksek önemde, yüksek maliyetli listeliyor; bazı araçlarda yanık ampul uyarı vermiyor, 2015 bi-xenon merceklerde kararma görülüyor. DonanımHaber forumundaki Golf 7 kronik sorunlar listesi de far ve sis farlarında buğulanmayı ve 2015 Basic Bi-Xenon farlarda mercek lekelenmesini anıyor (forum kullanıcı derlemesi).",
+      "symptoms": [
+        "farda buğulanma",
+        "far sararması",
+        "ampul uyarısı vermiyor"
+      ],
+      "matchKeywords": [
+        "far buğusu",
+        "sis lambası",
+        "bi-xenon",
+        "far buğulanma"
+      ],
+      "obdCodes": [],
+      "engineCodes": null,
+      "priceItemId": null,
+      "sources": [
+        {
+          "url": "https://www.araclo.com/vehicles/volkswagen-golf/mk7/kronik-sorunlar",
+          "title": "Volkswagen Golf VII Kronik Sorunlar ve Bilinen Arızalar (Araclo)",
+          "domain": "araclo.com"
+        },
+        {
+          "url": "https://forum.donanimhaber.com/golf-7-nin-kronik-sorunlari-27-kronik-sorun--139238714",
+          "title": "Golf 7'nin kronik sorunları - 27 kronik sorun (DonanımHaber forum)",
+          "domain": "forum.donanimhaber.com"
+        }
+      ],
+      "researchedAt": "2026-11-23"
+    },
+    {
+      "id": "golf7-multimedya-ekran",
+      "system": "elektronik",
+      "title": "Multimedya ekranının kararması ve telefon eşleşme sorunları (2015-2017)",
+      "description": "Araclo Golf VII sayfası 2015-2017 araçlarda multimedya ekranının kararmasını veya yeniden başlamasını, yol bilgisayarının sıfırlanmasını ve telefon eşleşmemesini orta önemde listeliyor. DonanımHaber forum listesi de 2015 model 6,5 inç ekranlarda kararma ve km sıfırlanmasını anıyor (yazılım güncellemesiyle giderildiği belirtiliyor; forum kullanıcı derlemesi).",
+      "symptoms": [
+        "ekran kararması",
+        "yol bilgisayarı sıfırlanması",
+        "telefon eşleşmiyor"
+      ],
+      "matchKeywords": [
+        "multimedya",
+        "ekran karardı",
+        "yol bilgisayarı",
+        "navigasyon"
+      ],
+      "obdCodes": [],
+      "engineCodes": null,
+      "priceItemId": null,
+      "sources": [
+        {
+          "url": "https://www.araclo.com/vehicles/volkswagen-golf/mk7/kronik-sorunlar",
+          "title": "Volkswagen Golf VII Kronik Sorunlar ve Bilinen Arızalar (Araclo)",
+          "domain": "araclo.com"
+        },
+        {
+          "url": "https://forum.donanimhaber.com/golf-7-nin-kronik-sorunlari-27-kronik-sorun--139238714",
+          "title": "Golf 7'nin kronik sorunları - 27 kronik sorun (DonanımHaber forum)",
+          "domain": "forum.donanimhaber.com"
+        }
+      ],
+      "researchedAt": "2026-11-23"
+    },
+    {
+      "id": "golf7-on-kapi-su-alma",
+      "system": "kaporta",
+      "title": "Ön kapılardan su alma ve hoparlör yuvası çatlakları (2012-2015)",
+      "description": "Araclo Golf VII sayfası 2012-2015 araçlarda ön kapılardan suyun halıyı ıslatmasını, ön hoparlörlerde çıtırtı ve hoparlör yuvasında çatlak kaynaklı küf kokusunu orta önemde listeliyor. DonanımHaber forum listesi de 2012 ve 2013 modellerde kabine su girmesini anıyor (forum kullanıcı derlemesi). Eşik yanlarındaki halı nem açısından kontrol edilmeli.",
+      "symptoms": [
+        "halı ıslaklığı",
+        "küf kokusu",
+        "hoparlör çıtırtısı"
+      ],
+      "matchKeywords": [
+        "su alma",
+        "kapıdan su",
+        "hoparlör",
+        "halı ıslak"
+      ],
+      "obdCodes": [],
+      "engineCodes": null,
+      "priceItemId": null,
+      "sources": [
+        {
+          "url": "https://www.araclo.com/vehicles/volkswagen-golf/mk7/kronik-sorunlar",
+          "title": "Volkswagen Golf VII Kronik Sorunlar ve Bilinen Arızalar (Araclo)",
+          "domain": "araclo.com"
+        },
+        {
+          "url": "https://forum.donanimhaber.com/golf-7-nin-kronik-sorunlari-27-kronik-sorun--139238714",
+          "title": "Golf 7'nin kronik sorunları - 27 kronik sorun (DonanımHaber forum)",
+          "domain": "forum.donanimhaber.com"
+        }
+      ],
+      "researchedAt": "2026-11-23"
+    },
+    {
+      "id": "golf7-tsi-yag-tuketimi",
+      "system": "motor",
+      "title": "TSI motorlarda yağ tüketimi",
+      "description": "Araclo Golf VII sayfası EA211 1.2 TSI ve 1.4 TSI motorlarında yağ tüketimini düşük önemde listeliyor (servis aralıklarında yağ seviyesi düşer, tamamlama gerekir). DonanımHaber forum listesi de TSI motorlarında yağ tüketimini anıyor (forum kullanıcı derlemesi). Çubuktaki seviye kontrol edilmeli.",
+      "symptoms": [
+        "yağ seviyesinin düşmesi",
+        "yağ tamamlama ihtiyacı"
+      ],
+      "matchKeywords": [
+        "yağ tüketimi",
+        "yağ eksiltme",
+        "TSI"
+      ],
+      "obdCodes": [],
+      "engineCodes": [
+        "EA211-1.2TSI",
+        "EA211-1.4TSI"
+      ],
+      "priceItemId": null,
+      "sources": [
+        {
+          "url": "https://www.araclo.com/vehicles/volkswagen-golf/mk7/kronik-sorunlar",
+          "title": "Volkswagen Golf VII Kronik Sorunlar ve Bilinen Arızalar (Araclo)",
+          "domain": "araclo.com"
+        },
+        {
+          "url": "https://forum.donanimhaber.com/golf-7-nin-kronik-sorunlari-27-kronik-sorun--139238714",
+          "title": "Golf 7'nin kronik sorunları - 27 kronik sorun (DonanımHaber forum)",
+          "domain": "forum.donanimhaber.com"
+        }
+      ],
+      "researchedAt": "2026-11-23"
+    },
+    {
+      "id": "golf7-tsi-devirdaim-termostat",
+      "system": "motor",
+      "title": "1.2/1.4 TSI devirdaim pompası ve termostat yuvasından sızıntı",
+      "description": "Araclo Golf VII sayfası EA211 1.2 TSI ve 1.4 TSI motorlarında 80.000 km sonrası devirdaim pompası ve termostat yuvasından yavaş soğutma suyu kaybını orta önemde listeliyor. Tek kaynaklı bilgidir.",
+      "symptoms": [
+        "soğutma suyunun yavaş azalması",
+        "sıcaklık uyarısı"
+      ],
+      "matchKeywords": [
+        "devirdaim",
+        "termostat yuvası",
+        "soğutma suyu",
+        "antifriz"
+      ],
+      "obdCodes": [],
+      "engineCodes": [
+        "EA211-1.2TSI",
+        "EA211-1.4TSI"
+      ],
+      "priceItemId": null,
+      "sources": [
+        {
+          "url": "https://www.araclo.com/vehicles/volkswagen-golf/mk7/kronik-sorunlar",
+          "title": "Volkswagen Golf VII Kronik Sorunlar ve Bilinen Arızalar (Araclo)",
+          "domain": "araclo.com"
+        }
+      ],
+      "researchedAt": "2026-11-23"
+    },
+    {
+      "id": "golf7-20tsi-plastik-su-pompasi",
+      "system": "motor",
+      "title": "2.0 TSI (EA888 Gen3) plastik su pompası ve termostat yuvası sızıntısı",
+      "description": "Araclo Golf VII sayfası EA888 Gen3 motorunda plastik su pompası ve termostat yuvasından sızıntıyı 25.000-80.000 km aralığında orta önemde listeliyor: görünür kaçak olmadan soğutma suyu azalması, tatlı koku, hatalı hararet uyarıları. Tek kaynaklı bilgidir.",
+      "symptoms": [
+        "soğutma suyu azalması",
+        "tatlı koku",
+        "yanlış hararet uyarısı"
+      ],
+      "matchKeywords": [
+        "plastik su pompası",
+        "termostat yuvası",
+        "antifriz kristali",
+        "2.0 TSI"
+      ],
+      "obdCodes": [],
+      "engineCodes": [
+        "EA888-Gen3-2.0TSI"
+      ],
+      "priceItemId": null,
+      "sources": [
+        {
+          "url": "https://www.araclo.com/vehicles/volkswagen-golf/mk7/kronik-sorunlar",
+          "title": "Volkswagen Golf VII Kronik Sorunlar ve Bilinen Arızalar (Araclo)",
+          "domain": "araclo.com"
+        }
+      ],
+      "researchedAt": "2026-11-23"
+    },
+    {
+      "id": "golf7-16tdi-devirdaim",
+      "system": "motor",
+      "title": "1.6 TDI ayarlı devirdaim pompasının kilitlenmesi",
+      "description": "Araclo Golf VII sayfası EA288 1.6 TDI için ayarlı devirdaim pompasının 80.000 km sonrası kilitlenmesini yüksek önemde listeliyor: sıcaklık hızla yükselir, kırmızı uyarı yanar; ihmal edilirse silindir kapak contası arızalanabilir. Tek kaynaklı bilgidir.",
+      "symptoms": [
+        "sıcaklığın hızla yükselmesi",
+        "kırmızı uyarı ışığı"
+      ],
+      "matchKeywords": [
+        "devirdaim",
+        "su pompası",
+        "hararet",
+        "1.6 TDI"
+      ],
+      "obdCodes": [],
+      "engineCodes": [
+        "EA288-1.6TDI"
+      ],
+      "priceItemId": null,
+      "sources": [
+        {
+          "url": "https://www.araclo.com/vehicles/volkswagen-golf/mk7/kronik-sorunlar",
+          "title": "Volkswagen Golf VII Kronik Sorunlar ve Bilinen Arızalar (Araclo)",
+          "domain": "araclo.com"
+        }
+      ],
+      "researchedAt": "2026-11-23"
+    },
+    {
+      "id": "golf7-16tdi-egr-dpf-adblue",
+      "system": "emisyon",
+      "title": "1.6 TDI EGR, partikül filtresi ve AdBlue sistemi arızaları",
+      "description": "Araclo Golf VII sayfası EA288 1.6 TDI için EGR valfi ve soğutucusunun kurumla tıkanmasını, partikül filtresi tıkanmasını (kısa yolda daha sık) ve AdBlue sistemi arızasını (geri sayım uyarısı, sonunda aracın çalışmaması) orta önemde listeliyor. Arıza kayıtları cihazla okutulmalıdır. Tek kaynaklı bilgidir.",
+      "symptoms": [
+        "güç kaybı",
+        "DPF uyarısı",
+        "AdBlue uyarısı geri sayımı",
+        "limp mod"
+      ],
+      "matchKeywords": [
+        "EGR",
+        "DPF",
+        "partikül filtresi",
+        "AdBlue",
+        "1.6 TDI"
+      ],
+      "obdCodes": [],
+      "engineCodes": [
+        "EA288-1.6TDI"
+      ],
+      "priceItemId": null,
+      "sources": [
+        {
+          "url": "https://www.araclo.com/vehicles/volkswagen-golf/mk7/kronik-sorunlar",
+          "title": "Volkswagen Golf VII Kronik Sorunlar ve Bilinen Arızalar (Araclo)",
+          "domain": "araclo.com"
+        }
+      ],
+      "researchedAt": "2026-11-23"
+    },
+    {
+      "id": "golf7-dsg7-mekatronik",
+      "system": "sanziman",
+      "title": "7 ileri DSG mekatronik ünitesi arızası",
+      "description": "Araclo Golf VII sayfası 7 ileri DSG mekatronik ünitesi arızasını kritik, yüksek maliyetli sorun olarak listeliyor: vites boşa düşer, araç hareket etmez veya güç keser, şanzıman uyarı lambası yanar. Sayfa sorunu 2008-2013 yıllarına bağlıyor; bu aralık Golf VII'nin üretim başlangıcından (2012) öncesini de kapsıyor, kapsam araç bazında sorulmalıdır. Yetkili serviste şasi numarasıyla mekatronik değişimi ve yağ kampanyası kaydı sorulmalıdır. Tek kaynaklı bilgidir.",
+      "symptoms": [
+        "vitesin boşa düşmesi",
+        "aracın hareket etmemesi",
+        "güç kesilmesi",
+        "şanzıman uyarı lambası"
+      ],
+      "matchKeywords": [
+        "DSG",
+        "mekatronik",
+        "şanzıman beyni",
+        "vites boşa düşüyor"
+      ],
+      "obdCodes": [],
+      "engineCodes": null,
+      "priceItemId": null,
+      "sources": [
+        {
+          "url": "https://www.araclo.com/vehicles/volkswagen-golf/mk7/kronik-sorunlar",
+          "title": "Volkswagen Golf VII Kronik Sorunlar ve Bilinen Arızalar (Araclo)",
+          "domain": "araclo.com"
+        }
+      ],
+      "researchedAt": "2026-11-23"
+    },
+    {
+      "id": "golf7-dsg7-kavrama",
+      "system": "sanziman",
+      "title": "7 ileri DSG kuru kavrama titremesi ve erken aşınma",
+      "description": "Araclo Golf VII sayfası 7 ileri DSG kuru kavramasında 80.000-150.000 km arasında kalkışta titreme, 1-2 geçişinde sarsıntı ve şehir içinde erken aşınmayı orta önemde, yüksek maliyetli listeliyor. Tek kaynaklı bilgidir. Fiyat kalemi yalnızca çift kavrama işçiliğidir, parça dahil değildir.",
+      "symptoms": [
+        "kalkışta titreme",
+        "1-2 geçişinde sarsıntı",
+        "kavrama aşınması"
+      ],
+      "matchKeywords": [
+        "DSG",
+        "kuru kavrama",
+        "kalkışta titreme",
+        "çift kavrama"
+      ],
+      "obdCodes": [],
+      "engineCodes": null,
+      "priceItemId": "generic-cift-kavrama-iscilik",
+      "sources": [
+        {
+          "url": "https://www.araclo.com/vehicles/volkswagen-golf/mk7/kronik-sorunlar",
+          "title": "Volkswagen Golf VII Kronik Sorunlar ve Bilinen Arızalar (Araclo)",
+          "domain": "araclo.com"
+        }
+      ],
+      "researchedAt": "2026-11-23"
+    },
+    {
+      "id": "golf7-teker-yatagi-geri-cagirma",
+      "system": "suspansiyon",
+      "title": "Ön teker yatağı yuvası ve arka teker taşıyıcı kusuru (geri çağırma, 2015-2017)",
+      "description": "Araclo Golf VII sayfası 2015-2017 araçlarda ön teker yatağı yuvasının çatlayıp süspansiyonun çökebildiğini ve kusurlu arka taşıyıcının aşırı durumlarda tekerin ayrılmasına yol açabildiğini geri çağırma kapsamında kritik sorun olarak listeliyor. Araclo geri çağırma kapsamında listeliyor; kampanyanın Türkiye'deki kapsamı bu kaynakta ayrıca doğrulanmıyor, yetkili serviste şasi numarasıyla sorulmalıdır. Tek kaynaklı bilgidir.",
+      "symptoms": [],
+      "matchKeywords": [
+        "teker yatağı",
+        "yatak yuvası",
+        "arka teker taşıyıcı",
+        "geri çağırma"
+      ],
+      "obdCodes": [],
+      "engineCodes": null,
+      "priceItemId": null,
+      "sources": [
+        {
+          "url": "https://www.araclo.com/vehicles/volkswagen-golf/mk7/kronik-sorunlar",
+          "title": "Volkswagen Golf VII Kronik Sorunlar ve Bilinen Arızalar (Araclo)",
+          "domain": "araclo.com"
+        }
+      ],
+      "researchedAt": "2026-11-23"
+    },
+    {
+      "id": "golf7-fren-diski-geri-cagirma",
+      "system": "fren",
+      "title": "Yanlış kalınlıkta üretilmiş ön fren diskleri (geri çağırma)",
+      "description": "Araclo Golf VII sayfası ön fren disklerinin yanlış kalınlıkta üretilmiş olabileceğini ve disklerin çatlayabileceğini geri çağırma kapsamında kritik sorun olarak listeliyor; yıl aralığı belirtilmiyor. Araclo geri çağırma kapsamında listeliyor; kampanyanın Türkiye'deki kapsamı bu kaynakta ayrıca doğrulanmıyor, yetkili serviste şasi numarasıyla sorulmalıdır. Tek kaynaklı bilgidir.",
+      "symptoms": [],
+      "matchKeywords": [
+        "fren diski",
+        "disk çatlağı",
+        "geri çağırma"
+      ],
+      "obdCodes": [],
+      "engineCodes": null,
+      "priceItemId": null,
+      "sources": [
+        {
+          "url": "https://www.araclo.com/vehicles/volkswagen-golf/mk7/kronik-sorunlar",
+          "title": "Volkswagen Golf VII Kronik Sorunlar ve Bilinen Arızalar (Araclo)",
+          "domain": "araclo.com"
+        }
+      ],
+      "researchedAt": "2026-11-23"
+    },
+    {
+      "id": "golf7-elektronik-park-freni",
+      "system": "fren",
+      "title": "Elektronik park freni ve auto hold arızası",
+      "description": "Araclo Golf VII sayfası elektronik park freninin geç bırakmasını, yokuş kalkış desteğinin devre dışı kalmasını ve auto hold açıkken aracın geri kayabilmesini yüksek önemde listeliyor. DonanımHaber forum listesi de DSG'de auto hold kaymasını anıyor (forum kullanıcı derlemesi). Eğimde test ve park freni yazılım güncellemesi sorulmalıdır.",
+      "symptoms": [
+        "park freni geç bırakıyor",
+        "yokuşta geri kayma",
+        "auto hold kayması"
+      ],
+      "matchKeywords": [
+        "park freni",
+        "auto hold",
+        "yokuş kalkış"
+      ],
+      "obdCodes": [],
+      "engineCodes": null,
+      "priceItemId": null,
+      "sources": [
+        {
+          "url": "https://www.araclo.com/vehicles/volkswagen-golf/mk7/kronik-sorunlar",
+          "title": "Volkswagen Golf VII Kronik Sorunlar ve Bilinen Arızalar (Araclo)",
+          "domain": "araclo.com"
+        },
+        {
+          "url": "https://forum.donanimhaber.com/golf-7-nin-kronik-sorunlari-27-kronik-sorun--139238714",
+          "title": "Golf 7'nin kronik sorunları - 27 kronik sorun (DonanımHaber forum)",
+          "domain": "forum.donanimhaber.com"
+        }
+      ],
+      "researchedAt": "2026-11-23"
+    }
+  ],
+  "priceItems": []
+}

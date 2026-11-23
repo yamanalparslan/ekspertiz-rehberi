@@ -1,0 +1,279 @@
+{
+  "vehicle": {
+    "id": "volkswagen-polo-v-6c",
+    "brand": "Volkswagen",
+    "model": "Polo",
+    "generation": "Polo V (6C) makyajlı (2014-2017)",
+    "aliases": [
+      "Polo V",
+      "Polo 6C",
+      "Polo 1.4 TDI",
+      "Polo 1.2 TSI",
+      "Polo 1.4 TSI",
+      "Polo 1.0"
+    ],
+    "yearFrom": 2014,
+    "yearTo": 2017,
+    "engines": [
+      {
+        "code": "EA211-1.0MPI",
+        "cc": 999,
+        "fuel": "benzin"
+      },
+      {
+        "code": "EA211-1.2TSI",
+        "cc": 1197,
+        "fuel": "benzin"
+      },
+      {
+        "code": "EA211-1.4TSI",
+        "cc": 1395,
+        "fuel": "benzin"
+      },
+      {
+        "code": "EA288-1.4TDI",
+        "cc": 1422,
+        "fuel": "dizel"
+      }
+    ],
+    "segment": "a_b"
+  },
+  "chronicIssues": [
+    {
+      "id": "polo6c-takata-hava-yastigi",
+      "system": "guvenlik",
+      "title": "Sürücü hava yastığı şişiricisi (Takata) geri çağırması (2014-2015)",
+      "description": "Araclo Polo V (6C) makyajlı sayfası, 2014-2015 araçlarda sürücü hava yastığı şişiricisindeki itici maddenin nem ve ısıyla bozulabildiğini ve açılma sırasında şişiricinin parçalanıp kabine metal parça fırlatabildiğini geri çağırma kapsamında kritik sorun olarak listeliyor. Araclo geri çağırma kapsamında listeliyor; kampanyanın Türkiye'deki kapsamı bu kaynakta ayrıca doğrulanmıyor, yetkili serviste şasi numarasıyla sorulmalıdır. Tek kaynaklı bilgidir.",
+      "symptoms": [],
+      "matchKeywords": [
+        "Takata",
+        "hava yastığı",
+        "geri çağırma",
+        "şişirici"
+      ],
+      "obdCodes": [],
+      "engineCodes": null,
+      "priceItemId": null,
+      "sources": [
+        {
+          "url": "https://www.araclo.com/vehicles/volkswagen-polo/6r-makyajli/kronik-sorunlar",
+          "title": "Volkswagen Polo V (6C) makyajlı Kronik Sorunlar (Araclo)",
+          "domain": "araclo.com"
+        }
+      ],
+      "researchedAt": "2026-11-23"
+    },
+    {
+      "id": "polo6c-14tdi-devirdaim",
+      "system": "motor",
+      "title": "1.4 TDI devirdaim (su) pompası arızası",
+      "description": "Araclo Polo V (6C) makyajlı sayfası EA288 1.4 TDI için devirdaim pompası arızasını yüksek önemde listeliyor: soğutma suyu kaybı, aşırı ısınma ve triger kayışının erken değişmesi gerekebilmesi. Triger/devirdaim faturası sorulmalıdır. Tek kaynaklı bilgidir.",
+      "symptoms": [
+        "soğutma suyu kaybı",
+        "aşırı ısınma"
+      ],
+      "matchKeywords": [
+        "devirdaim",
+        "su pompası",
+        "hararet",
+        "1.4 TDI"
+      ],
+      "obdCodes": [],
+      "engineCodes": [
+        "EA288-1.4TDI"
+      ],
+      "priceItemId": null,
+      "sources": [
+        {
+          "url": "https://www.araclo.com/vehicles/volkswagen-polo/6r-makyajli/kronik-sorunlar",
+          "title": "Volkswagen Polo V (6C) makyajlı Kronik Sorunlar (Araclo)",
+          "domain": "araclo.com"
+        }
+      ],
+      "researchedAt": "2026-11-23"
+    },
+    {
+      "id": "polo6c-14tdi-dpf-egr",
+      "system": "emisyon",
+      "title": "1.4 TDI DPF ve EGR tıkanması",
+      "description": "Araclo Polo V (6C) makyajlı sayfası EA288 1.4 TDI'da DPF ve EGR tıkanmasını 80.000-150.000 km aralığında, kısa mesafe kullanımda daha sık olmak üzere orta önemde listeliyor: güç sınırlaması ve uyarı lambası. Tek kaynaklı bilgidir.",
+      "symptoms": [
+        "güç sınırlaması",
+        "uyarı lambası"
+      ],
+      "matchKeywords": [
+        "DPF",
+        "EGR",
+        "partikül filtresi",
+        "1.4 TDI"
+      ],
+      "obdCodes": [],
+      "engineCodes": [
+        "EA288-1.4TDI"
+      ],
+      "priceItemId": null,
+      "sources": [
+        {
+          "url": "https://www.araclo.com/vehicles/volkswagen-polo/6r-makyajli/kronik-sorunlar",
+          "title": "Volkswagen Polo V (6C) makyajlı Kronik Sorunlar (Araclo)",
+          "domain": "araclo.com"
+        }
+      ],
+      "researchedAt": "2026-11-23"
+    },
+    {
+      "id": "polo6c-14tdi-enjektor",
+      "system": "yakit",
+      "title": "1.4 TDI enjektör arızası",
+      "description": "Araclo Polo V (6C) makyajlı sayfası EA288 1.4 TDI'da enjektör arızasını orta önemde, yüksek maliyetli olarak listeliyor: düzensiz rölanti, tekleme, siyah duman, uyarı lambası. Tek kaynaklı bilgidir.",
+      "symptoms": [
+        "düzensiz rölanti",
+        "tekleme",
+        "siyah duman",
+        "uyarı lambası"
+      ],
+      "matchKeywords": [
+        "enjektör",
+        "siyah duman",
+        "tekleme",
+        "1.4 TDI"
+      ],
+      "obdCodes": [],
+      "engineCodes": [
+        "EA288-1.4TDI"
+      ],
+      "priceItemId": null,
+      "sources": [
+        {
+          "url": "https://www.araclo.com/vehicles/volkswagen-polo/6r-makyajli/kronik-sorunlar",
+          "title": "Volkswagen Polo V (6C) makyajlı Kronik Sorunlar (Araclo)",
+          "domain": "araclo.com"
+        }
+      ],
+      "researchedAt": "2026-11-23"
+    },
+    {
+      "id": "polo6c-tsi-devirdaim-termostat",
+      "system": "motor",
+      "title": "1.2/1.4 TSI devirdaim pompası ve termostat yuvasından sızıntı",
+      "description": "Araclo Polo V (6C) makyajlı sayfası EA211 1.2 TSI ve 1.4 TSI motorlarında 80.000 km sonrası devirdaim pompası ve termostat yuvasından yavaş soğutma suyu kaybını orta önemde listeliyor; aşırı ısınma uyarısı gelebilir. Motorun arkasında kurumuş antifriz izine bakılması öneriliyor. Tek kaynaklı bilgidir.",
+      "symptoms": [
+        "soğutma suyunun yavaş azalması",
+        "aşırı ısınma uyarısı"
+      ],
+      "matchKeywords": [
+        "devirdaim",
+        "termostat yuvası",
+        "soğutma suyu",
+        "antifriz",
+        "TSI"
+      ],
+      "obdCodes": [],
+      "engineCodes": [
+        "EA211-1.2TSI",
+        "EA211-1.4TSI"
+      ],
+      "priceItemId": null,
+      "sources": [
+        {
+          "url": "https://www.araclo.com/vehicles/volkswagen-polo/6r-makyajli/kronik-sorunlar",
+          "title": "Volkswagen Polo V (6C) makyajlı Kronik Sorunlar (Araclo)",
+          "domain": "araclo.com"
+        }
+      ],
+      "researchedAt": "2026-11-23"
+    },
+    {
+      "id": "polo6c-dsg7-mekatronik",
+      "system": "sanziman",
+      "title": "7 ileri DSG mekatronik (şanzıman beyni) arızası",
+      "description": "Araclo Polo V (6C) sayfası 7 ileri DSG mekatronik ünitesi arızasını kritik, yüksek maliyetli sorun olarak listeliyor: vites boşa düşer, araç hareket etmez veya güç kaybeder, şanzıman uyarı lambası yanar. Sayfa sorunu 2008-2013 yıllarına bağlıyor; bu aralık bu makyajlı neslin (2014-2017) öncesini kapsıyor, bu yüzden kapsam araç bazında sorulmalıdır. Araclo'nun Polo blog yazısı da 7 ileri kuru kavramalı DSG'yi (DQ200) kullanıcıların en çok şikayet ettiği konu olarak anlatıyor (kullanıcı bildirimi, aynı site). Yetkili serviste şasi numarasıyla mekatronik değişimi ve yağ kampanyası kaydı sorulmalıdır.",
+      "symptoms": [
+        "vitesin boşa düşmesi",
+        "aracın hareket etmemesi",
+        "güç kaybı",
+        "şanzıman uyarı lambası"
+      ],
+      "matchKeywords": [
+        "DSG",
+        "mekatronik",
+        "şanzıman beyni",
+        "vites boşa düşüyor",
+        "DQ200"
+      ],
+      "obdCodes": [],
+      "engineCodes": null,
+      "priceItemId": null,
+      "sources": [
+        {
+          "url": "https://www.araclo.com/vehicles/volkswagen-polo/6r-makyajli/kronik-sorunlar",
+          "title": "Volkswagen Polo V (6C) makyajlı Kronik Sorunlar (Araclo)",
+          "domain": "araclo.com"
+        },
+        {
+          "url": "https://www.araclo.com/blog/volkswagen-polo-1.0-tsi-alinir-mi-detayli-inceleme-kullanici-yorumlari-ve-yillara-gore-karsilastirma",
+          "title": "Volkswagen Polo 1.0 TSI alınır mı? Kullanıcı yorumları (Araclo blog)",
+          "domain": "araclo.com"
+        }
+      ],
+      "researchedAt": "2026-11-23"
+    },
+    {
+      "id": "polo6c-dsg7-kavrama-titreme",
+      "system": "sanziman",
+      "title": "7 ileri DSG kuru kavrama titremesi ve erken aşınma",
+      "description": "Araclo Polo V (6C) sayfası 7 ileri DSG kuru kavramasında 80.000-150.000 km arasında kalkışta titreme, 1-2 geçişinde vuruntu ve şehir içi kullanımda erken aşınmayı orta önemde, yüksek maliyetli listeliyor. Rampada ve dur-kalkta defalarca kalkış denenmesi öneriliyor. Tek kaynaklı bilgidir. Fiyat kalemi yalnızca çift kavrama işçiliğidir, parça dahil değildir.",
+      "symptoms": [
+        "kalkışta titreme",
+        "1-2 vites geçişinde vuruntu",
+        "kavrama aşınması"
+      ],
+      "matchKeywords": [
+        "DSG",
+        "kuru kavrama",
+        "kalkışta titreme",
+        "çift kavrama"
+      ],
+      "obdCodes": [],
+      "engineCodes": null,
+      "priceItemId": "generic-cift-kavrama-iscilik",
+      "sources": [
+        {
+          "url": "https://www.araclo.com/vehicles/volkswagen-polo/6r-makyajli/kronik-sorunlar",
+          "title": "Volkswagen Polo V (6C) makyajlı Kronik Sorunlar (Araclo)",
+          "domain": "araclo.com"
+        }
+      ],
+      "researchedAt": "2026-11-23"
+    },
+    {
+      "id": "polo6c-bagaj-kablo-demeti",
+      "system": "elektronik",
+      "title": "Bagaj kapağı kablo demetinin kopması",
+      "description": "Araclo Polo V (6C) makyajlı sayfası bagaj kapağı kablo demetinin kopmasını orta önemde, düşük maliyetli listeliyor: bagaj kolla açılmayabilir, kilit düzgün kapanmayabilir, plaka lambası ve arka cam rezistansı çalışmayabilir. Üst sol menteşedeki kablo körüğü incelenmeli. Tek kaynaklı bilgidir.",
+      "symptoms": [
+        "bagaj kolla açılmıyor",
+        "plaka lambası çalışmıyor",
+        "arka cam rezistansı çalışmıyor"
+      ],
+      "matchKeywords": [
+        "bagaj kapağı",
+        "kablo demeti",
+        "plaka lambası",
+        "bagaj açılmıyor"
+      ],
+      "obdCodes": [],
+      "engineCodes": null,
+      "priceItemId": null,
+      "sources": [
+        {
+          "url": "https://www.araclo.com/vehicles/volkswagen-polo/6r-makyajli/kronik-sorunlar",
+          "title": "Volkswagen Polo V (6C) makyajlı Kronik Sorunlar (Araclo)",
+          "domain": "araclo.com"
+        }
+      ],
+      "researchedAt": "2026-11-23"
+    }
+  ],
+  "priceItems": []
+}

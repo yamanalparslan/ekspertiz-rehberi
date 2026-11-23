@@ -1,0 +1,407 @@
+{
+  "vehicle": {
+    "id": "fiat-linea",
+    "brand": "Fiat",
+    "model": "Linea",
+    "generation": "Linea (2007-2015) ve Yeni Linea (2012-2017)",
+    "aliases": [
+      "Linea",
+      "Yeni Linea",
+      "Linea 1.3 Multijet",
+      "Linea 1.4 Fire",
+      "Linea 1.6 Multijet",
+      "Linea T-Jet"
+    ],
+    "yearFrom": 2007,
+    "yearTo": 2017,
+    "engines": [
+      {
+        "code": "SDE-1.3MJ",
+        "cc": 1248,
+        "fuel": "dizel"
+      },
+      {
+        "code": "MJT-1.6",
+        "cc": 1598,
+        "fuel": "dizel"
+      },
+      {
+        "code": "FIRE-1.4",
+        "cc": 1368,
+        "fuel": "benzin"
+      },
+      {
+        "code": "1.4 T-Jet",
+        "cc": 1368,
+        "fuel": "benzin"
+      }
+    ],
+    "segment": "c"
+  },
+  "chronicIssues": [
+    {
+      "id": "linea-13mj-dpf-yaga-yakit",
+      "system": "emisyon",
+      "title": "1.3 Multijet DPF tıkanması ve yağa yakıt karışması",
+      "description": "Araclo Fiat Linea sayfası 1.3 Multijet (SDE) için partikül filtresi tıkanmasını ve yağa yakıt karışmasını yüksek önemde, yüksek maliyetli listeliyor: DPF uyarısı, limp mod, yağ seviyesinde yükselme. Tek kaynaklı bilgidir.",
+      "symptoms": [
+        "DPF uyarısı",
+        "limp mod",
+        "yağ seviyesinin yükselmesi"
+      ],
+      "matchKeywords": [
+        "DPF",
+        "partikül filtresi",
+        "yağa yakıt karışması",
+        "yağ seviyesi yükseldi",
+        "1.3 Multijet"
+      ],
+      "obdCodes": [],
+      "engineCodes": [
+        "SDE-1.3MJ"
+      ],
+      "priceItemId": null,
+      "sources": [
+        {
+          "url": "https://www.araclo.com/vehicles/fiat-linea/kronik-sorunlar",
+          "title": "Fiat Linea Kronik Sorunlar ve Bilinen Arızalar (Araclo)",
+          "domain": "araclo.com"
+        }
+      ],
+      "researchedAt": "2026-11-23"
+    },
+    {
+      "id": "linea-13mj-triger-zinciri",
+      "system": "motor",
+      "title": "1.3 Multijet triger zinciri ve gergisinin uzaması",
+      "description": "Araclo Fiat Linea sayfası 1.3 Multijet için triger zinciri ve gergisinin uzamasını 100.000-150.000 km aralığında yüksek önemde listeliyor: soğuk çalıştırmada şakırtı, zincir atlarsa supap hasarı. Araclo'nun Linea 1.3 Multijet blog yazısı da zincirin yaklaşık 100.000-120.000 km'de değişmesi gerekebildiğini ve soğukta metalik sesin ana uyarı olduğunu yazıyor (aynı site, kullanıcı bildirimleri).",
+      "symptoms": [
+        "soğuk çalıştırmada zincir şakırtısı",
+        "metalik ses"
+      ],
+      "matchKeywords": [
+        "triger zinciri",
+        "zincir sesi",
+        "zincir uzaması",
+        "gergi",
+        "1.3 Multijet"
+      ],
+      "obdCodes": [],
+      "engineCodes": [
+        "SDE-1.3MJ"
+      ],
+      "priceItemId": null,
+      "sources": [
+        {
+          "url": "https://www.araclo.com/vehicles/fiat-linea/kronik-sorunlar",
+          "title": "Fiat Linea Kronik Sorunlar ve Bilinen Arızalar (Araclo)",
+          "domain": "araclo.com"
+        },
+        {
+          "url": "https://www.araclo.com/blog/fiat-linea-1.3-multijet-ikinci-el-alim-rehberi-sorunlar-kontroller-ve-bakim-onerileri-2026",
+          "title": "Fiat Linea 1.3 Multijet ikinci el alım rehberi (Araclo blog)",
+          "domain": "araclo.com"
+        }
+      ],
+      "researchedAt": "2026-11-23"
+    },
+    {
+      "id": "linea-13mj-turbo",
+      "system": "motor",
+      "title": "1.3 Multijet turbo arızası",
+      "description": "Araclo Fiat Linea sayfası 1.3 Multijet için turbo arızasını yüksek önemde, yüksek maliyetli listeliyor: limp mod, duman, ara soğutucu hortumlarında yağ. Araclo'nun Linea blog yazısı 100.000 km üzerinde turbo basıncı düşmesini aktarıyor, ancak bazı kullanıcıların düzenli yağ bakımıyla 200.000 km üzerinde sorunsuz kullandığını da yazıyor (kullanıcı bildirimleri, aynı site).",
+      "symptoms": [
+        "limp mod",
+        "duman",
+        "çekiş düşmesi",
+        "ara soğutucu hortumunda yağ"
+      ],
+      "matchKeywords": [
+        "turbo",
+        "turbo arızası",
+        "limp mod",
+        "1.3 Multijet"
+      ],
+      "obdCodes": [],
+      "engineCodes": [
+        "SDE-1.3MJ"
+      ],
+      "priceItemId": null,
+      "sources": [
+        {
+          "url": "https://www.araclo.com/vehicles/fiat-linea/kronik-sorunlar",
+          "title": "Fiat Linea Kronik Sorunlar ve Bilinen Arızalar (Araclo)",
+          "domain": "araclo.com"
+        },
+        {
+          "url": "https://www.araclo.com/blog/fiat-linea-1.3-multijet-ikinci-el-alim-rehberi-sorunlar-kontroller-ve-bakim-onerileri-2026",
+          "title": "Fiat Linea 1.3 Multijet ikinci el alım rehberi (Araclo blog)",
+          "domain": "araclo.com"
+        }
+      ],
+      "researchedAt": "2026-11-23"
+    },
+    {
+      "id": "linea-13mj-egr",
+      "system": "emisyon",
+      "title": "1.3 Multijet EGR valfi tıkanması",
+      "description": "Araclo Fiat Linea sayfası 1.3 Multijet için 100.000 km sonrası EGR valfi tıkanmasını orta önemde, düşük maliyetli listeliyor: çekiş düşmesi, rölanti dalgalanması, çalıştıktan hemen sonra stop edebilme. Araclo blog yazısı temizlemenin geçici olabildiğini aktarıyor (kullanıcı bildirimi, aynı site).",
+      "symptoms": [
+        "çekiş düşmesi",
+        "rölanti dalgalanması",
+        "çalıştırınca stop"
+      ],
+      "matchKeywords": [
+        "EGR",
+        "egr valfi",
+        "rölanti",
+        "1.3 Multijet"
+      ],
+      "obdCodes": [],
+      "engineCodes": [
+        "SDE-1.3MJ"
+      ],
+      "priceItemId": null,
+      "sources": [
+        {
+          "url": "https://www.araclo.com/vehicles/fiat-linea/kronik-sorunlar",
+          "title": "Fiat Linea Kronik Sorunlar ve Bilinen Arızalar (Araclo)",
+          "domain": "araclo.com"
+        },
+        {
+          "url": "https://www.araclo.com/blog/fiat-linea-1.3-multijet-ikinci-el-alim-rehberi-sorunlar-kontroller-ve-bakim-onerileri-2026",
+          "title": "Fiat Linea 1.3 Multijet ikinci el alım rehberi (Araclo blog)",
+          "domain": "araclo.com"
+        }
+      ],
+      "researchedAt": "2026-11-23"
+    },
+    {
+      "id": "linea-16mj-triger-kayisi-gergisi",
+      "system": "motor",
+      "title": "1.6 Multijet triger kayışı gergisi ve devirdaim arızası",
+      "description": "Araclo Fiat Linea sayfası 1.6 Multijet için triger kayışı gergisi ve devirdaim arızasını yaklaşık 100.000 km civarında (değişim öneriliyor) yüksek önemde listeliyor: gergi ve kasnaklardan ses, kayış koparsa motor hasarı. Tek kaynaklı bilgidir.",
+      "symptoms": [
+        "gergi ve kasnaktan ses",
+        "devirdaimden sızıntı"
+      ],
+      "matchKeywords": [
+        "triger kayışı",
+        "gergi",
+        "devirdaim",
+        "1.6 Multijet"
+      ],
+      "obdCodes": [],
+      "engineCodes": [
+        "MJT-1.6"
+      ],
+      "priceItemId": null,
+      "sources": [
+        {
+          "url": "https://www.araclo.com/vehicles/fiat-linea/kronik-sorunlar",
+          "title": "Fiat Linea Kronik Sorunlar ve Bilinen Arızalar (Araclo)",
+          "domain": "araclo.com"
+        }
+      ],
+      "researchedAt": "2026-11-23"
+    },
+    {
+      "id": "linea-16mj-egr-sogutucu-termostat",
+      "system": "motor",
+      "title": "1.6 Multijet EGR soğutucusu ve termostat yuvasından antifriz kaçağı",
+      "description": "Araclo Fiat Linea sayfası 1.6 Multijet için EGR soğutucusu ve termostat yuvasından antifriz kaçağını orta önemde listeliyor: soğutma suyu kademeli azalır, çoğu zaman uyarı vermez, genleşme kabında yağ görülebilir. Tek kaynaklı bilgidir.",
+      "symptoms": [
+        "soğutma suyunun azalması",
+        "genleşme kabında yağ"
+      ],
+      "matchKeywords": [
+        "EGR soğutucusu",
+        "termostat yuvası",
+        "antifriz kaçağı",
+        "1.6 Multijet"
+      ],
+      "obdCodes": [],
+      "engineCodes": [
+        "MJT-1.6"
+      ],
+      "priceItemId": null,
+      "sources": [
+        {
+          "url": "https://www.araclo.com/vehicles/fiat-linea/kronik-sorunlar",
+          "title": "Fiat Linea Kronik Sorunlar ve Bilinen Arızalar (Araclo)",
+          "domain": "araclo.com"
+        }
+      ],
+      "researchedAt": "2026-11-23"
+    },
+    {
+      "id": "linea-fire-yag-eksiltme",
+      "system": "motor",
+      "title": "1.4 Fire yağ eksiltme",
+      "description": "Araclo Fiat Linea sayfası 1.4 Fire için yağ eksiltmeyi orta önemde listeliyor: yağ servis aralığında minimumun altına düşer, servis genelde yalnızca tamamlar. Tek kaynaklı bilgidir.",
+      "symptoms": [
+        "yağ seviyesinin minimumun altına düşmesi"
+      ],
+      "matchKeywords": [
+        "yağ eksiltme",
+        "yağ tüketimi",
+        "1.4 Fire"
+      ],
+      "obdCodes": [],
+      "engineCodes": [
+        "FIRE-1.4"
+      ],
+      "priceItemId": null,
+      "sources": [
+        {
+          "url": "https://www.araclo.com/vehicles/fiat-linea/kronik-sorunlar",
+          "title": "Fiat Linea Kronik Sorunlar ve Bilinen Arızalar (Araclo)",
+          "domain": "araclo.com"
+        }
+      ],
+      "researchedAt": "2026-11-23"
+    },
+    {
+      "id": "linea-fire-lpg-supap",
+      "system": "motor",
+      "title": "1.4 Fire'da LPG'de supap ayarı ihmalinde supap ve yuva aşınması",
+      "description": "Araclo Fiat Linea sayfası 1.4 Fire için LPG'li kullanımda supap ayarı ihmal edilirse supap ve supap yuvasının aşınmasını orta önemde listeliyor: LPG'de tekleme, güç kaybı, düzensiz rölanti. LPG'li araçlarda supap ayarı kaydı sorulmalıdır. Tek kaynaklı bilgidir.",
+      "symptoms": [
+        "LPG'de tekleme",
+        "güç kaybı",
+        "düzensiz rölanti"
+      ],
+      "matchKeywords": [
+        "LPG",
+        "supap ayarı",
+        "supap yuvası",
+        "tekleme",
+        "1.4 Fire"
+      ],
+      "obdCodes": [],
+      "engineCodes": [
+        "FIRE-1.4"
+      ],
+      "priceItemId": null,
+      "sources": [
+        {
+          "url": "https://www.araclo.com/vehicles/fiat-linea/kronik-sorunlar",
+          "title": "Fiat Linea Kronik Sorunlar ve Bilinen Arızalar (Araclo)",
+          "domain": "araclo.com"
+        }
+      ],
+      "researchedAt": "2026-11-23"
+    },
+    {
+      "id": "linea-tjet-turbo-manifold",
+      "system": "motor",
+      "title": "1.4 T-Jet turbo gövdesi ve egzoz manifoldu çatlaması",
+      "description": "Araclo Fiat Linea sayfası 1.4 T-Jet için turbo gövdesi ve egzoz manifoldu çatlamasını 80.000 km sonrası orta önemde listeliyor: çekiş düşmesi, hızlanırken ıslık, egzoz dumanı. Tek kaynaklı bilgidir.",
+      "symptoms": [
+        "çekiş düşmesi",
+        "hızlanırken ıslık sesi",
+        "egzoz dumanı"
+      ],
+      "matchKeywords": [
+        "turbo",
+        "egzoz manifoldu",
+        "çatlak",
+        "T-Jet"
+      ],
+      "obdCodes": [],
+      "engineCodes": [
+        "1.4 T-Jet"
+      ],
+      "priceItemId": null,
+      "sources": [
+        {
+          "url": "https://www.araclo.com/vehicles/fiat-linea/kronik-sorunlar",
+          "title": "Fiat Linea Kronik Sorunlar ve Bilinen Arızalar (Araclo)",
+          "domain": "araclo.com"
+        }
+      ],
+      "researchedAt": "2026-11-23"
+    },
+    {
+      "id": "linea-blueme",
+      "system": "elektronik",
+      "title": "Blue&Me (Bluetooth/USB) ünitesi arızası",
+      "description": "Araclo Fiat Linea sayfası Blue&Me ünitesinde Bluetooth eşleşme/bağlantı kopmasını, USB müziğin çalışmamasını ve kilometre göstergesi yazısının yanıp sönmesini orta önemde listeliyor; bazı ünitelerde araç parktayken akünün boşalması da belirtiliyor. Tek kaynaklı bilgidir.",
+      "symptoms": [
+        "Bluetooth bağlantısı kopması",
+        "USB müzik çalmıyor",
+        "parkta akü boşalması"
+      ],
+      "matchKeywords": [
+        "Blue&Me",
+        "bluetooth",
+        "USB",
+        "akü boşalması"
+      ],
+      "obdCodes": [],
+      "engineCodes": null,
+      "priceItemId": null,
+      "sources": [
+        {
+          "url": "https://www.araclo.com/vehicles/fiat-linea/kronik-sorunlar",
+          "title": "Fiat Linea Kronik Sorunlar ve Bilinen Arızalar (Araclo)",
+          "domain": "araclo.com"
+        }
+      ],
+      "researchedAt": "2026-11-23"
+    },
+    {
+      "id": "linea-torpido-catlak",
+      "system": "kaporta",
+      "title": "Yolcu hava yastığı üstünde torpido çatlaması (Yeni Linea, 2012-2015)",
+      "description": "Araclo Fiat Linea sayfası, Yeni Linea'da 2012-2015 araçlarda yolcu hava yastığı kapağı çevresinde kazasız çatlak oluşmasını (güneş gören araçlarda daha hızlı) orta önemde, yüksek maliyetli listeliyor. Tek kaynaklı bilgidir.",
+      "symptoms": [
+        "torpido çatlağı"
+      ],
+      "matchKeywords": [
+        "torpido çatlak",
+        "hava yastığı kapağı",
+        "torpido"
+      ],
+      "obdCodes": [],
+      "engineCodes": null,
+      "priceItemId": null,
+      "sources": [
+        {
+          "url": "https://www.araclo.com/vehicles/fiat-linea/kronik-sorunlar",
+          "title": "Fiat Linea Kronik Sorunlar ve Bilinen Arızalar (Araclo)",
+          "domain": "araclo.com"
+        }
+      ],
+      "researchedAt": "2026-11-23"
+    },
+    {
+      "id": "linea-dualogic",
+      "system": "sanziman",
+      "title": "Dualogic robotik şanzımanda vites sarsıntısı ve debriyaj aşınması",
+      "description": "Araclo'nun Linea 1.3 Multijet blog yazısı Dualogic'li araçlarda vites sarsıntısı, debriyaj aşınması ve şanzıman kontrol ünitesi arızası bildirimlerini (çoğu dur-kalk şehir trafiğinde) aktarıyor ve manuel şanzımanı öneriyor; bölümün kaynağı belirtilmiyor. Kullanıcı bildirimidir, tek kaynaklıdır. Dualogic tek kavramalı robotik bir şanzımandır; fiyat kalemi çift kavrama işçiliği için olduğundan bağlanmamıştır.",
+      "symptoms": [
+        "vites sarsıntısı",
+        "debriyaj aşınması"
+      ],
+      "matchKeywords": [
+        "Dualogic",
+        "robotik şanzıman",
+        "vites sarsıntısı",
+        "debriyaj"
+      ],
+      "obdCodes": [],
+      "engineCodes": null,
+      "priceItemId": null,
+      "sources": [
+        {
+          "url": "https://www.araclo.com/blog/fiat-linea-1.3-multijet-ikinci-el-alim-rehberi-sorunlar-kontroller-ve-bakim-onerileri-2026",
+          "title": "Fiat Linea 1.3 Multijet ikinci el alım rehberi (Araclo blog)",
+          "domain": "araclo.com"
+        }
+      ],
+      "researchedAt": "2026-11-23"
+    }
+  ],
+  "priceItems": []
+}
