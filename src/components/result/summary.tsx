@@ -31,7 +31,7 @@ export function ResultHeader({ report, demo }: { report: AnalysisResult["report"
   const { date, firm } = report;
   return (
     <section aria-labelledby="sonuc-baslik">
-      <h2 id="sonuc-baslik" tabIndex={-1} className="scroll-mt-4 text-[1.75rem] leading-tight font-bold tracking-tight">
+      <h2 id="sonuc-baslik" tabIndex={-1} className="scroll-mt-4 text-[1.75rem] leading-tight font-bold tracking-tight focus:outline-none">
         Sonuç
       </h2>
       {demo && <DemoNote />}

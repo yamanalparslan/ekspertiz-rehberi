@@ -206,7 +206,7 @@ export function UploadForm(props: {
             Sayfa eklemek için önce iki kutuyu da işaretleyin.
           </p>
         )}
-        <div className="mt-3 grid grid-cols-1 gap-2.5 sm:grid-cols-2">
+        <div className="mt-3 grid grid-cols-1 gap-2.5">
           <button
             ref={cameraButton}
             type="button"

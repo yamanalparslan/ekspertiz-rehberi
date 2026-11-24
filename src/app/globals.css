@@ -76,14 +76,12 @@ body {
   overflow-wrap: break-word;
 }
 
-:focus-visible {
-  outline: 3px solid var(--color-action);
-  outline-offset: 2px;
-}
-
-/* Programla odaklanan başlık (sonuç geldiğinde) çerçeve göstermez; klavye odağı gösterir. */
-[tabindex="-1"]:focus:not(:focus-visible) {
-  outline: none;
+/* Katmanda: programla odaklanan başlık gibi öğeler `focus:outline-none` ile bunu ezebilsin. */
+@layer base {
+  :focus-visible {
+    outline: 3px solid var(--color-action);
+    outline-offset: 2px;
+  }
 }
 
 /* Kapalı listedeki tarayıcı üçgeni yerine kendi işaretimiz kullanılır. */
