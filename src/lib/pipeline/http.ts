@@ -1,6 +1,6 @@
 import { existsSync, readFileSync } from "node:fs";
 import { createClaude, providerOf, type ClaudeLike } from "@/lib/claude/client";
-import { ERROR_MESSAGES } from "@/lib/copy";
+import { ERROR_MESSAGES, type ProviderId } from "@/lib/copy";
 import { loadKnowledge, savePriceCache } from "@/lib/kb/d1";
 import { matchKnowledge, type KbData } from "@/lib/kb/match";
 import type { AnalysisEvent, ErrorCode } from "@/lib/schema/events";
@@ -50,8 +50,8 @@ export const errorEvent = (code: ErrorCode): AnalysisEvent => ({
   message: ERROR_MESSAGES[code],
 });
 
-/** Çalışmada kullanılan sağlayıcı (günlük için; anahtar değil). */
-export type ProviderName = "claude" | "gemini" | "demo";
+/** Çalışmada kullanılan sağlayıcı (günlük ve rıza metni için; anahtar değil). */
+export type ProviderName = ProviderId;
 
 /** İstek başına sayaç: harcama toplamı ve sağlayıcı (buildDeps doldurur). */
 export type RunMeta = { total: number; provider?: ProviderName };
@@ -170,27 +170,29 @@ function readDevVars(): Record<string, string> {
 
 const configMissing = (name: string) => console.log(JSON.stringify({ event: "config_missing", name }));
 
-/**
- * İstek başına bağımlılıklar. Yapılandırma eksikse null döner (çağıran `internal` hatası
- * gösterir) ve günlüğe yalnızca değişken adını yazar.
- */
-export async function buildDeps(usd: RunMeta): Promise<PipelineDeps | null> {
+/** İstek anındaki ortam; üretimde Cloudflare bağlamı yoksa null. */
+function currentContext(): DepsContext | null {
   const isDev = process.env.NODE_ENV === "development";
   let env: Partial<ServerEnv> = {};
   try {
     env = getServerEnv() ?? {};
   } catch {
-    if (!isDev) {
-      configMissing("cloudflare_env");
-      return null;
-    }
+    if (!isDev) return null;
   }
-  return buildDepsFrom(usd, {
-    isDev,
-    env,
-    devVars: isDev ? readDevVars() : {},
-    processEnv: process.env,
-  });
+  return { isDev, env, devVars: isDev ? readDevVars() : {}, processEnv: process.env };
+}
+
+/**
+ * İstek başına bağımlılıklar. Yapılandırma eksikse null döner (çağıran `internal` hatası
+ * gösterir) ve günlüğe yalnızca değişken adını yazar.
+ */
+export async function buildDeps(usd: RunMeta): Promise<PipelineDeps | null> {
+  const ctx = currentContext();
+  if (!ctx) {
+    configMissing("cloudflare_env");
+    return null;
+  }
+  return buildDepsFrom(usd, ctx);
 }
 
 export type DepsContext = {
@@ -203,24 +205,53 @@ export type DepsContext = {
 
 const DEV_HMAC_SECRET = "local-dev-hmac-secret-ekspertiz-rehberi-2026";
 
+type EnvPick = (name: Exclude<keyof ServerEnv, "DB">) => string | undefined;
+
+const picker =
+  (ctx: DepsContext): EnvPick =>
+  (name) =>
+    ctx.env[name] || ctx.processEnv[name] || (ctx.isDev ? ctx.devVars[name] : undefined) || undefined;
+
+/** Hangi sağlayıcının kullanılacağı ve (demo değilse) anahtarı. Anahtar yoksa null. */
+function resolveProvider(pick: EnvPick, isDev: boolean): { name: ProviderName; apiKey: string | null } | null {
+  if (isDev && pick("OFFLINE_DEMO") === "1") return { name: "demo", apiKey: null };
+  const apiKey = pick("ANTHROPIC_API_KEY") || pick("GEMINI_API_KEY");
+  if (!apiKey) return null;
+  return { name: providerOf(apiKey) === "gemini" ? "gemini" : "claude", apiKey };
+}
+
+/**
+ * Yapılandırılmış sağlayıcının adı (rıza metnindeki "analizi kim yapar" satırı için). Anahtar
+ * ya da sır döndürmez; yapılandırma yoksa null. `buildDepsFrom` ile aynı seçim kuralı.
+ */
+export function providerFrom(ctx: DepsContext): ProviderName | null {
+  return resolveProvider(picker(ctx), ctx.isDev)?.name ?? null;
+}
+
+/** İstek anında yapılandırılmış sağlayıcı (sunucu bileşeninden çağrılır). */
+export function configuredProvider(): ProviderName | null {
+  const ctx = currentContext();
+  return ctx ? providerFrom(ctx) : null;
+}
+
 export async function buildDepsFrom(usd: RunMeta, ctx: DepsContext): Promise<PipelineDeps | null> {
   const { isDev, env } = ctx;
-  const pick = (name: Exclude<keyof ServerEnv, "DB">): string | undefined =>
-    env[name] || ctx.processEnv[name] || (isDev ? ctx.devVars[name] : undefined) || undefined;
+  const pick = picker(ctx);
 
   let claude: ClaudeLike;
-  if (isDev && pick("OFFLINE_DEMO") === "1") {
+  const provider = resolveProvider(pick, isDev);
+  if (provider?.name === "demo") {
     const { createOfflineDemoClient } = await import("@/lib/claude/offline-demo");
     claude = createOfflineDemoClient({ fixtureSha256: (pick("OFFLINE_DEMO_PDF_SHA256") ?? "").split(",") });
     usd.provider = "demo";
   } else {
-    const apiKey = pick("ANTHROPIC_API_KEY") || pick("GEMINI_API_KEY");
-    if (!apiKey) {
+    const apiKey = provider?.apiKey;
+    if (!provider || !apiKey) {
       configMissing("ANTHROPIC_API_KEY");
       return null;
     }
     // Günlükte hangi sağlayıcıya gidildiği görünsün (yanlış yere konmuş anahtar fark edilsin).
-    usd.provider = providerOf(apiKey) === "gemini" ? "gemini" : "claude";
+    usd.provider = provider.name;
     const maxOut = Number(pick("GEMINI_MAX_OUTPUT_TOKENS"));
     claude = createClaude(apiKey, {
       geminiModel: pick("GEMINI_MODEL"),

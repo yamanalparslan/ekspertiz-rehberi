@@ -22,8 +22,24 @@ export const PRICE_MISSING = "Fiyat bilgisi henüz yok.";
 
 export const GENERAL_UNVERIFIED = "genel bilgi, doğrulanmamış";
 
+/**
+ * Sunucunun göndermediği, tarayıcıda anlaşılan hatalar: bağlantı kopması, çevrimdışı olmak,
+ * olay gövdesi taşımayan HTTP durumları (413, 429, 5xx / ağ geçidi zaman aşımı) ve uzun süre
+ * hiç olay gelmemesi. Akış şemasına (ErrorCodeSchema) girmezler.
+ */
+export type ClientErrorCode =
+  | "network"
+  | "offline"
+  | "upload_too_large"
+  | "rate_limited"
+  | "server_unavailable"
+  | "stalled";
+
+/** Ekranda gösterilebilen her hata kodu. */
+export type DisplayErrorCode = ErrorCode | ClientErrorCode;
+
 /** Her `error` olayının mesajı buradan gelir; ham hata metni istemciye gitmez. */
-export const ERROR_MESSAGES: Record<ErrorCode, string> = {
+export const ERROR_MESSAGES: Record<DisplayErrorCode, string> = {
   cap_reached: CAP_REACHED,
   not_report: NOT_REPORT,
   reinterpret_used: REINTERPRET_USED,
@@ -35,6 +51,27 @@ export const ERROR_MESSAGES: Record<ErrorCode, string> = {
   request_invalid: "Düzeltme bilgisi geçersiz. Lütfen araç bilgisini yeniden girip tekrar deneyin.",
   vehicle_invalid: "Araç bilgisi geçersiz. Lütfen değerleri kontrol edin.",
   internal: "Beklenmeyen bir hata oluştu. Lütfen tekrar deneyin.",
+  network: "Bağlantı koptu. İnternet bağlantınızı kontrol edip tekrar deneyin.",
+  offline: "İnternet bağlantısı yok. Bağlantı gelince tekrar deneyin.",
+  upload_too_large:
+    "Dosyalar çok büyük: toplam en fazla 20 MB gönderilebilir. Daha az sayfa seçin ya da büyük PDF yerine sayfaların fotoğrafını yükleyin.",
+  rate_limited: "Kısa sürede çok fazla istek gönderildi. Bir dakika bekleyip tekrar deneyin.",
+  server_unavailable: "Sunucu şu an yanıt vermiyor. Birkaç dakika sonra tekrar deneyin.",
+  stalled: "Sunucudan uzun süredir yanıt gelmedi. Bağlantınızı kontrol edip tekrar deneyin.",
+};
+
+/** Yapılandırılmış yapay zeka sağlayıcısı (sunucu ortamından; anahtar değil, yalnız ad). */
+export type ProviderId = "claude" | "gemini" | "demo";
+
+/**
+ * Açık rıza kutusunun altındaki satır: raporun gerçekte hangi hizmete gönderildiği.
+ * `CONSENT_TRANSFER` metni değişmez; bu satır onu tamamlar.
+ */
+export const PROVIDER_NOTES: Record<ProviderId | "none", string> = {
+  claude: "Analizi Anthropic şirketinin Claude yapay zekası yapar. Rapor fotoğraflarınız ya da PDF'iniz bu hizmete gönderilir.",
+  gemini: "Analizi Google şirketinin Gemini yapay zekası yapar. Rapor fotoğraflarınız ya da PDF'iniz bu hizmete gönderilir.",
+  demo: "Geliştirme demosu: dosyalarınız hiçbir yapay zeka hizmetine gönderilmez.",
+  none: "Yapay zeka hizmeti henüz ayarlanmadı; analiz şu an yapılamaz.",
 };
 
 export const INTERNET_SOURCED = "internet kaynaklı";
