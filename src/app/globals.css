@@ -32,8 +32,39 @@
   --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 }
 
+/*
+ * Koyu tema (gece, karbon kâğıdı): mavi-siyah zemin, açık mürekkep. Grup renkleri aynı anlamı
+ * taşır (kırmızı, turuncu, gri, yeşil) ama koyu zeminde okunacak kadar açıktır: metinler kendi
+ * tonlu zeminleri ve ana zemin üzerinde en az 7:1, çubuklar ve simgeler en az 3:1.
+ */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-paper: #0e131d;
+    --color-ink: #e7ebf3;
+    --color-ink-soft: #a3aec2;
+    --color-rule: #2b3445;
+    --color-field: #161d2a;
+    --color-action: #93abff;
+    --color-action-strong: #b9c9ff;
+    --color-on-action: #0e131d;
+
+    --color-dikkat: #ff8f85;
+    --color-dikkat-bar: #f0574b;
+    --color-dikkat-tint: #3b1715;
+    --color-kronik: #ffb26b;
+    --color-kronik-bar: #f08c2e;
+    --color-kronik-tint: #3a2611;
+    --color-belirsiz: #b9c2d2;
+    --color-belirsiz-bar: #8a95a8;
+    --color-belirsiz-tint: #1d2432;
+    --color-normal: #6fdc9c;
+    --color-normal-bar: #34b96a;
+    --color-normal-tint: #0f2e1c;
+  }
+}
+
 html {
-  color-scheme: light;
+  color-scheme: light dark;
   -webkit-text-size-adjust: 100%;
 }
 
