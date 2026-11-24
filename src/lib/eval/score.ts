@@ -1,15 +1,23 @@
+import { z } from "zod";
 import { normalizePartName } from "@/lib/normalize";
 import { GROUP_RANK } from "@/lib/rules/floors";
-import type { Extraction, Section } from "@/lib/schema/extraction";
-import type { Group } from "@/lib/schema/interpretation";
+import { RawExtractionSchema, SectionSchema, type Extraction } from "@/lib/schema/extraction";
+import { GroupSchema, type Group } from "@/lib/schema/interpretation";
 import type { AnalysisResult } from "@/lib/schema/result";
 
-export type Label = {
-  case: string;
-  vehicle: Partial<Extraction["vehicle"]>;
-  expected: { section: Section; part: string; group: Group }[];
-  mustBeDikkat: { section: Section; part: string }[];
-};
+/** Etiket dosyası (eval/labels/<vaka>.json) şeması: bilinmeyen alan ve geçersiz bölüm/grup reddedilir. */
+export const LabelSchema = z.strictObject({
+  case: z.string(),
+  vehicle: RawExtractionSchema.shape.vehicle.partial(),
+  expected: z.array(z.strictObject({ section: SectionSchema, part: z.string(), group: GroupSchema })),
+  mustBeDikkat: z.array(z.strictObject({ section: SectionSchema, part: z.string() })),
+});
+export type Label = z.infer<typeof LabelSchema>;
+
+/** Etiket JSON'unu doğrular; geçersizse hata fırlatır. */
+export function parseLabel(json: unknown): Label {
+  return LabelSchema.parse(json);
+}
 
 export type CaseScore = {
   vehicleFieldsCorrect: number;
@@ -26,16 +34,24 @@ export function scoreCase(
   l: Label,
   measurements: Extraction["measurements"] = [],
 ): CaseScore {
-  const groupOf = (section: Section, part: string): Group | undefined => {
+  // Aynı adla birden çok eşleşme (yinelenen satır, birden çok konumlu ölçüm) varsa EN DÜŞÜK
+  // grup sayılır: bir kopyanın "dikkat" altında gösterilmesi gözden kaçmasın.
+  const groupOf = (section: Label["expected"][number]["section"], part: string): Group | undefined => {
     const key = normalizePartName(part);
-    let id: string | undefined;
+    let ids: string[] = [];
     if (section === "test_hatti") {
-      id = measurements.find(
-        (m) => key === m.test || key === normalizePartName(`${m.test} ${m.position ?? ""}`),
-      )?.id;
+      ids = measurements
+        .filter((m) => key === m.test || key === normalizePartName(`${m.test} ${m.position ?? ""}`))
+        .map((m) => m.id);
     }
-    id ??= items.find((i) => i.section === section && normalizePartName(i.part) === key)?.id;
-    return id === undefined ? undefined : r.items.find((ri) => ri.itemId === id)?.group;
+    if (ids.length === 0) {
+      ids = items.filter((i) => i.section === section && normalizePartName(i.part) === key).map((i) => i.id);
+    }
+    const groups = ids
+      .map((id) => r.items.find((ri) => ri.itemId === id)?.group)
+      .filter((g): g is Group => g !== undefined);
+    if (groups.length === 0) return undefined;
+    return groups.reduce((min, g) => (GROUP_RANK[g] < GROUP_RANK[min] ? g : min));
   };
 
   const vehicleEntries = Object.entries(l.vehicle).filter(([, v]) => v !== undefined) as [

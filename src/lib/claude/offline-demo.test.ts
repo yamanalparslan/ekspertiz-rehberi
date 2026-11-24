@@ -15,8 +15,8 @@ test("demo yalnız tanımlı dosyanın özetinde örnek çıkarımı döndürür
   const { raw, usd } = await extractReport(client, [demoPdf]);
   expect(usd).toBe(0);
   expect(raw.isReport).toBe(true);
-  expect(raw.report.reportNo).not.toMatch(/LBD/);
-  expect(JSON.stringify(raw)).not.toContain("LBD00019");
+  // Kaynakta gerçek rapor numarası yok: yalnız yer tutucu.
+  expect(raw.report.reportNo).toBe("DEMO-0001");
 });
 
 test("demo başka her dosyada isReport:false döner (PDF, görsel, çoklu dosya)", async () => {

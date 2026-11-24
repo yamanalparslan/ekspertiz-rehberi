@@ -8,7 +8,7 @@ import { join } from "node:path";
 import { randomBytes } from "node:crypto";
 import { createClaude, providerLabel } from "../src/lib/claude/client";
 import { matchKnowledge } from "../src/lib/kb/match";
-import { scoreCase, type CaseScore, type Label } from "../src/lib/eval/score";
+import { parseLabel, scoreCase, type CaseScore, type Label } from "../src/lib/eval/score";
 import { runAnalysis, type PipelineDeps } from "../src/lib/pipeline/run";
 import type { SpendStore } from "../src/lib/pipeline/spend";
 import { verifyExtraction } from "../src/lib/pipeline/token";
@@ -18,6 +18,8 @@ import type { AnalysisResult } from "../src/lib/schema/result";
 import { geminiOptions, loadApiKey, loadKb, piiHits, readUploadFiles } from "./shared";
 
 const CAP_USD = 50;
+// Etiketler betiğe göre bulunur (çalışma dizininden bağımsız).
+const LABEL_DIR = join(import.meta.dirname, "..", "eval", "labels");
 
 function parseArgs(): string | undefined {
   const a = process.argv.slice(2);
@@ -104,12 +106,19 @@ async function main() {
   const kb = loadKb();
   const rows: Row[] = [];
   for (const name of caseNames) {
-    const labelPath = join("eval", "labels", `${name}.json`);
+    const labelPath = join(LABEL_DIR, `${name}.json`);
     if (!existsSync(labelPath)) {
       rows.push({ name, score: null, usd: 0, error: "etiket dosyası yok", pii: 0 });
       continue;
     }
-    const label = JSON.parse(readFileSync(labelPath, "utf8")) as Label;
+    // Şemaya uymayan etiket vakayı çalıştırmadan hata sayılır (model çağrısı/harcama yok).
+    let label: Label;
+    try {
+      label = parseLabel(JSON.parse(readFileSync(labelPath, "utf8")));
+    } catch {
+      rows.push({ name, score: null, usd: 0, error: "etiket dosyası geçersiz (şema)", pii: 0 });
+      continue;
+    }
     try {
       rows.push(await runCase(name, join(casesDir, name), label, claude, kb));
     } catch (e) {

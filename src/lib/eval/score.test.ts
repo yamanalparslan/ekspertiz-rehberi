@@ -1,9 +1,11 @@
+import { readdirSync, readFileSync } from "node:fs";
+import { join } from "node:path";
 import { expect, test } from "vitest";
 import { normalizePartName } from "@/lib/normalize";
 import type { Extraction } from "@/lib/schema/extraction";
 import type { Group } from "@/lib/schema/interpretation";
 import type { AnalysisResult } from "@/lib/schema/result";
-import { scoreCase, type Label } from "./score";
+import { parseLabel, scoreCase, type Label } from "./score";
 
 const VEHICLE: AnalysisResult["vehicle"] = {
   brand: "BMW",
@@ -143,6 +145,59 @@ test("ölçümler test_hatti bölümünde test kodu (+ konum) ile eşleşir", ()
     measurements,
   );
   expect(s.groupAccuracy).toBe(0.5);
+});
+
+test("aynı bölüm/parça adıyla birden çok madde: en düşük grup sayılır (ilki değil)", () => {
+  const dup = [item("d1", "ic_dis_donanim", "Lastik Durum"), item("d2", "ic_dis_donanim", "lastik  durum")];
+  const must = label({ mustBeDikkat: [{ section: "ic_dis_donanim", part: "Lastik Durum" }] });
+  // İlk eşleşme dikkat, ikincisi normal: dikkat altında gösterilen sayılır.
+  expect(scoreCase(result({ d1: "dikkat", d2: "normal" }), dup, must).dikkatShownBelow).toEqual(["ic_dis_donanim/Lastik Durum"]);
+  expect(scoreCase(result({ d1: "dikkat", d2: "dikkat" }), dup, must).dikkatShownBelow).toEqual([]);
+  // Grup doğruluğunda da en düşük grup kullanılır.
+  const exp = label({ expected: [{ section: "ic_dis_donanim", part: "Lastik Durum", group: "dikkat" }] });
+  expect(scoreCase(result({ d1: "dikkat", d2: "belirsiz" }), dup, exp).groupAccuracy).toBe(0);
+  // Eşleşen maddelerden biri sonuçta yoksa yine "eksik" sayılmaz; olanlar değerlendirilir.
+  expect(scoreCase(result({ d2: "dikkat" }), dup, must).dikkatShownBelow).toEqual([]);
+});
+
+test("ölçümde aynı test kodu birden çok konumda: test kodu etiketi en düşük grubu alır", () => {
+  const ms = ["sol ön", "sağ ön"].map((position, n) => ({
+    id: `m${n + 1}`,
+    test: "suspansiyon_tutunma" as const,
+    position,
+    value: 50,
+    unit: "%",
+    performed: true,
+    printedPassMin: 40,
+    printedPassMax: null,
+  }));
+  const s = scoreCase(
+    result({ m1: "dikkat", m2: "normal" }),
+    [],
+    label({ mustBeDikkat: [{ section: "test_hatti", part: "suspansiyon_tutunma" }] }),
+    ms,
+  );
+  expect(s.dikkatShownBelow).toEqual(["test_hatti/suspansiyon_tutunma"]);
+});
+
+test("etiket dosyası şemayla doğrulanır", () => {
+  const good = { case: "x", vehicle: { brand: "BMW", year: 2021 }, expected: [], mustBeDikkat: [] };
+  expect(parseLabel(good)).toEqual(good);
+  expect(() => parseLabel({ ...good, expected: [{ section: "sasi", part: "Ön Panel", group: "kirmizi" }] })).toThrow();
+  expect(() => parseLabel({ ...good, mustBeDikkat: [{ section: "şasi", part: "Ön Panel" }] })).toThrow();
+  expect(() => parseLabel({ ...good, vehicle: { year: "2021" } })).toThrow();
+  expect(() => parseLabel({ vehicle: {}, expected: [] })).toThrow();
+  expect(() => parseLabel({ ...good, plaka: "34 ABC 123" })).toThrow();
+});
+
+test("depodaki tüm etiket dosyaları şemaya uyar ve adları vaka adıyla aynı", () => {
+  const dir = join(process.cwd(), "eval", "labels");
+  const files = readdirSync(dir).filter((n) => n.endsWith(".json"));
+  expect(files.length).toBeGreaterThan(0);
+  for (const f of files) {
+    const l = parseLabel(JSON.parse(readFileSync(join(dir, f), "utf8")));
+    expect(`${l.case}.json`).toBe(f);
+  }
 });
 
 test("normalizePartName tr-TR küçük harf, kırpma, boşluk sadeleştirme", () => {
