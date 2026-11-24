@@ -75,6 +75,17 @@ test("geçmiş kendi içinde azalıyorsa km_dusus", () => {
   expect(codes(signals)).toContain("km_dusus");
 });
 
+test("rapordaki km okunamadıysa km_tutarli rapordaki km ile karşılaştırma iddia etmez", () => {
+  const withKm = run().find((s) => s.code === "km_tutarli")!;
+  expect(withKm.message).toContain("rapordaki km");
+  const noKm = run((r) => {
+    r.vehicle.km = null;
+  }).find((s) => s.code === "km_tutarli")!;
+  expect(noKm.message).not.toContain("rapordaki km ile tutarlı");
+  expect(noKm.message).toMatch(/kendi içinde tutarlı/);
+  expect(noKm.message).toMatch(/km okunamadı/);
+});
+
 test("km geçmişi boşsa km sinyali yok", () => {
   const signals = run((r) => {
     r.kmHistory = [];

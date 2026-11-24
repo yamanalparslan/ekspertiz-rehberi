@@ -1,4 +1,4 @@
-import type { Extraction } from "@/lib/schema/extraction";
+import type { Extraction, MeasurementTest } from "@/lib/schema/extraction";
 import type { Group, Interpretation } from "@/lib/schema/interpretation";
 import type { AnalysisResult, ResultItem, Signal } from "@/lib/schema/result";
 import type { Knowledge } from "@/lib/kb/match";
@@ -7,16 +7,32 @@ import { GROUP_RANK, mergeGroup } from "@/lib/rules/floors";
 const NOT_INTERPRETED = "Bu madde otomatik yorumlanamadı.";
 const FIRM_MESSAGE = "Raporu firmanın kendi sorgu sayfasından doğrulayın.";
 
+/** Ölçüm adları (model yorumlamadığında başlık olarak gösterilir). */
+export const MEASUREMENT_LABELS: Record<MeasurementTest, string> = {
+  fren_sapma_on: "Ön fren sapması",
+  fren_sapma_arka: "Arka fren sapması",
+  el_freni_sapma: "El freni sapması",
+  yanal_kayma_on: "Ön yanal kayma",
+  yanal_kayma_arka: "Arka yanal kayma",
+  suspansiyon_tutunma: "Süspansiyon tutunması",
+  dinamometre_guc: "Dinamometre güç ölçümü",
+};
+
+/** "Süspansiyon tutunması (sol ön)"; konum adda zaten geçiyorsa ("Ön fren sapması", "ön") eklenmez. */
+function measurementTitle(m: Extraction["measurements"][number]): string {
+  const label = MEASUREMENT_LABELS[m.test];
+  const pos = m.position?.trim() ?? "";
+  if (pos === "" || label.toLocaleLowerCase("tr-TR").includes(pos.toLocaleLowerCase("tr-TR"))) return label;
+  return `${label} (${pos})`;
+}
+
 type Entry = { id: string; title: string };
 
 // Okuma sırası: maddeler, ölçümler, ham arızalar.
 function readingOrder(e: Extraction): Entry[] {
   return [
     ...e.items.map((i) => ({ id: i.id, title: i.part })),
-    ...e.measurements.map((m) => ({
-      id: m.id,
-      title: [m.test.replace(/_/g, " "), m.position].filter(Boolean).join(" "),
-    })),
+    ...e.measurements.map((m) => ({ id: m.id, title: measurementTitle(m) })),
     ...e.obd.rawFaults.map((f) => ({ id: f.id, title: `${f.unitName} ${f.code}` })),
   ];
 }
@@ -30,8 +46,12 @@ export function buildResult(input: {
 }): AnalysisResult {
   const { extraction: e, interpretation, knowledge: k, floors } = input;
 
+  // Aynı kimlik birden çok kez gelirse en ciddi grup kalır (eşitlikte ilki): sorun gizlenmez.
   const modelItems = new Map<string, Interpretation["items"][number]>();
-  for (const it of interpretation.items) if (!modelItems.has(it.itemId)) modelItems.set(it.itemId, it);
+  for (const it of interpretation.items) {
+    const prev = modelItems.get(it.itemId);
+    if (!prev || GROUP_RANK[it.group] > GROUP_RANK[prev.group]) modelItems.set(it.itemId, it);
+  }
   const prices = new Map(k.priceItems.map((p) => [p.id, p]));
   const issues = new Map(k.chronicIssues.map((c) => [c.id, c]));
 

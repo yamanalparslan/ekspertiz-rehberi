@@ -55,11 +55,19 @@ export function computeSignals(e: Extraction, opts: { now: Date }): Signal[] {
         message: "Km geçmişinde raporlanan km'den büyük ya da azalan bir kayıt var.",
         details: sorted.map((k) => `${k.date} — ${k.km.toLocaleString("tr-TR")} km`),
       });
-    } else {
+    } else if (reportKm !== null) {
       signals.push({
         code: "km_tutarli",
         level: "ok",
         message: "Km geçmişi rapordaki km ile tutarlı görünüyor.",
+        details: [],
+      });
+    } else {
+      // Rapordaki güncel km okunamadı: yalnız geçmişin kendi içindeki sırası denetlenebildi.
+      signals.push({
+        code: "km_tutarli",
+        level: "info",
+        message: "Km geçmişi kendi içinde tutarlı görünüyor; raporda güncel km okunamadı, karşılaştırma yapılamadı.",
         details: [],
       });
     }

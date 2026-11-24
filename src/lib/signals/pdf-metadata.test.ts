@@ -28,6 +28,15 @@ test("oluşturucu alanı da büyük/küçük harf duyarsız eşleşir", async ()
   expect(s.map((x) => x.code)).toEqual(["pdf_duzenleyici"]);
 });
 
+test("pdf_duzenleyici ayrıntısı hangi PDF alanının eşleştiğini etiketler, eşleşmeyen alanı yazmaz", async () => {
+  const p = await inspectPdfMetadata(await makePdf({ producer: "Canva", creator: "Microsoft Word" }));
+  expect(p[0].details).toEqual(["Üretici (Producer): Canva"]);
+  const c = await inspectPdfMetadata(await makePdf({ producer: "Skia/PDF m120", creator: "Adobe PHOTOSHOP 25" }));
+  expect(c[0].details).toEqual(["Oluşturan program (Creator): Adobe PHOTOSHOP 25"]);
+  const both = await inspectPdfMetadata(await makePdf({ producer: "iLovePDF", creator: "GIMP 2.10" }));
+  expect(both[0].details).toEqual(["Üretici (Producer): iLovePDF", "Oluşturan program (Creator): GIMP 2.10"]);
+});
+
 test("değiştirme tarihi 24 saatten fazla sonraysa pdf_sonradan_degistirilmis", async () => {
   const s = await inspectPdfMetadata(
     await makePdf({

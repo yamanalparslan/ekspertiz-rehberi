@@ -103,6 +103,26 @@ test("atlanan madde belirsiz eklenir", () => {
   expect(AnalysisResultSchema.safeParse(r).success).toBe(true);
 });
 
+test("modelden aynı kimlik iki kez gelirse en ciddi grup kalır (ilki değil)", () => {
+  const id = idOf("Sol Arka Çamurluk");
+  const r = build(interp([mk(id, "normal", { title: "hafif" }), mk(id, "dikkat", { title: "ciddi" }), mk(id, "belirsiz")]));
+  expect(find(r, id)).toMatchObject({ group: "dikkat", title: "ciddi" });
+  expect(r.items.filter((x) => x.itemId === id)).toHaveLength(1);
+  // Eşit ciddiyette ilki korunur.
+  const tie = build(interp([mk(id, "kronik", { title: "ilk" }), mk(id, "kronik", { title: "ikinci" })]));
+  expect(find(tie, id).title).toBe("ilk");
+});
+
+test("yorumlanamayan ölçümün başlığı Türkçe etiketle gösterilir", () => {
+  const r = build(interp([]));
+  const title = (test: string) =>
+    find(r, extraction.measurements.find((m) => m.test === test)!.id).title;
+  expect(title("dinamometre_guc")).toMatch(/^Dinamometre/);
+  expect(title("fren_sapma_on")).toMatch(/^Ön fren/);
+  for (const m of extraction.measurements) expect(find(r, m.id).title).not.toContain("_");
+  expect(find(r, extraction.measurements[0].id).title).not.toMatch(/sapma on|kayma on/);
+});
+
 test("bilgi tabanında olmayan fiyat kimliği fiyat göstermez", () => {
   const id = idOf("Ön Panel");
   expect(find(build(interp([mk(id, "dikkat", { priceItemId: "uydurma" })])), id).cost).toBeNull();

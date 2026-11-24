@@ -23,16 +23,18 @@ export async function inspectPdfMetadata(bytes: Uint8Array): Promise<Signal[]> {
   }
 
   const signals: Signal[] = [];
-  const producer = doc.getProducer() ?? "";
-  const creator = doc.getCreator() ?? "";
-  const hay = `${producer}\n${creator}`.toLowerCase();
-  const found = EDITORS.filter((name) => hay.includes(name));
-  if (found.length > 0) {
+  // Ayrıntıda yalnız eşleşen alan, hangi alan olduğu yazılarak gösterilir.
+  const fields = [
+    { label: "Üretici (Producer)", value: doc.getProducer() ?? "" },
+    { label: "Oluşturan program (Creator)", value: doc.getCreator() ?? "" },
+  ];
+  const matched = fields.filter((f) => EDITORS.some((name) => f.value.toLowerCase().includes(name)));
+  if (matched.length > 0) {
     signals.push({
       code: "pdf_duzenleyici",
       level: "warn",
       message: "PDF'in üretici bilgisinde bir görsel veya PDF düzenleme programı geçiyor.",
-      details: [producer, creator].filter((s) => s !== ""),
+      details: matched.map((f) => `${f.label}: ${f.value}`),
     });
   }
 
