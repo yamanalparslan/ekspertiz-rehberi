@@ -43,6 +43,18 @@ test("loadKnowledge: price_cache satırları araç anahtarı ve 90 gün sınır�
   expect(k.priceItems.find((p) => p.id === price.id)).toMatchObject({ stale: false, minTry: 1 });
 });
 
+test("loadKnowledge: önbellek satırının bayatlığı isStale ile hesaplanır (zorla false değil)", async () => {
+  // SQL sınırı gün/saat dilimi farkıyla 90 günü aşan ya da tarihi bozuk bir satır döndürebilir.
+  const old = { ...price, id: "live-old", asOf: "2026-08-01" };
+  const bad = { ...price, id: "live-bad", asOf: "dün" };
+  const { db } = fakeDb([{ json: JSON.stringify(price) }, { json: JSON.stringify(old) }, { json: JSON.stringify(bad) }]);
+  const k = await loadKnowledge(db, { vehicle: { brand: "BMW", model: "320i" } as never, firm: null }, NOW);
+  const stale = (id: string) => k.priceItems.find((p) => p.id === id)?.stale;
+  expect(stale(price.id)).toBe(false);
+  expect(stale("live-old")).toBe(true);
+  expect(stale("live-bad")).toBe(true);
+});
+
 test("loadKnowledge: marka yoksa önbellek sorgulanmaz", async () => {
   const { db, log } = fakeDb([]);
   await loadKnowledge(db, { vehicle: { brand: null, model: null } as never, firm: null }, NOW);

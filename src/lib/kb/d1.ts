@@ -8,7 +8,7 @@ import {
   type VehicleKbFile,
 } from "@/lib/schema/kb";
 import { istanbulDay } from "@/lib/pipeline/spend";
-import { matchKnowledge, norm, priceCacheKey, type Knowledge, type KnowledgeQuery } from "./match";
+import { isStale, matchKnowledge, norm, priceCacheKey, type Knowledge, type KnowledgeQuery } from "./match";
 
 const CACHE_DAYS = 90;
 
@@ -67,7 +67,8 @@ export async function loadKnowledge(
     }
     if (!parsed.success || have.has(parsed.data.id)) continue;
     have.add(parsed.data.id);
-    knowledge.priceItems.push({ ...parsed.data, stale: false });
+    // Bayatlık bilgi tabanıyla aynı kuralla (90 gün, okunamayan tarih bayat) hesaplanır.
+    knowledge.priceItems.push({ ...parsed.data, stale: isStale(parsed.data.asOf, now) });
   }
   return knowledge;
 }

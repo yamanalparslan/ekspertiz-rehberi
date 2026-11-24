@@ -48,7 +48,7 @@ export function priceCacheKey(vehicleId: string | null, v: Extraction["vehicle"]
   return b === "" || m === "" ? null : `${b}|${m}`;
 }
 
-function isStale(asOf: string, now: Date): boolean {
+export function isStale(asOf: string, now: Date): boolean {
   const t = Date.parse(asOf);
   if (Number.isNaN(t)) return true; // unparseable date: do not vouch for freshness
   return now.getTime() - t > STALE_DAYS * DAY_MS;
@@ -111,16 +111,19 @@ function fuelCompatible(kbFuel: string, fuel: string | null): boolean {
  * Motora bağlı kronik sorun şu durumlarda geçerlidir: araç metninde (model/varyant) bir
  * motor kodu/adı belirteci eşleşir; ya da basılı hacim, listelenen bir motorun hacmine
  * ±30 cc yakındır ve yakıt uyar (veya yakıt bilinmez). Hacim bilinmiyorsa (ya da tahminiyse)
- * yalnız basılı yakıt kesin uyuşmazlık gösterdiğinde dışlanır.
+ * yalnız basılı yakıt kesin uyuşmazlık gösterdiğinde dışlanır. Araç metni bir KB motorunu
+ * zaten tanımlıyorsa ("1.6 E-torQ") hacim/yakıt yedeği yalnız o motora bakar: aynı hacimli
+ * başka yakıtlı motorun sorunu (dizel EGR/DPF) yakıt bilinmese de gelmez.
  */
 function issueApplies(
   issue: ChronicIssue,
   kb: VehicleKbFile,
-  v: { text: string; engineCc: number | null; fuel: string | null },
+  v: { text: string; engineCc: number | null; fuel: string | null; identified: readonly string[] },
 ): boolean {
   if (issue.engineCodes === null) return true;
   const codes = issue.engineCodes;
   if (codeTokenMatch(codes, v.text)) return true;
+  if (v.identified.length > 0) return v.identified.some((c) => codes.includes(c));
   const engines = kb.vehicle.engines.filter((e) => codes.includes(e.code));
   if (engines.length === 0) return v.engineCc === null; // KB tutarsız: yalnız hacim bilinmiyorsa dışlama
   if (v.engineCc === null) return engines.some((e) => fuelCompatible(e.fuel, v.fuel));
@@ -128,13 +131,24 @@ function issueApplies(
   return engines.some((e) => Math.abs(e.cc - cc) <= CC_TOLERANCE && fuelCompatible(e.fuel, v.fuel));
 }
 
+// "İçerir" eşleşmesinde içerilen tarafın en kısa uzunluğu: "Oto", "TÜV" gibi kısa parçalar
+// başka firma adlarının içinde geçip yanlış doğrulama bağlantısı vermesin. Birebir eşitlik her zaman geçerli.
+const MIN_FIRM_PARTIAL = 4;
+
 function matchFirm(firms: FirmsFile["firms"], firm: string | null): string | null {
   if (firm === null) return null;
   const f = norm(firm);
   if (f === "") return null;
   for (const entry of firms) {
     const n = norm(entry.name);
-    if (n !== "" && (f.includes(n) || n.includes(f))) return entry.verifyUrl;
+    if (n === "") continue;
+    if (
+      n === f ||
+      (n.length >= MIN_FIRM_PARTIAL && f.includes(n)) ||
+      (f.length >= MIN_FIRM_PARTIAL && n.includes(f))
+    ) {
+      return entry.verifyUrl;
+    }
   }
   return null;
 }
@@ -142,10 +156,13 @@ function matchFirm(firms: FirmsFile["firms"], firm: string | null): string | nul
 export function matchKnowledge(kb: KbData, q: KnowledgeQuery, now: Date): Knowledge {
   const hit = kb.vehicles.find((v) => vehicleMatches(v, q.vehicle)) ?? null;
   // Tahmini alanlar eşleşmeyi daraltmamalı: bilinmiyor sayılır.
+  const text = `${q.vehicle.model ?? ""} ${q.vehicle.variant ?? ""}`;
   const engineView = {
-    text: `${q.vehicle.model ?? ""} ${q.vehicle.variant ?? ""}`,
+    text,
     engineCc: q.inferred?.engineCc ? null : q.vehicle.engineCc,
     fuel: q.inferred?.fuel ? null : q.vehicle.fuel,
+    // Model/varyant metninin motor belirteciyle tanımladığı KB motorları (ör. "1.6 E-torQ").
+    identified: hit ? hit.vehicle.engines.filter((e) => codeTokenMatch([e.code], text)).map((e) => e.code) : [],
   };
 
   const chronicIssues = hit

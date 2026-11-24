@@ -125,10 +125,29 @@ function collectGroundedDomains(content: readonly unknown[], into: Set<string>):
   }
 }
 
-/** Satırın alan adı, arama sonuçlarındaki bir alan adıyla aynı ya da onun alt/üst alan adı mı? */
+// Ülke kodlu alan adlarında genel ikinci düzey etiketler ("com.tr", "co.uk"): tek başına kayıt
+// edilebilir bir alan adı değildir (kamu son eki).
+const GENERIC_SLD = new Set([
+  "com", "net", "org", "gov", "edu", "gen", "web", "bel", "biz", "info", "av", "dr", "k12", "pol",
+  "tsk", "kep", "co", "ac", "or", "ne", "go", "mil", "nom", "ltd", "plc",
+]);
+
+/** En az iki etiketli ve "com.tr" gibi çıplak bir kamu son eki olmayan ana makine adı. */
+function isRegistrable(host: string): boolean {
+  const labels = host.split(".");
+  if (labels.length < 2 || labels.some((l) => l === "")) return false;
+  return !(labels.length === 2 && GENERIC_SLD.has(labels[0]) && labels[1].length === 2);
+}
+
+/**
+ * Satırın alan adı, arama sonuçlarındaki kayıt edilebilir bir alan adıyla aynı ya da onun alt
+ * alan adı mı? Üst alan adı (arama "shop.example.com.tr", satır "example.com.tr") ve kamu son
+ * eki ("com.tr") temellendirilmiş sayılmaz.
+ */
 function isGrounded(domain: string, grounded: ReadonlySet<string>): boolean {
   for (const g of grounded) {
-    if (domain === g || domain.endsWith(`.${g}`) || g.endsWith(`.${domain}`)) return true;
+    if (!isRegistrable(g)) continue;
+    if (domain === g || domain.endsWith(`.${g}`)) return true;
   }
   return false;
 }

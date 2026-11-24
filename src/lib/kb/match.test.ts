@@ -168,6 +168,21 @@ test("firma adı eşleşirse doğrulama adresi döner", () => {
   expect(matchKnowledge(kb(firms), q(null), now).firmVerifyUrl).toBeNull();
 });
 
+test("firma adı 'içerir' eşleşmesi en az 4 karakter ister (kısa parça yanlış eşleşmez)", () => {
+  const firms = [
+    { name: "Otorapor", verifyUrl: "https://otorapor.example/dogrula", note: "" },
+    { name: "TÜV", verifyUrl: "https://tuv.example", note: "" },
+  ];
+  const q = (firm: string) => ({ vehicle: vehicle({}), firm });
+  // Rapordaki kısa/bozuk okuma ("Oto", "A") firma adının içinde geçse de eşleşmez.
+  expect(matchKnowledge(kb(firms), q("Oto"), now).firmVerifyUrl).toBeNull();
+  expect(matchKnowledge(kb(firms), q("A"), now).firmVerifyUrl).toBeNull();
+  // KB'deki kısa ad ("TÜV") uzun firma metninin içinde geçse de eşleşmez; birebir eşleşme geçerli.
+  expect(matchKnowledge(kb(firms), q("Satüv Oto Ekspertiz"), now).firmVerifyUrl).toBeNull();
+  expect(matchKnowledge(kb(firms), q("tüv"), now).firmVerifyUrl).toBe("https://tuv.example");
+  expect(matchKnowledge(kb(firms), q("Otor"), now).firmVerifyUrl).toBe("https://otorapor.example/dogrula");
+});
+
 // Gerçek bilgi tabanı dosyalarıyla motor eşleştirme toleransı.
 const realKb = {
   vehicles: [egeaJson, fiestaJson, golfJson, accentJson].map((j) => VehicleKbFileSchema.parse(j)),
@@ -203,6 +218,24 @@ test("Egea 1.6 E-torQ benzinli: 1598 cc dizel 1.6 Multijet ile aynı olsa da diz
   expect(ids).toContain("egea-debriyaj");
   // Hacim yok ama basılı yakıt benzin: dizel motor sorunları yine gelmez.
   expect(issueIds({ brand: "Fiat", model: "Egea", year: 2018, fuel: "benzin" })).not.toContain("egea-dizel-egr-dpf");
+});
+
+test("araç metni bir KB motorunu tanımlıyorsa hacim yedeği o motorla sınırlı: yakıt bilinmese de E-torQ dizel sorunu almaz", () => {
+  // Yakıt basılı değil (ya da tahmini), hacim 1598: 1.6 Multijet ile aynı hacim.
+  const ids = issueIds({ brand: "Fiat", model: "Egea", variant: "1.6 E-torQ Easy", year: 2018, engineCc: 1598, fuel: null });
+  expect(ids).not.toContain("egea-dizel-egr-dpf");
+  expect(ids).not.toContain("egea-13-multijet-turbo-hortumu");
+  expect(ids).toContain("egea-debriyaj");
+  const inferredFuel = issueIds(
+    { brand: "Fiat", model: "Egea", variant: "1.6 E-torQ", year: 2018, engineCc: 1598, fuel: "dizel" },
+    { fuel: true },
+  );
+  expect(inferredFuel).not.toContain("egea-dizel-egr-dpf");
+  // Hacim de bilinmiyor: tanımlanan motor yine sınırlar.
+  expect(issueIds({ brand: "Fiat", model: "Egea", variant: "1.6 E-torQ", year: 2018 })).not.toContain("egea-dizel-egr-dpf");
+  // Tanımlanan motorun kendi sorunu gelir; motor tanımlanmazsa eski davranış (bilinmiyor = dışlama yok).
+  expect(issueIds({ brand: "Fiat", model: "Egea", variant: "1.6 Multijet", year: 2018, fuel: null })).toContain("egea-dizel-egr-dpf");
+  expect(issueIds({ brand: "Fiat", model: "Egea", year: 2018, engineCc: 1598, fuel: null })).toContain("egea-dizel-egr-dpf");
 });
 
 test("Golf 1.4 TSI 1368 cc (KB 1395) ve Accent 1.6 CRDi 1598 cc (KB 1582) ±30 cc toleransla eşleşir", () => {

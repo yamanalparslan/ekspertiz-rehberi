@@ -230,6 +230,43 @@ test("Claude: kaynağı bu aramanın sonuçlarında görünmeyen satır atılır
   expect(out.prices.map((p) => p.forItemId)).toEqual(["a", "c"]);
 });
 
+test("kaynak üst alan adına (com.tr gibi kamu son eki ya da arama sonucunun üstü) dayanamaz", async () => {
+  const { client } = seq([
+    toolMsg(
+      [
+        row({ itemId: "a", title: "Kamu son eki", sourceUrl: "https://com.tr/fiyat" }),
+        row({ itemId: "b", title: "Üst alan adı", sourceUrl: "https://example.com.tr/fiyat" }),
+        row({ itemId: "c", title: "Aynı alan adı", sourceUrl: "https://shop.example.com.tr/fiyat" }),
+        row({ itemId: "d", title: "Alt alan adı", sourceUrl: "https://m.shop.example.com.tr/urun" }),
+      ],
+      [searchResult("https://shop.example.com.tr/liste")],
+    ),
+  ]);
+  const out = await lookupPrices(client, { vehicle, needs: needs(4) }, NOW);
+  expect(out.prices.map((p) => p.forItemId)).toEqual(["c", "d"]);
+});
+
+test("arama sonucu yalnız kamu son eki (com.tr) bildirirse hiçbir kaynağı temellendirmez", async () => {
+  const fetchFn: typeof fetch = async () =>
+    new Response(
+      JSON.stringify({
+        candidates: [
+          {
+            finishReason: "STOP",
+            content: { parts: [{ text: JSON.stringify({ fiyatlar: [row({ sourceUrl: "https://herhangi.com.tr/a" })] }) }] },
+            groundingMetadata: {
+              groundingChunks: [{ web: { uri: "https://vertexaisearch.cloud.google.com/grounding-api-redirect/x", title: "com.tr" } }],
+            },
+          },
+        ],
+        usageMetadata: { promptTokenCount: 10, candidatesTokenCount: 10 },
+      }),
+      { status: 200 },
+    );
+  const client = createClaude("AIzaTest", { fetchFn, geminiModel: "gemini-3.8-flash" });
+  expect((await lookupPrices(client, { vehicle, needs: needs(1) }, NOW)).prices).toEqual([]);
+});
+
 test("Claude: arama sonucu hiç yoksa hiçbir fiyat kabul edilmez", async () => {
   const { client } = seq([toolMsg([row()], [])]);
   expect((await lookupPrices(client, { vehicle, needs: needs(1) }, NOW)).prices).toEqual([]);
