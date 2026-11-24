@@ -2,18 +2,21 @@
   "vehicle": {
     "brand": "BMW",
     "model": "320i",
-    "variant": null,
+    "variant": "1.6 First Edition Luxury Line",
     "year": 2021,
-    "engineCc": 1597,
+    "engineCc": 1598,
     "powerHp": 170,
     "fuel": "benzin",
     "transmission": "otomatik",
-    "km": 135689
+    "km": 136000
+  },
+  "vehicleInferred": {
+    "engineCc": true
   },
   "report": {
-    "firm": "Yavuzlar Oto Ekspertiz",
+    "firm": "Kurgusal Oto Ekspertiz",
     "reportNo": null,
-    "date": "2026-11-23"
+    "date": "2026-11-20"
   },
   "summary": "Raporda dört madde dikkat istiyor: ön panel değişmiş, sol üst frangart ve sol arka çamurlukta onarım izi var, ön lastiklerin değişmesi gerekiyor. Yağ filtresi çevresindeki terleme ve aşınmış arka fren diskleri bu model için bilinen sorunlarla örtüşüyor. Dinamometre testi yapılmamış. Dikkat maddelerini satın alma kararından önce bir ustaya gösterin.",
   "counts": {
@@ -278,8 +281,8 @@
       "level": "ok",
       "message": "Hasar kayıtları ile değişen veya boyalı parçalar birbirini destekliyor.",
       "details": [
-        "2023-10-28 — ERP-Çarpışma — 263.322,55 TL",
-        "2024-05-30 — Çarpışma — 32.400,00 TL"
+        "2023-10-01 — ERP-Çarpışma — 263.000,00 TL",
+        "2024-05-01 — Çarpışma — 32.000,00 TL"
       ]
     },
     {

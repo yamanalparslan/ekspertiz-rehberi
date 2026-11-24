@@ -57,6 +57,35 @@ const KEEP_ITEMS: [string, string][] = [
 const KEEP_TESTS = new Set(["fren_sapma_on", "dinamometre_guc"]);
 const KEEP_FAULTS = new Set(["801127"]);
 
+const roundTo = (n: number, step: number) => Math.round(n / step) * step;
+const monthStart = (iso: string | null) => (iso === null ? null : `${iso.slice(0, 7)}-01`);
+
+/**
+ * Örneği kurgusallaştırır: gerçek bir firma ya da araçla eşleşmesin. Firma adı kurgusal,
+ * km ve hasar tutarları bine yuvarlanmış, tarihler ay başına çekilmiştir. Motor hacmi
+ * raporda basılı değilmiş gibi bırakılır ki arayüzün "tahmini" etiketi örnekte görünsün
+ * (hacim, Türkiye'deki 320i'nin 1.6 litrelik paket adından tahmin edilir).
+ */
+function fictionalize(raw: RawExtraction): RawExtraction {
+  return {
+    ...raw,
+    vehicle: {
+      ...raw.vehicle,
+      variant: "1.6 First Edition Luxury Line",
+      engineCc: null,
+      km: raw.vehicle.km === null ? null : roundTo(raw.vehicle.km, 1000),
+    },
+    report: { ...raw.report, firm: "Kurgusal Oto Ekspertiz", reportNo: null, date: "2026-11-20", package: null },
+    kmHistory: raw.kmHistory.map((k) => ({ date: monthStart(k.date) ?? k.date, km: roundTo(k.km, 1000) })),
+    damageRecords: raw.damageRecords.map((d) => ({
+      ...d,
+      date: monthStart(d.date),
+      amountTry: d.amountTry === null ? null : roundTo(d.amountTry, 1000),
+    })),
+    expertNotes: [],
+  };
+}
+
 function trim(raw: RawExtraction): RawExtraction {
   const items = raw.items.filter((i) => KEEP_ITEMS.some(([s, p]) => i.section === s && i.part === p));
   if (items.length !== KEEP_ITEMS.length) throw new Error("örnek madde bulunamadı");
@@ -200,9 +229,18 @@ const TEXTS: Record<string, Entry> = {
 };
 
 const raw = RawExtractionSchema.parse(readJson(join(fixtures, "bmw-320i-2021.extraction.json")));
-const { extraction, signals: normSignals } = normalizeExtraction(trim(raw));
+const { extraction, signals: normSignals } = normalizeExtraction(fictionalize(trim(raw)));
 const floors = computeFloors(extraction);
-const knowledge = matchKnowledge(loadKb(), { vehicle: extraction.vehicle, firm: extraction.report.firm }, NOW);
+// Hattaki gibi: tahmini alanlar bilgi tabanı eşleşmesini daraltmaz (run.ts).
+const knowledge = matchKnowledge(
+  loadKb(),
+  {
+    vehicle: extraction.vehicle,
+    firm: extraction.report.firm,
+    ...(extraction.vehicleInferred ? { inferred: extraction.vehicleInferred } : {}),
+  },
+  NOW,
+);
 
 const keys: [string, string][] = [
   ...extraction.items.map((i): [string, string] => [i.id, i.part]),
