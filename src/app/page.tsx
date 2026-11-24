@@ -8,7 +8,7 @@ import { UploadForm } from "@/components/upload-form";
 import { VehicleCard } from "@/components/vehicle-card";
 import { MAX_TOTAL_BYTES } from "@/lib/client/files";
 import { GROUP_LABELS, GROUP_NOTES, GROUP_ORDER } from "@/lib/client/format";
-import { readNdjson } from "@/lib/client/ndjson";
+import { readEventResponse } from "@/lib/client/ndjson";
 import { decodeQr, qrLink } from "@/lib/client/qr";
 import { readPixels, resizeImage } from "@/lib/client/resize";
 import { initialRun, retryKind, runReducer } from "@/lib/client/run-state";
@@ -115,8 +115,8 @@ export default function Home() {
     const live = () => runId.current === id;
     try {
       const res = await fetch(url, { ...init, signal: controller.current?.signal });
-      if (!res.ok || !res.body) throw new Error("yanıt yok");
-      await readNdjson(res.body, (event) => {
+      // 2xx dışı yanıt (ön akış hatası) da gövdesinde aynı biçimde bir hata olayı taşır.
+      await readEventResponse(res, (event) => {
         if (live()) dispatch({ type: "event", event });
       });
       if (live()) dispatch({ type: "ended" });

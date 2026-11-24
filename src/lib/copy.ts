@@ -32,6 +32,8 @@ export const ERROR_MESSAGES: Record<ErrorCode, string> = {
   invalid_output: "Analiz sonucu okunamadı. Lütfen tekrar deneyin.",
   upload_invalid: "Dosyalar uygun değil: en fazla 25 görsel veya 1 PDF, toplam 20 MB.",
   token_invalid: "Analizin süresi doldu. Lütfen raporu yeniden yükleyin.",
+  request_invalid: "Düzeltme bilgisi geçersiz. Lütfen araç bilgisini yeniden girip tekrar deneyin.",
+  vehicle_invalid: "Araç bilgisi geçersiz. Lütfen değerleri kontrol edin.",
   internal: "Beklenmeyen bir hata oluştu. Lütfen tekrar deneyin.",
 };
 

@@ -8,7 +8,7 @@ vi.mock("./env", () => ({
 }));
 
 import { createClaude } from "@/lib/claude/client";
-import { buildDepsFrom } from "./http";
+import { buildDepsFrom, errorEvent, errorResponse, ndjsonResponse } from "./http";
 
 const usd = () => ({ total: 0 });
 const KEY = { ANTHROPIC_API_KEY: "sk-ant-test", EXTRACTION_HMAC_SECRET: "x".repeat(32) };
@@ -154,6 +154,79 @@ test("OFFLINE_DEMO=1 yalnız geliştirmede demo istemcisini açar", async () => 
     processEnv: { OFFLINE_DEMO: "1" },
   });
   expect(prod).toBeNull();
+});
+
+const runLog = (log: { mock: { calls: unknown[][] } }) =>
+  log.mock.calls
+    .map((c) => (typeof c[0] === "string" ? c[0] : ""))
+    .filter((s) => s.includes('"ms"'))
+    .map((s) => JSON.parse(s) as Record<string, unknown>);
+
+test("NDJSON: istemci akışı iptal ederse iş sürer, enqueue/close hata vermez, günlük kodu korunur", async () => {
+  const log = vi.spyOn(console, "log").mockImplementation(() => {});
+  let release!: () => void;
+  const gate = new Promise<void>((r) => (release = r));
+  let finished = false;
+  const res = ndjsonResponse(
+    "analyze",
+    1,
+    async (emit) => {
+      emit({ type: "stage", stage: "okuma" });
+      await gate;
+      emit({ type: "stage", stage: "arac" });
+      emit({ type: "stage", stage: "yorumlama" });
+      finished = true;
+    },
+    usd(),
+  );
+  const reader = res.body!.getReader();
+  await reader.read();
+  await reader.cancel();
+  release();
+  await new Promise((r) => setTimeout(r, 20));
+  expect(finished).toBe(true);
+  expect(runLog(log)).toEqual([expect.objectContaining({ event: "analyze", code: "ok", cancelled: true })]);
+});
+
+test("günlük satırı çalışmada kullanılan sağlayıcıyı bir kez yazar (anahtar yazılmaz)", async () => {
+  const log = vi.spyOn(console, "log").mockImplementation(() => {});
+  const { db } = fakeDb();
+  for (const [key, provider] of [
+    ["sk-ant-test", "claude"],
+    ["AIzaTestKey", "gemini"],
+  ] as const) {
+    const meta = usd();
+    await buildDepsFrom(meta, {
+      isDev: false,
+      env: { ANTHROPIC_API_KEY: key, EXTRACTION_HMAC_SECRET: "x".repeat(32), DB: db as never },
+      devVars: {},
+      processEnv: {},
+    });
+    expect(meta).toMatchObject({ provider });
+    const res = ndjsonResponse("analyze", 1, async () => {}, meta);
+    await res.text();
+  }
+  const lines = runLog(log);
+  expect(lines.map((l) => l.provider)).toEqual(["claude", "gemini"]);
+  expect(JSON.stringify(log.mock.calls)).not.toMatch(/sk-ant|AIza/);
+  const demo = usd();
+  await buildDepsFrom(demo, { isDev: true, env: {}, devVars: { OFFLINE_DEMO: "1" }, processEnv: {} });
+  expect(demo).toMatchObject({ provider: "demo" });
+});
+
+test("ön akış hatası: HTTP durumu, aynı JSON hata gövdesi, no-store ve tek günlük satırı", async () => {
+  const log = vi.spyOn(console, "log").mockImplementation(() => {});
+  const res = errorResponse("analyze", 3, "cap_reached", usd());
+  expect(res.status).toBe(429);
+  expect(res.headers.get("cache-control")).toBe("no-store");
+  expect(res.headers.get("content-type")).toContain("application/json");
+  expect(JSON.parse(await res.text())).toEqual(errorEvent("cap_reached"));
+  expect(errorResponse("analyze", 0, "upload_invalid", usd(), 413).status).toBe(413);
+  expect(errorResponse("reinterpret", 0, "token_invalid", usd()).status).toBe(401);
+  expect(errorResponse("reinterpret", 0, "reinterpret_used", usd()).status).toBe(403);
+  expect(errorResponse("reinterpret", 0, "vehicle_invalid", usd()).status).toBe(400);
+  expect(errorResponse("analyze", 0, "internal", usd()).status).toBe(500);
+  expect(runLog(log)[0]).toMatchObject({ event: "analyze", files: 3, code: "cap_reached", status: 429, usd: 0 });
 });
 
 test("createClaude anahtarsız çağrılırsa hata fırlatır (sessiz demo yok)", () => {

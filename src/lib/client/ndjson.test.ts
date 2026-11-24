@@ -1,6 +1,36 @@
 import { expect, test } from "vitest";
 import type { AnalysisEvent } from "@/lib/schema/events";
-import { readNdjson } from "./ndjson";
+import { readEventResponse, readNdjson } from "./ndjson";
+
+const errLine = (code: string, message: string) => JSON.stringify({ type: "error", code, message });
+
+async function fromResponse(res: Response): Promise<AnalysisEvent[]> {
+  const events: AnalysisEvent[] = [];
+  await readEventResponse(res, (e) => events.push(e));
+  return events;
+}
+
+test("readEventResponse: 2xx dışı yanıtın gövdesindeki hata kodunu okur (429, 413, 401)", async () => {
+  const cap = errLine("cap_reached", "Bugünlük kapasite doldu, yarın tekrar deneyin.");
+  expect(await fromResponse(new Response(cap, { status: 429 }))).toEqual([JSON.parse(cap)]);
+  const big = errLine("upload_invalid", "x");
+  expect((await fromResponse(new Response(big + "\n", { status: 413 })))[0]).toMatchObject({ code: "upload_invalid" });
+  expect((await fromResponse(new Response(errLine("token_invalid", "x"), { status: 401 })))[0]).toMatchObject({
+    code: "token_invalid",
+  });
+});
+
+test("readEventResponse: 2xx dışı yanıtta hata olayı yoksa ya da gövde bizim değilse (ör. 502 HTML) hata fırlatır", async () => {
+  await expect(fromResponse(new Response("<html>Bad gateway</html>", { status: 502 }))).rejects.toThrow();
+  await expect(fromResponse(new Response("", { status: 500 }))).rejects.toThrow();
+  await expect(fromResponse(new Response('{"type":"stage","stage":"okuma"}\n', { status: 500 }))).rejects.toThrow();
+});
+
+test("readEventResponse: 200 NDJSON akışını olduğu gibi okur", async () => {
+  const body = '{"type":"stage","stage":"okuma"}\n' + errLine("refusal", "x") + "\n";
+  const events = await fromResponse(new Response(body, { status: 200 }));
+  expect(events.map((e) => e.type)).toEqual(["stage", "error"]);
+});
 
 function streamOf(chunks: (string | Uint8Array)[]): ReadableStream<Uint8Array> {
   const enc = new TextEncoder();

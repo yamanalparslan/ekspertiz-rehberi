@@ -1,5 +1,5 @@
 import { existsSync, readFileSync } from "node:fs";
-import { createClaude, type ClaudeLike } from "@/lib/claude/client";
+import { createClaude, providerOf, type ClaudeLike } from "@/lib/claude/client";
 import { ERROR_MESSAGES } from "@/lib/copy";
 import { loadKnowledge, savePriceCache } from "@/lib/kb/d1";
 import { matchKnowledge, type KbData } from "@/lib/kb/match";
@@ -32,44 +32,125 @@ function loadDevFallbackKb(): Promise<KbData> {
   return devFallbackKb;
 }
 
-const HEADERS = {
+const NDJSON_HEADERS = {
   "Content-Type": "application/x-ndjson; charset=utf-8",
+  "Cache-Control": "no-store",
+};
+const JSON_HEADERS = {
+  "Content-Type": "application/json; charset=utf-8",
   "Cache-Control": "no-store",
 };
 
 type Emit = (e: AnalysisEvent) => void;
 
+/** İstemciye giden hata olayı: mesaj her zaman copy.ts'ten; ham hata metni gitmez. */
+export const errorEvent = (code: ErrorCode): AnalysisEvent => ({
+  type: "error",
+  code,
+  message: ERROR_MESSAGES[code],
+});
+
+/** Çalışmada kullanılan sağlayıcı (günlük için; anahtar değil). */
+export type ProviderName = "claude" | "gemini" | "demo";
+
+/** İstek başına sayaç: harcama toplamı ve sağlayıcı (buildDeps doldurur). */
+export type RunMeta = { total: number; provider?: ProviderName };
+
+type RunEvent = "analyze" | "reinterpret";
+
 /**
- * NDJSON akışı: her olay bir satır. `work` ne olursa olsun akış kapanır.
- * Günlükte yalnızca olay kodu, dosya sayısı, süre ve harcama bulunur.
+ * Çalışma başına TEK günlük satırı: olay, dosya sayısı, süre, harcama, kod, HTTP durumu ve
+ * sağlayıcı. Rapor içeriği, plaka, ad, anahtar yazılmaz.
+ */
+function logRun(event: RunEvent, files: number, started: number, meta: RunMeta, code: string, status: number, extra: object = {}) {
+  console.log(
+    JSON.stringify({
+      event,
+      files,
+      ms: Date.now() - started,
+      usd: meta.total,
+      code,
+      status,
+      provider: meta.provider ?? null,
+      ...extra,
+    }),
+  );
+}
+
+/** Akış başlamadan dönen hataların HTTP durumu (akıştaki hatalar 200 NDJSON olayı kalır). */
+const PRE_STREAM_STATUS: Partial<Record<ErrorCode, number>> = {
+  upload_invalid: 400,
+  request_invalid: 400,
+  vehicle_invalid: 400,
+  token_invalid: 401,
+  reinterpret_used: 403,
+  cap_reached: 429,
+  internal: 500,
+};
+
+/**
+ * Akış öncesi hata: uygun HTTP durumu (400/401/403/413/429/500) ve akıştaki `error` olayıyla
+ * aynı JSON gövdesi. İstemci 2xx dışı yanıtta da gövdedeki kodu okur.
+ */
+export function errorResponse(
+  event: RunEvent,
+  files: number,
+  code: ErrorCode,
+  meta: RunMeta,
+  status: number = PRE_STREAM_STATUS[code] ?? 500,
+  started: number = Date.now(),
+): Response {
+  logRun(event, files, started, meta, code, status);
+  return new Response(JSON.stringify(errorEvent(code)) + "\n", { status, headers: JSON_HEADERS });
+}
+
+/**
+ * NDJSON akışı: her olay bir satır. `work` ne olursa olsun akış kapanır. İstemci akışı iptal
+ * ederse (sekme kapandı) yazımlar sessizce atlanır, iş sürer ve harcaması yazılır.
+ * Günlükte yalnızca olay kodu, dosya sayısı, süre, harcama ve sağlayıcı bulunur.
  */
 export function ndjsonResponse(
-  event: "analyze" | "reinterpret",
+  event: RunEvent,
   files: number,
   work: (emit: Emit) => Promise<void>,
-  usd: { total: number },
+  meta: RunMeta,
+  started: number = Date.now(),
 ): Response {
   const enc = new TextEncoder();
-  const started = Date.now();
+  let cancelled = false;
   const stream = new ReadableStream<Uint8Array>({
     async start(controller) {
       let code = "ok";
       const emit: Emit = (e) => {
         if (e.type === "error") code = e.code;
-        controller.enqueue(enc.encode(JSON.stringify(e) + "\n"));
+        if (cancelled) return;
+        try {
+          controller.enqueue(enc.encode(JSON.stringify(e) + "\n"));
+        } catch {
+          cancelled = true; // akış kapanmış/iptal edilmiş
+        }
       };
       try {
         await work(emit);
       } catch {
         code = "internal";
-        emit({ type: "error", code: "internal", message: ERROR_MESSAGES.internal });
+        emit(errorEvent("internal"));
       } finally {
-        console.log(JSON.stringify({ event, files, ms: Date.now() - started, usd: usd.total, code }));
-        controller.close();
+        logRun(event, files, started, meta, code, 200, cancelled ? { cancelled: true } : {});
+        if (!cancelled) {
+          try {
+            controller.close();
+          } catch {
+            // istemci bu arada kapattı
+          }
+        }
       }
     },
+    cancel() {
+      cancelled = true;
+    },
   });
-  return new Response(stream, { headers: HEADERS });
+  return new Response(stream, { status: 200, headers: NDJSON_HEADERS });
 }
 
 /** Yalnız geliştirmede okunur: `.dev.vars` satırları (`#` ile başlayanlar yok sayılır). */
@@ -93,7 +174,7 @@ const configMissing = (name: string) => console.log(JSON.stringify({ event: "con
  * İstek başına bağımlılıklar. Yapılandırma eksikse null döner (çağıran `internal` hatası
  * gösterir) ve günlüğe yalnızca değişken adını yazar.
  */
-export async function buildDeps(usd: { total: number }): Promise<PipelineDeps | null> {
+export async function buildDeps(usd: RunMeta): Promise<PipelineDeps | null> {
   const isDev = process.env.NODE_ENV === "development";
   let env: Partial<ServerEnv> = {};
   try {
@@ -122,7 +203,7 @@ export type DepsContext = {
 
 const DEV_HMAC_SECRET = "local-dev-hmac-secret-ekspertiz-rehberi-2026";
 
-export async function buildDepsFrom(usd: { total: number }, ctx: DepsContext): Promise<PipelineDeps | null> {
+export async function buildDepsFrom(usd: RunMeta, ctx: DepsContext): Promise<PipelineDeps | null> {
   const { isDev, env } = ctx;
   const pick = (name: Exclude<keyof ServerEnv, "DB">): string | undefined =>
     env[name] || ctx.processEnv[name] || (isDev ? ctx.devVars[name] : undefined) || undefined;
@@ -131,12 +212,15 @@ export async function buildDepsFrom(usd: { total: number }, ctx: DepsContext): P
   if (isDev && pick("OFFLINE_DEMO") === "1") {
     const { createOfflineDemoClient } = await import("@/lib/claude/offline-demo");
     claude = createOfflineDemoClient({ fixtureSha256: (pick("OFFLINE_DEMO_PDF_SHA256") ?? "").split(",") });
+    usd.provider = "demo";
   } else {
     const apiKey = pick("ANTHROPIC_API_KEY") || pick("GEMINI_API_KEY");
     if (!apiKey) {
       configMissing("ANTHROPIC_API_KEY");
       return null;
     }
+    // Günlükte hangi sağlayıcıya gidildiği görünsün (yanlış yere konmuş anahtar fark edilsin).
+    usd.provider = providerOf(apiKey) === "gemini" ? "gemini" : "claude";
     const maxOut = Number(pick("GEMINI_MAX_OUTPUT_TOKENS"));
     claude = createClaude(apiKey, {
       geminiModel: pick("GEMINI_MODEL"),
@@ -224,9 +308,3 @@ export async function buildDepsFrom(usd: { total: number }, ctx: DepsContext): P
     },
   };
 }
-
-export const errorEvent = (code: ErrorCode): AnalysisEvent => ({
-  type: "error",
-  code,
-  message: ERROR_MESSAGES[code],
-});

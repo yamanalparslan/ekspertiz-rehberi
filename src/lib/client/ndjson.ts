@@ -40,3 +40,21 @@ export async function readNdjson(
     reader.releaseLock();
   }
 }
+
+/**
+ * Sunucu yanıtını olay olarak okur. 2xx: NDJSON akışı. 2xx dışı (ön akış hatası: 400/401/403/
+ * 413/429/500): gövde akıştaki `error` olayıyla aynı tek JSON satırıdır ve kodu okunur. 2xx dışı
+ * yanıtta hata olayı yoksa ya da gövde bizim değilse (ör. ağ geçidinin 502 HTML sayfası) hata
+ * fırlatılır; çağıran bunu `internal` gösterir.
+ */
+export async function readEventResponse(res: Response, onEvent: (e: AnalysisEvent) => void): Promise<void> {
+  if (!res.body) throw new Error("yanıt yok");
+  if (res.ok) return readNdjson(res.body, onEvent);
+  let sawError = false;
+  await readNdjson(res.body, (e) => {
+    if (e.type !== "error") throw new Error("beklenmeyen olay");
+    sawError = true;
+    onEvent(e);
+  });
+  if (!sawError) throw new Error(`HTTP ${res.status}`);
+}

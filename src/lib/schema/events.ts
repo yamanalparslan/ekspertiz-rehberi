@@ -11,6 +11,10 @@ export const ErrorCodeSchema = z.enum([
   "upload_invalid",
   "token_invalid",
   "reinterpret_used",
+  /** Yeniden yorumlama isteğinin gövdesi bozuk ya da şemaya uymuyor. */
+  "request_invalid",
+  /** Düzeltilen araç bilgisi sınır dışında (yıl, hacim, güç, km, metin uzunluğu). */
+  "vehicle_invalid",
   "internal",
 ]);
 export type ErrorCode = z.infer<typeof ErrorCodeSchema>;

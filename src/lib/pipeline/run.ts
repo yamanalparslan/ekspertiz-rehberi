@@ -62,8 +62,13 @@ async function tracked<T extends { usd: number }>(d: PipelineDeps, call: () => P
   return out;
 }
 
+/** Bugünkü (İstanbul) harcama tavana ulaştı mı? */
+export async function capReached(d: PipelineDeps): Promise<boolean> {
+  return (await d.spend.get(istanbulDay(d.now()))) >= d.capUsd;
+}
+
 async function capOk(d: PipelineDeps, emit: Emit): Promise<boolean> {
-  if ((await d.spend.get(istanbulDay(d.now()))) >= d.capUsd) {
+  if (await capReached(d)) {
     fail(emit, "cap_reached");
     return false;
   }
