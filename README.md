@@ -157,7 +157,14 @@ Sağlayıcıya giden veri:
 - Araç bilgisi düzeltilince yeniden yorumlama: düzeltilmiş araç bilgisi ve imzalı belirteçten doğrulanan okuma çıktısı (görseller yeniden gönderilmez).
 - Fiyat araması (bilgi tabanında fiyat yoksa ya da 90 günden eskiyse): araç bilgisi ve aranacak kalemler; web araması (Claude'da `web_search`, Gemini'de Google Search grounding) kullanır.
 
-Dosyalar sunucuda saklanmaz; günlüğe yalnız olay kodu, dosya sayısı, süre ve harcama yazılır.
+Dosyalar sunucuda saklanmaz. Her çalışma için günlüğe tek satır yazılır: olay (`analyze`/`reinterpret`), dosya sayısı, süre, harcama, hata kodu, HTTP durumu ve kullanılan sağlayıcı (`claude`, `gemini` ya da geliştirmede `demo`; anahtar yazılmaz). Yanlış yere konmuş bir anahtar bu alandan fark edilir. `wrangler.jsonc` içinde `observability` açık olduğu için bu satırlar Workers Logs'ta saklanır.
+
+## API yanıtları ve güvenlik başlıkları
+
+- Akış başlamadan bilinen hatalar gerçek HTTP durumuyla ve akıştaki `error` olayıyla aynı JSON gövdesiyle (`{"type":"error","code":…,"message":…}`) döner: 400 `upload_invalid` / `request_invalid` / `vehicle_invalid`, 401 `token_invalid`, 403 `reinterpret_used`, 413 `upload_invalid` (20 MB'ı aşan yükleme; gövde okunmadan `Content-Length` ile de denetlenir), 429 `cap_reached`, 500 `internal`. Akış başladıktan sonraki hatalar (okuma/yorumlama sırasında) HTTP 200 NDJSON içinde `error` olayı olarak kalır. İstemci 2xx dışı yanıtın gövdesindeki kodu okur.
+- Yükleme: boş dosya reddedilir; dosyanın baştaki baytları bildirilen türle uyuşmalı (JPEG, PNG, WEBP, PDF), uyuşmazsa `upload_invalid`.
+- Araç bilgisi düzeltmesi sunucuda sınırlanır: yıl 1950..gelecek yıl, motor hacmi 500..8000 cc, güç 30..1000 HP, km 0..2.000.000; marka/model/varyant kırpılır, en fazla 60 karakter. Dışındaki değer `vehicle_invalid`.
+- `next.config.ts` bütün sayfalara CSP (`default-src 'self'`, `connect-src 'self'`, `'unsafe-eval'` yalnız geliştirmede), `X-Frame-Options: DENY`, `nosniff`, `Referrer-Policy`, kamerayı yalnız kendi kökenine açan `Permissions-Policy` ekler; `/api/*` yanıtları `Cache-Control: no-store`, `/ornek` `X-Robots-Tag: noindex` taşır. Dışarıdan betik, yazı tipi ya da görsel eklenirse CSP güncellenmelidir.
 
 Gemini ücretsiz katmanı uyarısı: Google'ın koşulları ücretsiz katmanda gönderilen içeriğin ürün geliştirmede kullanılabileceğini öngörür (güncel koşulları kendiniz doğrulayın). Gerçek rapor fotoğrafı (kişisel veri içerir) göndermeden önce ücretli katmana geçilmesi ve Google'ın veri işleme koşullarının gözden geçirilmesi gerekir. Karar henüz verilmedi (sahip kararı bekleniyor). Bu, spesifikasyondaki KVKK bölümünü (§13) da etkiler: yurt dışı aktarımın alıcısı Anthropic ya da Google olabilir. Arayüzdeki açık rıza metni sağlayıcıyı adıyla söylemiyor; herhangi bir dış test kullanıcısından önce bu eklenmelidir.
 
@@ -165,9 +172,9 @@ Gemini ücretsiz katmanı uyarısı: Google'ın koşulları ücretsiz katmanda g
 
 Bilerek ertelenenler ve henüz yapılmayanlar; 1. aşamada erişim Cloudflare Access ile yalnız sahibine kısıtlı olduğu için kabul edildi, herkese açık yayından önce kapanmalı:
 
-- **Turnstile yok** (spesifikasyon §14).
-- **Tarayıcı başına (3/gün) ve IP başına (15/gün) sınırlar yok.** Yalnızca uygulama genelinde günlük harcama tavanı var (`DAILY_SPEND_CAP_USD`).
-- **Çift gönderim ve belirteç yeniden kullanımı:** yeniden yorumlama için verilen imzalı belirteç süresi içinde tekrar tekrar kullanılabilir; çift dokunma iki analizi başlatabilir.
+- **Turnstile yok** (spesifikasyon §14). 3. aşamaya (§19, herkese açık yayın) bırakıldı.
+- **Tarayıcı başına (3/gün) ve IP başına (15/gün) sınırlar yok** (§14). 3. aşamaya bırakıldı. Şimdilik yalnız uygulama genelinde günlük harcama tavanı var (`DAILY_SPEND_CAP_USD`); tavan dolunca yeni istek akış açılmadan 429 alır.
+- **Çift gönderim ve belirteç yeniden kullanımı:** sunucuda istemci başına kilit yok; çift dokunma iki analizi başlatabilir ve her ikisinin harcaması tavana yazılır. Çift dokunmayı arayüz engellemeli (ön yüz işi). Yeniden yorumlama için verilen imzalı belirteç süresi (1 saat) içinde tekrar tekrar kullanılabilir (belirteç tekrarı, yayından önce kapanmalı).
 - **KVKK aydınlatma metni sayfası yok** (§13); yalnız yükleme sırasındaki açık rıza kutusu var. Hukuki görüş 2. aşamaya bırakıldı.
-- **Canlı fiyat sınırları:** web aramasıyla bulunan fiyatlar yalnızca o aramada gerçekten dönen kaynak alan adlarından birine bağlıysa tutulur, ama kaynaktaki sayının doğru okunduğu doğrulanmaz. Fiyatlar tahmindir, 90 gün önbelleğe alınır (D1 `price_cache`). Bilgi tabanındaki fiyatlar araştırma tarihini taşır ve eskiyebilir.
-- Sunucu yanıtları (ön akış hataları dahil) HTTP 200 NDJSON olarak döner; güvenlik başlıkları (CSP vb.) tanımlı değil; sunucu istemcinin bildirdiği dosya türüne güveniyor (magic-byte denetimi yok). Ayrıntı: `.superpowers/sdd/2026-11-23-ekspertiz-rehberi-asama1/gap-audit.md`.
+- **Canlı fiyat sınırları:** web aramasıyla bulunan fiyatlar yalnızca o aramada gerçekten dönen kaynak alan adlarından birine (ya da onun alt alan adına) bağlıysa tutulur; üst alan adı ve `com.tr` gibi çıplak son ekler sayılmaz. Kaynaktaki sayının doğru okunduğu doğrulanmaz. Fiyatlar tahmindir, 90 gün önbelleğe alınır (D1 `price_cache`). Bilgi tabanındaki fiyatlar araştırma tarihini taşır ve eskiyebilir.
+- **CSP `'unsafe-inline'` betiğe izin verir** (Next.js satır içi hidrasyon betikleri); nonce tabanlı CSP bir proxy katmanı gerektirir, ayrı iş. Ayrıntı: `.superpowers/sdd/2026-11-23-ekspertiz-rehberi-asama1/gap-audit.md`.
