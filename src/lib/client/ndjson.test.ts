@@ -1,5 +1,6 @@
 import { expect, test } from "vitest";
 import type { AnalysisEvent } from "@/lib/schema/events";
+import { HttpStatusError } from "./failure";
 import { readEventResponse, readNdjson } from "./ndjson";
 
 const errLine = (code: string, message: string) => JSON.stringify({ type: "error", code, message });
@@ -10,20 +11,35 @@ async function fromResponse(res: Response): Promise<AnalysisEvent[]> {
   return events;
 }
 
-test("readEventResponse: 2xx dışı yanıtın gövdesindeki hata kodunu okur (429, 413, 401)", async () => {
+test("readEventResponse: 2xx dışı yanıtın gövdesindeki hata kodunu okur (429, 401, 400)", async () => {
   const cap = errLine("cap_reached", "Bugünlük kapasite doldu, yarın tekrar deneyin.");
   expect(await fromResponse(new Response(cap, { status: 429 }))).toEqual([JSON.parse(cap)]);
-  const big = errLine("upload_invalid", "x");
-  expect((await fromResponse(new Response(big + "\n", { status: 413 })))[0]).toMatchObject({ code: "upload_invalid" });
   expect((await fromResponse(new Response(errLine("token_invalid", "x"), { status: 401 })))[0]).toMatchObject({
     code: "token_invalid",
   });
+  expect((await fromResponse(new Response(errLine("vehicle_invalid", "x"), { status: 400 })))[0]).toMatchObject({
+    code: "vehicle_invalid",
+  });
 });
 
-test("readEventResponse: 2xx dışı yanıtta hata olayı yoksa ya da gövde bizim değilse (ör. 502 HTML) hata fırlatır", async () => {
-  await expect(fromResponse(new Response("<html>Bad gateway</html>", { status: 502 }))).rejects.toThrow();
-  await expect(fromResponse(new Response("", { status: 500 }))).rejects.toThrow();
-  await expect(fromResponse(new Response('{"type":"stage","stage":"okuma"}\n', { status: 500 }))).rejects.toThrow();
+test("readEventResponse: 413 gövdesi ne olursa olsun HttpStatusError(413) olur (ayrı 'çok büyük' metni)", async () => {
+  const big = errLine("upload_invalid", "x");
+  const err = await fromResponse(new Response(big + "\n", { status: 413 })).catch((e: unknown) => e);
+  expect(err).toBeInstanceOf(HttpStatusError);
+  expect((err as HttpStatusError).status).toBe(413);
+});
+
+test("readEventResponse: 2xx dışı yanıtta hata olayı yoksa ya da gövde bizim değilse (ör. 502 HTML) HttpStatusError fırlatır", async () => {
+  for (const [body, status] of [
+    ["<html>Bad gateway</html>", 502],
+    ["", 500],
+    ['{"type":"stage","stage":"okuma"}\n', 500],
+    ["error code: 524", 524],
+  ] as const) {
+    const err = await fromResponse(new Response(body, { status })).catch((e: unknown) => e);
+    expect(err, String(status)).toBeInstanceOf(HttpStatusError);
+    expect((err as HttpStatusError).status).toBe(status);
+  }
 });
 
 test("readEventResponse: 200 NDJSON akışını olduğu gibi okur", async () => {

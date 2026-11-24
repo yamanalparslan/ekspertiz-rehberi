@@ -74,6 +74,17 @@ export const formatTry = (n: number): string => n.toLocaleString("tr-TR");
 
 export const formatKm = (km: number): string => `${km.toLocaleString("tr-TR")} km`;
 
+/**
+ * Motor hacmi. Basılı değer olduğu gibi ("1597 cc"); tahmini değer kesin bir cc gibi
+ * görünmesin diye litre olarak, yaklaşık işaretiyle ("~1.6 L"; araç adlarındaki gibi noktalı).
+ */
+export function engineText(cc: number, inferred: boolean): string {
+  return inferred ? `~${(Math.round(cc / 100) / 10).toFixed(1)} L` : `${cc} cc`;
+}
+
+/** Motor gücü; tahminiyse yaklaşık işaretiyle ("~170 HP"). */
+export const powerText = (hp: number, inferred: boolean): string => `${inferred ? "~" : ""}${hp} HP`;
+
 /** "2026-11-23" -> "23.11.2026"; başka biçimdeki metni olduğu gibi bırakır. */
 export function formatDate(iso: string): string {
   const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(iso);
@@ -127,12 +138,6 @@ export function vehicleTitle(v: Vehicle): string {
     (p): p is string | number => p !== null && String(p).trim() !== "",
   );
   return parts.length > 0 ? parts.join(" ") : "Araç bilgisi okunamadı";
-}
-
-/** Formdaki tam sayıyı okur: "135.689" -> 135689; boş veya geçersizse null. */
-export function parseWhole(text: string): number | null {
-  const s = text.trim().replace(/[.\s]/g, "");
-  return /^\d+$/.test(s) ? Number(s) : null;
 }
 
 /** İşaret ayrıntılarını kullanıcıya gösterilecek metne çevirir. Bağlantılar ayrı gösterilir. */

@@ -7,12 +7,15 @@ export function decodeQr(image: ImageData): string | null {
   return code && code.data.trim() !== "" ? code.data : null;
 }
 
+/** QR kodundan (ya da kaynaktan) okunan, gösterilebilir bağlantı. */
+export type QrFound = { url: string; domain: string };
+
 /**
  * Yalnızca http(s) bağlantılarını kabul eder ve gösterilecek alan adını verir.
  * Kullanıcı adı/parola içeren bağlantılar (https://firma.com@baska.site) yanıltıcı
  * olduğu için reddedilir.
  */
-export function qrLink(text: string): { url: string; domain: string } | null {
+export function qrLink(text: string): QrFound | null {
   let url: URL;
   try {
     url = new URL(text.trim());

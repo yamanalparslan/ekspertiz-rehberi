@@ -2,10 +2,11 @@ import { expect, test } from "vitest";
 import type { ResultItem, Signal } from "@/lib/schema/result";
 import {
   costLine,
+  engineText,
   formatDate,
   formatKm,
   formatTry,
-  parseWhole,
+  powerText,
   signalDetails,
   vehicleTitle,
 } from "./format";
@@ -78,12 +79,17 @@ test("formatKm ve vehicleTitle", () => {
   ).toBe("Araç bilgisi okunamadı");
 });
 
-test("parseWhole tam sayıları okur, noktalı binlik ayırıcıyı kabul eder", () => {
-  expect(parseWhole("135.689")).toBe(135689);
-  expect(parseWhole(" 2021 ")).toBe(2021);
-  expect(parseWhole("")).toBeNull();
-  expect(parseWhole("12a")).toBeNull();
-  expect(parseWhole("-5")).toBeNull();
+test("engineText: basılı hacim cc, tahmini hacim yaklaşık litre (kesin cc gibi görünmez)", () => {
+  expect(engineText(1597, false)).toBe("1597 cc");
+  expect(engineText(1598, true)).toBe("~1.6 L");
+  expect(engineText(1332, true)).toBe("~1.3 L");
+  expect(engineText(998, true)).toBe("~1.0 L");
+  expect(engineText(1248, true)).toBe("~1.2 L");
+});
+
+test("powerText: tahmini güç yaklaşık işaretiyle", () => {
+  expect(powerText(170, false)).toBe("170 HP");
+  expect(powerText(170, true)).toBe("~170 HP");
 });
 
 test("signalDetails kodları Türkçe adlara çevirir", () => {

@@ -43,18 +43,26 @@ function drawScaled(
   return { canvas, ctx };
 }
 
-/** Uzun kenarı en fazla `maxEdge` piksel olan bir JPEG üretir. */
-export async function resizeImage(file: File, maxEdge = 1568, quality = 0.85): Promise<Blob> {
+function toJpeg(canvas: HTMLCanvasElement, quality: number): Promise<Blob> {
+  return new Promise<Blob>((resolve, reject) =>
+    canvas.toBlob((b) => (b ? resolve(b) : reject(new Error("görsel kodlanamadı"))), "image/jpeg", quality),
+  );
+}
+
+/** Gönderilecek küçültülmüş sayfa ve önizleme küçük resmi. */
+export type PreparedImage = { upload: Blob; thumb: Blob };
+
+/**
+ * Seçilen fotoğrafı bir kez çözer ve iki JPEG üretir: gönderilecek sayfa (uzun kenar 1568 px,
+ * kalite 0,85) ve önizleme (uzun kenar 240 px). Çözülemeyen dosyada (ör. Chrome'da HEIC) hata
+ * fırlatır; çağıran yalnız o dosyayı "okunamadı" işaretler.
+ */
+export async function prepareImage(file: File): Promise<PreparedImage> {
   const img = await decode(file);
   try {
-    const { canvas } = drawScaled(img, maxEdge);
-    return await new Promise<Blob>((resolve, reject) =>
-      canvas.toBlob(
-        (b) => (b ? resolve(b) : reject(new Error("görsel kodlanamadı"))),
-        "image/jpeg",
-        quality,
-      ),
-    );
+    const upload = await toJpeg(drawScaled(img, 1568).canvas, 0.85);
+    const thumb = await toJpeg(drawScaled(img, 240).canvas, 0.7);
+    return { upload, thumb };
   } finally {
     img.close();
   }

@@ -1,7 +1,12 @@
-import { useEffect, useState } from "react";
+"use client";
+
+import { useEffect, useRef, useState } from "react";
 import { STAGES } from "@/lib/copy";
 import { STAGE_ORDER, type Stage } from "@/lib/client/run-state";
 import { CheckIcon, Spinner } from "./icons";
+
+/** "Araç bilgileri bulundu" en az bu kadar etkin adım olarak görünür (sunucu hemen yorumlamaya geçer). */
+export const ARAC_DWELL_MS = 1500;
 
 function Elapsed({ since }: { since: number }) {
   const [now, setNow] = useState(since);
@@ -18,15 +23,38 @@ function Elapsed({ since }: { since: number }) {
 }
 
 /**
- * Üç adımlı ilerleme. "Araç bilgileri bulundu" bir varılan noktadır; araç okununca
- * o adım tamamlanmış sayılır ve yorumlama adımı etkin olur.
+ * Gösterilen adım: sunucunun ulaştığı aşamayı adım adım izler. Araç bilgisi gelince
+ * "Araç bilgileri bulundu" etkin adım olur ve yorumlama olayı hemen ardından gelse bile en az
+ * ARAC_DWELL_MS görünür kalır; böylece kullanıcı aracın bulunduğunu fark eder.
  */
-export function Progress(props: {
-  stage: Stage | null;
-  startedAt: number;
-  preparing: { done: number; total: number } | null;
-}) {
-  const active = props.stage === null || props.stage === "okuma" ? 0 : 2;
+function useShownStep(stage: Stage | null): number {
+  const target = stage === null ? 0 : STAGE_ORDER.indexOf(stage);
+  const [shown, setShown] = useState(target);
+  const shownAt = useRef(0);
+
+  useEffect(() => {
+    if (target < shown) {
+      setShown(target);
+      return;
+    }
+    if (target === shown) return;
+    // Bir sonraki adıma geç; "arac" adımından çıkmadan önce bekleme süresini doldur.
+    const wait = shown === 1 ? Math.max(0, ARAC_DWELL_MS - (Date.now() - shownAt.current)) : 0;
+    // Mutlak değer: önceki bir zamanlayıcı da çalışmışsa adım iki kez atlanmaz.
+    const next = shown + 1;
+    const t = setTimeout(() => {
+      shownAt.current = Date.now();
+      setShown(next);
+    }, wait);
+    return () => clearTimeout(t);
+  }, [target, shown]);
+
+  return shown;
+}
+
+/** Üç adımlı ilerleme: rapor okunuyor, araç bilgileri bulundu, maddeler yorumlanıyor. */
+export function Progress(props: { stage: Stage | null; startedAt: number }) {
+  const active = useShownStep(props.stage);
   const current = STAGES[STAGE_ORDER[active]];
 
   return (
@@ -42,28 +70,24 @@ export function Progress(props: {
           const done = i < active;
           const now = i === active;
           return (
-            <li key={stage} className="flex min-h-11 items-center gap-3">
+            <li key={stage} aria-current={now ? "step" : undefined} className="flex min-h-11 items-center gap-3">
               <span
                 className={`flex size-8 shrink-0 items-center justify-center rounded-full ${
-                  done ? "bg-normal-bar text-white" : now ? "bg-action text-white" : "border-2 border-rule bg-paper"
+                  done ? "bg-normal-bar text-paper" : now ? "bg-action text-on-action" : "border-2 border-rule bg-paper"
                 }`}
               >
                 {done ? <CheckIcon className="size-5" /> : now ? <Spinner className="size-5" /> : null}
               </span>
               <span className={`text-lg ${now ? "font-bold" : done ? "font-semibold" : "text-ink-soft"}`}>
                 {STAGES[stage]}
-                {now && i === 0 && props.preparing && (
-                  <span className="block text-[0.9375rem] font-normal text-ink-soft tabular-nums">
-                    Fotoğraflar hazırlanıyor: {props.preparing.done}/{props.preparing.total}
-                  </span>
-                )}
               </span>
             </li>
           );
         })}
       </ol>
       <p className="mt-4 border-t border-rule pt-3 text-ink-soft">
-        Analiz 30 ile 120 saniye sürebilir. Bu sayfayı açık tutun. Geçen süre <Elapsed since={props.startedAt} />
+        Analiz 30 ile 120 saniye sürebilir. Bu sayfayı açık tutun ve ekranı kilitlemeyin; telefon kilitlenirse
+        bağlantı kopabilir. Geçen süre <Elapsed since={props.startedAt} />
       </p>
     </section>
   );

@@ -13,6 +13,8 @@
   --color-field: #f3f5f9;
   --color-action: #1f44c4;
   --color-action-strong: #17349a;
+  /* Eylem renginin üzerindeki yazı (açık temada beyaz, koyu temada koyu). */
+  --color-on-action: #ffffff;
 
   --color-dikkat: #b4231a;
   --color-dikkat-bar: #d92d20;
@@ -46,6 +48,11 @@ body {
 :focus-visible {
   outline: 3px solid var(--color-action);
   outline-offset: 2px;
+}
+
+/* Programla odaklanan başlık (sonuç geldiğinde) çerçeve göstermez; klavye odağı gösterir. */
+[tabindex="-1"]:focus:not(:focus-visible) {
+  outline: none;
 }
 
 /* Kapalı listedeki tarayıcı üçgeni yerine kendi işaretimiz kullanılır. */

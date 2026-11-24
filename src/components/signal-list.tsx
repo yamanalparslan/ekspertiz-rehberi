@@ -1,9 +1,7 @@
 import { signalDetails } from "@/lib/client/format";
-import { qrLink } from "@/lib/client/qr";
+import { qrLink, type QrFound } from "@/lib/client/qr";
 import type { Signal } from "@/lib/schema/result";
 import { CheckIcon, ExternalIcon, InfoIcon, WarnIcon } from "./icons";
-
-export type QrFound = { url: string; domain: string };
 
 const LEVEL = {
   ok: { Icon: CheckIcon, color: "text-normal", label: "Olumlu işaret:" },
