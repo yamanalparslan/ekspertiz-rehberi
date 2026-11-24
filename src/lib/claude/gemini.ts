@@ -219,6 +219,11 @@ export function createGeminiClient(apiKey: string, opts: GeminiOptions = {}): Cl
       ...(priceTool ? { tools: [{ googleSearch: {} }] } : {}),
     };
     const genCfg = () => body.generationConfig as Record<string, unknown>;
+    // Yanıtı okunamayan ama gönderilmiş istek: girdi tahmini (+ istenirse çıktı sınırı, üst sınır).
+    const sentUsd = (model: string, withOutput: boolean) => {
+      const maxOut = Number(genCfg().maxOutputTokens);
+      return geminiUsd(model, estimateInputTokens(body), withOutput && Number.isFinite(maxOut) ? maxOut : 0);
+    };
     const dropFromConfig = (key: string, extraSystem?: string | null) => {
       const cfg = { ...genCfg() };
       delete cfg[key];
@@ -248,17 +253,18 @@ export function createGeminiClient(apiKey: string, opts: GeminiOptions = {}): Cl
             signal: deadline,
           });
         } catch (e) {
-          // İstek gönderildi ve süre doldu: girdi faturalanmış olabilir; başka deneme/model yok.
-          if (deadline.aborted || isAbort(e)) {
-            throw new ProviderCallError("timeout", geminiUsd(model, estimateInputTokens(body), 0));
-          }
-          throw new ProviderCallError("network", 0);
+          // İstek gönderildi ve süre doldu: girdi ve üretilen çıktı faturalanmış olabilir; harcama
+          // tavanı için girdi tahmini + çıktı sınırı (üst sınır) yazılır. Başka deneme/model yok.
+          if (deadline.aborted || isAbort(e)) throw new ProviderCallError("timeout", sentUsd(model, true));
+          // Ağ hatası: istek gönderilmiş olabilir (ayırt edilemez); girdi tahmini yazılır.
+          throw new ProviderCallError("network", sentUsd(model, false));
         }
         if (res.ok) {
           try {
             data = (await res.json()) as GeminiResponse;
           } catch {
-            throw new ProviderCallError("bad_response", geminiUsd(model, estimateInputTokens(body), 0));
+            // Yanıt geldi ama okunamadı: çıktı üretilmiş ve faturalanmıştır (üst sınır).
+            throw new ProviderCallError("bad_response", sentUsd(model, true));
           }
           usedModel = model;
           break chain;

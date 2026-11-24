@@ -3,7 +3,7 @@ import type { BetaContentBlockParam } from "@anthropic-ai/sdk/resources/beta/mes
 import { betaZodOutputFormat } from "@anthropic-ai/sdk/helpers/beta/zod";
 import type { ZodType } from "zod";
 import type { ErrorCode } from "@/lib/schema/events";
-import { geminiRates, ProviderCallError, usageToUsd } from "./cost";
+import { geminiRates, ProviderCallError, usageToUsd, type Usage } from "./cost";
 import { createGeminiClient, GEMINI_DEFAULT_MODEL } from "./gemini";
 
 export const MODEL = "claude-opus-5-5";
@@ -77,8 +77,24 @@ export function logProviderError(e: unknown): void {
   console.error(JSON.stringify({ event: "llm_error", name, ...(reason ? { reason } : {}), ...(status ? { status } : {}) }));
 }
 
-/** Başarısız çağrıda o ana kadarki (tahmini) harcama. */
-export const failedCallUsd = (e: unknown): number => (e instanceof ProviderCallError ? e.usd : 0);
+/**
+ * Akış yarıda hata verdiyse SDK akışının son anlık görüntüsündeki (message_start / message_delta)
+ * kısmi kullanım; yoksa 0. Gemini uyarlayıcısı bu alanı taşımaz (tahmini ProviderCallError.usd'dedir).
+ */
+export function partialStreamUsd(stream: unknown): number {
+  try {
+    const u = (stream as { currentMessage?: { usage?: Usage | null } | null } | undefined)?.currentMessage?.usage;
+    if (!u || typeof u.input_tokens !== "number" || typeof u.output_tokens !== "number") return 0;
+    const usd = usageToUsd(u);
+    return Number.isFinite(usd) && usd > 0 ? usd : 0;
+  } catch {
+    return 0;
+  }
+}
+
+/** Başarısız çağrıda o ana kadarki (tahmini) harcama: sağlayıcı tahmini ya da akıştaki kısmi kullanım. */
+export const failedCallUsd = (e: unknown, stream?: unknown): number =>
+  Math.max(e instanceof ProviderCallError && Number.isFinite(e.usd) ? e.usd : 0, partialStreamUsd(stream));
 
 export class AnalysisError extends Error {
   readonly code: ErrorCode;
@@ -103,21 +119,22 @@ export async function runStructured<T>(
   },
 ): Promise<{ data: T; usd: number }> {
   let msg;
+  let stream: unknown;
   try {
-    msg = await client.beta.messages
-      .stream({
-        model: MODEL,
-        max_tokens: p.maxTokens,
-        betas: BETAS,
-        fallbacks: "default",
-        system: [{ type: "text", text: p.system, cache_control: { type: "ephemeral" } }],
-        messages: [{ role: "user", content: p.content }],
-        output_config: { effort: p.effort, format: betaZodOutputFormat(p.schema) },
-      })
-      .finalMessage();
+    const s = client.beta.messages.stream({
+      model: MODEL,
+      max_tokens: p.maxTokens,
+      betas: BETAS,
+      fallbacks: "default",
+      system: [{ type: "text", text: p.system, cache_control: { type: "ephemeral" } }],
+      messages: [{ role: "user", content: p.content }],
+      output_config: { effort: p.effort, format: betaZodOutputFormat(p.schema) },
+    });
+    stream = s;
+    msg = await s.finalMessage();
   } catch (e) {
     logProviderError(e);
-    throw new AnalysisError("internal", failedCallUsd(e), "claude call failed", { cause: e });
+    throw new AnalysisError("internal", failedCallUsd(e, stream), "claude call failed", { cause: e });
   }
 
   const usd = usageToUsd(msg.usage);

@@ -34,17 +34,31 @@ type Emit = (e: AnalysisEvent) => void;
 const fail = (emit: Emit, code: ErrorCode) =>
   emit({ type: "error", code, message: ERROR_MESSAGES[code] });
 
-/** Claude çağrısı: başarıda da AnalysisError'da da harcama yazılır. */
+/** Harcamaya yazılabilir tutar: sonlu ve negatif olmayan. */
+const validUsd = (v: number): boolean => Number.isFinite(v) && v >= 0;
+
+/**
+ * Claude çağrısı: başarıda da AnalysisError'da da harcama yazılır. Geçersiz tutar (NaN,
+ * sonsuz, negatif) yazılmaz. Hata yolunda harcama yazımı da başarısız olursa asıl hata
+ * (kodu) korunur; başarı yolunda yazım hatası yayılır (tavan bilinmeden yeni çağrı yapılmaz).
+ */
 async function tracked<T extends { usd: number }>(d: PipelineDeps, call: () => Promise<T>): Promise<T> {
   const day = istanbulDay(d.now());
   let out: T;
   try {
     out = await call();
   } catch (e) {
-    if (e instanceof AnalysisError && e.usd > 0) await d.spend.add(day, e.usd);
+    if (e instanceof AnalysisError && validUsd(e.usd) && e.usd > 0) {
+      try {
+        await d.spend.add(day, e.usd);
+      } catch {
+        console.error(JSON.stringify({ event: "spend_write_failed" }));
+      }
+    }
     throw e;
   }
-  await d.spend.add(day, out.usd);
+  if (validUsd(out.usd)) await d.spend.add(day, out.usd);
+  else console.error(JSON.stringify({ event: "spend_invalid" }));
   return out;
 }
 

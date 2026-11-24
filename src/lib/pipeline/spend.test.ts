@@ -23,6 +23,25 @@ test("d1SpendStore: get ve upsert ile add", async () => {
   expect(log[1].args).toEqual(["2026-11-23", 0.25]);
 });
 
+test("d1SpendStore: NaN, sonsuz ve negatif tutar yazılmaz (tavanı bozmaz)", async () => {
+  const runs: unknown[][] = [];
+  const db = {
+    prepare: () => ({
+      bind: (...args: unknown[]) => ({
+        first: async () => null,
+        run: async () => {
+          runs.push(args);
+        },
+      }),
+    }),
+  };
+  const s = d1SpendStore(db as never);
+  for (const v of [Number.NaN, Number.POSITIVE_INFINITY, -0.5]) await s.add("2026-11-24", v);
+  expect(runs).toEqual([]);
+  await s.add("2026-11-24", 0.1);
+  expect(runs).toEqual([["2026-11-24", 0.1]]);
+});
+
 test("d1SpendStore: kayıt yoksa 0", async () => {
   const db = {
     prepare: () => ({ bind: () => ({ first: async () => null, run: async () => {} }) }),

@@ -113,6 +113,31 @@ test("yorumlamada refusal: error refusal ve iki harcama kaydı", async () => {
   expect(spend.adds).toHaveLength(2);
 });
 
+test("harcama yazımı hata verirse asıl hata kodu korunur (refusal, internal olmaz)", async () => {
+  vi.spyOn(console, "error").mockImplementation(() => {});
+  const spend: SpendStore = {
+    get: async () => 0,
+    add: async () => {
+      throw new Error("d1 down");
+    },
+  };
+  const { deps } = mkDeps({ spend, msgs: [textMsg("", "refusal")] });
+  const ev = await collect((emit) => runAnalysis(deps, [file], emit));
+  expect(ev.at(-1)).toEqual({ type: "error", code: "refusal", message: ERROR_MESSAGES.refusal });
+  vi.restoreAllMocks();
+});
+
+test("geçersiz (NaN, negatif) harcama tutarı yazılmaz", async () => {
+  const nanUsage = { input_tokens: Number.NaN, output_tokens: 0 };
+  const { deps, spend } = mkDeps({
+    msgs: [textMsg(JSON.stringify(fixture), "end_turn", nanUsage), interp()],
+  });
+  const ev = await collect((emit) => runAnalysis(deps, [file], emit));
+  expect(ev.at(-1)?.type).toBe("result");
+  expect(spend.adds.every((v) => Number.isFinite(v) && v >= 0)).toBe(true);
+  expect(spend.adds).toHaveLength(1);
+});
+
 test("beklenmeyen hata: ham metin istemciye gitmez", async () => {
   const { deps } = mkDeps({
     loadKnowledge: async () => {

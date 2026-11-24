@@ -189,6 +189,32 @@ test("refusal, truncated, araç çağrısı yok ve SDK hatası AnalysisError olu
   expect(await run(new Error("ağ"))).toMatchObject({ code: "internal", usd: 0 });
 });
 
+test("akış ortasında hata: önceki turların ve yarım kalan turun kısmi kullanımı harcamaya girer", async () => {
+  const paused = { stop_reason: "pause_turn", usage: USAGE, content: [searchResult("https://example.com/x")] };
+  let call = 0;
+  const client = {
+    beta: {
+      messages: {
+        stream: () => {
+          call++;
+          if (call === 1) return { finalMessage: async () => paused };
+          return {
+            currentMessage: { usage: { input_tokens: 2000, output_tokens: 0, server_tool_use: { web_search_requests: 1 } } },
+            finalMessage: async () => {
+              throw new Error("ağ koptu");
+            },
+          };
+        },
+      },
+    },
+  } as unknown as ClaudeLike;
+  const e = await lookupPrices(client, { vehicle, needs: needs(1) }, NOW).catch((x) => x);
+  expect(e).toBeInstanceOf(AnalysisError);
+  expect(e.code).toBe("internal");
+  // 1. tur 0,006 $ + yarım tur 2000 girdi tokenı (0,008 $) + 1 arama (0,01 $).
+  expect(e.usd).toBeCloseTo(0.006 + 0.008 + 0.01, 9);
+});
+
 test("Claude: kaynağı bu aramanın sonuçlarında görünmeyen satır atılır", async () => {
   const { client } = seq([
     toolMsg(

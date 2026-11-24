@@ -33,6 +33,8 @@ export function d1SpendStore(db: D1SpendDb): SpendStore {
       return row?.usd ?? 0;
     },
     async add(day, usd) {
+      // NaN/sonsuz/negatif tutar satırı bozar (usd + NaN) ve tavanı devre dışı bırakabilir.
+      if (!Number.isFinite(usd) || usd < 0) return;
       await db
         .prepare(
           "INSERT INTO daily_spend (day, usd) VALUES (?, ?) ON CONFLICT(day) DO UPDATE SET usd = usd + excluded.usd",

@@ -111,6 +111,32 @@ test("zaman aşımı: başka deneme ya da model yok; gönderilen girdi için tah
   expect(e.usd).toBeGreaterThanOrEqual((1000 * 1.5) / 1e6);
 });
 
+test("zaman aşımı tahmini çıktı üst sınırını da içerir (harcama tavanı için üst sınır)", async () => {
+  vi.spyOn(console, "error").mockImplementation(() => {});
+  const f = fake(["hang"]);
+  const e = await runStructured(
+    client(f, { geminiModel: "gemini-3.8-flash", geminiFallbackModel: "none", deadlineMs: 30 }),
+    { ...base, system: "x".repeat(3000) },
+  ).catch((x) => x);
+  expect(e.code).toBe("internal");
+  // Girdi tahmini (≥1000 token) + istenen çıktı sınırı (32000 token) x Flash fiyatları.
+  expect(e.usd).toBeGreaterThanOrEqual((1000 * 1.5 + 32000 * 7.5) / 1e6);
+});
+
+test("gönderimden sonra ağ hatası: girdi tahmini harcamaya yazılır (0 değil)", async () => {
+  vi.spyOn(console, "error").mockImplementation(() => {});
+  const fetchFn: typeof fetch = async () => {
+    throw new TypeError("fetch failed");
+  };
+  const e = await runStructured(
+    createClaude("AIzaTest", { fetchFn, geminiModel: "gemini-3.8-flash", geminiFallbackModel: "none", retryDelayMs: 0 }),
+    { ...base, system: "x".repeat(3000) },
+  ).catch((x) => x);
+  expect(e).toBeInstanceOf(AnalysisError);
+  expect(e.code).toBe("internal");
+  expect(e.usd).toBeGreaterThanOrEqual((1000 * 1.5) / 1e6);
+});
+
 test("tek bir genel süre sınırı yeniden denemeleri de kapsar", async () => {
   vi.spyOn(console, "error").mockImplementation(() => {});
   const f = fake([{ status: 503 }]);

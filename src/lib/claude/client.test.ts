@@ -1,11 +1,13 @@
 import { APIConnectionError } from "@anthropic-ai/sdk";
-import { expect, test } from "vitest";
+import { afterEach, expect, test, vi } from "vitest";
 import { z } from "zod";
 import { AnalysisError, createClaude, providerLabel, runStructured } from "./client";
 import { fakeClient, textMsg } from "./testing";
 
 const schema = z.strictObject({ a: z.number() });
 const base = { system: "s", content: [], schema, effort: "medium" as const, maxTokens: 32000 };
+
+afterEach(() => vi.restoreAllMocks());
 
 test("istek: model, yedek model, effort, sıcaklık yok", async () => {
   const { client, calls } = fakeClient(textMsg('{"a":1}'));
@@ -85,6 +87,28 @@ test("SDK hatası -> internal, cause korunur", async () => {
   expect(e.code).toBe("internal");
   expect(e.usd).toBe(0);
   expect(e.cause).toBe(err);
+});
+
+test("akış ortasında SDK/ağ hatası: o ana kadarki kısmi kullanım harcamaya yazılır", async () => {
+  vi.spyOn(console, "error").mockImplementation(() => {});
+  const err = new APIConnectionError({ message: "boom" });
+  // SDK akışı hata verince currentMessage son anlık görüntüyü (message_start/delta kullanımı) taşır.
+  const client = {
+    beta: {
+      messages: {
+        stream: () => ({
+          currentMessage: { usage: { input_tokens: 10_000, output_tokens: 500, cache_read_input_tokens: 0 } },
+          finalMessage: async () => {
+            throw err;
+          },
+        }),
+      },
+    },
+  } as never;
+  const e = await runStructured(client, base).catch((x) => x);
+  expect(e).toBeInstanceOf(AnalysisError);
+  expect(e.code).toBe("internal");
+  expect(e.usd).toBeCloseTo((10_000 * 4 + 500 * 20) / 1e6, 9);
 });
 
 test("Gemini anahtarı (AIza...) ile createClaude: yapılandırılmış JSON yanıtı", async () => {

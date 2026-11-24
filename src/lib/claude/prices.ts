@@ -196,23 +196,25 @@ export async function lookupPrices(
 
   for (let turn = 0; turn < MAX_TURNS; turn++) {
     let msg;
+    let stream: unknown;
     try {
-      msg = await client.beta.messages
-        .stream({
-          model: MODEL,
-          max_tokens: 16000,
-          betas: BETAS,
-          fallbacks: "default",
-          system: [{ type: "text", text: PRICE_SYSTEM, cache_control: { type: "ephemeral" } }],
-          messages: [...messages],
-          tools: TOOLS,
-          tool_choice: { type: "auto" },
-          output_config: { effort: "medium" },
-        })
-        .finalMessage();
+      const s = client.beta.messages.stream({
+        model: MODEL,
+        max_tokens: 16000,
+        betas: BETAS,
+        fallbacks: "default",
+        system: [{ type: "text", text: PRICE_SYSTEM, cache_control: { type: "ephemeral" } }],
+        messages: [...messages],
+        tools: TOOLS,
+        tool_choice: { type: "auto" },
+        output_config: { effort: "medium" },
+      });
+      stream = s;
+      msg = await s.finalMessage();
     } catch (e) {
       logProviderError(e);
-      throw new AnalysisError("internal", usd + failedCallUsd(e), "claude call failed", { cause: e });
+      // Yarıda kalan turun kısmi kullanımı (varsa) da harcamaya girer.
+      throw new AnalysisError("internal", usd + failedCallUsd(e, stream), "claude call failed", { cause: e });
     }
     usd += usageToUsd(msg.usage);
     collectGroundedDomains(msg.content, grounded);
