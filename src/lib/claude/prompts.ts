@@ -20,7 +20,8 @@ DURUMLAR
   * "Orijinal", "Orijinal Boya", "Fabrika Değerlerinde" (ezik/çizik yoksa) -> "orijinal"
   * "İyi", "Çok İyi", "Sağlam", "Sorunsuz", "Hasarsız", "Normal", "Temiz", "Uygun" -> "saglam"
   * "Üfleme var mı? Hayır", "Duman var mı? Hayır", "Kaçak var mı? Hayır", "Arıza var mı? Hayır", "Ağır işlemli mi? Hayır", "Acil bakım gerekli mi? Hayır" gibi olumsuz sorularda sorun olmadığını belirten "Hayır" veya "Yok" yanıtları -> "saglam"
-  * Araçta donanım olarak bulunmayan özellikler ("Sunroof: Yok", "Turbo: Yok", "Airmatik: Yok", "Arazi Şanzımanı: Yok") -> "orijinalinde_yok"
+  * "orijinalinde_yok" yalnız raporda açıkça "Orijinalinde yok" yazıyorsa (ya da "Orijinalde yok", "Fabrikadan yok"): "Arazi Şanzımanı: Orijinalinde Yok" -> "orijinalinde_yok". Çıplak "Yok" ("Sunroof: Yok", "Turbo: Yok") -> "diger"; ham durumu "rawStatus" alanına aynen yaz.
+  * Panel satırında DEĞER olarak "Boyasız" ya da "İşlemsiz" -> "orijinal" ("Motor Kaputu: Boyasız"). "-sız" kelimesi değer olduğunda sorunun yokluğunu bildirir; satırın öznesi (sorusu) olduğunda değil (aşağıya bakın).
   * İSTİSNA (güvenlik parçaları): hava yastığı/airbag, emniyet kemeri, fren/ABS/ESP ve şasi, direk, podye, kule, tavan, taban satırlarında ve Airbag ile Şasi bölümlerinde "Yok", "Hayır" veya "Orijinalinde yok" yanıtını "orijinalinde_yok" ya da "saglam" yapma; "diger" yaz ve ham durumu "rawStatus" alanına aynen yaz. "Yolcu hava yastığı: Yok" ve "Airbag ikaz lambası: Yok" -> "diger". Yalnız iki durum istisnadır: airbag satırında raporda tam olarak "Orijinalinde Yok" yazıyorsa "orijinalinde_yok"; airbag lambası sorusuna olumsuz yanıt ("Airbag arıza lambası yanıyor mu? Hayır" -> "saglam").
   * "Hasarsız mı?", "Kazasız mı?" gibi "-sız/-siz" soruları olumlu sorudur: "Hayır" yanıtı sorun bildirir, "saglam" yapma.
   * "Orijinal, Çizik", "Orijinal, Ezik Mevcut", "Plastik Parça, Çizik" -> "deforme"

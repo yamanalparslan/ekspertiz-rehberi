@@ -7,17 +7,17 @@
 // Temiz durum doğrulaması iki sağlayıcı için ortaktır (status-guard.ts; normalizeExtraction
 // bölüm bilgisiyle yeniden uygular).
 import {
-  AIRBAG_PART,
   confirmCleanStatus,
   fold,
   hasWord,
   hasWordPrefix,
+  isAirbagPart,
+  isChassisPart,
   isProblemSubject,
   NEGATION_STEMS,
   NEGATIVE_ANSWERS,
   ORIGINAL_STATUS,
   POSITIVE_STATUS,
-  SASI_PART,
   splitStatus,
   words,
   YES_ANSWERS,
@@ -61,6 +61,38 @@ function strictBool(x: unknown, dflt: boolean): boolean {
     if (f === "false") return false;
   }
   return dflt;
+}
+
+/**
+ * OBD "arıza var mı": kapalı hata. Yalnız açık olumsuz yanıt (false, "hayır", "yok"...) ve boş
+ * değer false olur; "evet"/"var" ve tanınmayan dolu metin true olur.
+ */
+function faultBool(x: unknown): boolean {
+  if (typeof x === "boolean") return x;
+  if (typeof x === "number") return Number.isFinite(x) ? x !== 0 : true;
+  if (typeof x !== "string") return false;
+  const f = fold(x).replace(/[.!]+$/, "").trim();
+  if (f === "") return false;
+  if (f === "false" || f === "0" || NEGATIVE_ANSWERS.has(f)) return false;
+  return true;
+}
+
+// Basılı yakıt/vites: harf büyüklüğü ve Türkçe harf farkı gözetilmez; birkaç yaygın yazım eşlenir.
+const FUEL_ALIASES: Record<string, string> = {
+  benzinli: "benzin",
+  diesel: "dizel",
+  dizelli: "dizel",
+  hybrid: "hibrit",
+  hibrid: "hibrit",
+  elektrikli: "elektrik",
+};
+const TRANS_ALIASES: Record<string, string> = { manual: "manuel", otomatik_vites: "otomatik", yarim_otomatik: "yari_otomatik" };
+
+function enumValue(x: unknown, valid: ReadonlySet<string>, aliases: Record<string, string>): string | null {
+  if (typeof x !== "string") return null;
+  const key = fold(x).replace(/[\s-]+/g, "_");
+  const v = aliases[key] ?? key;
+  return valid.has(v) ? v : null;
 }
 
 // ---------------------------------------------------------------------------
@@ -122,8 +154,8 @@ export function inferSection(section: unknown, part: string): string {
     for (const [re, s] of SECTION_TITLE_RULES) if (re.test(t)) return s;
   }
   const p = fold(part);
-  if (AIRBAG_PART.test(p)) return "airbag";
-  if (SASI_PART.test(p)) return "sasi";
+  if (isAirbagPart(p)) return "airbag";
+  if (isChassisPart(p)) return "sasi";
   return "diger";
 }
 
@@ -254,8 +286,8 @@ export function coerceGeminiJson(input: unknown): unknown {
         year: numOrNull(v.year),
         engineCc: numOrNull(v.engineCc),
         powerHp: numOrNull(v.powerHp),
-        fuel: VALID_FUELS.has(String(v.fuel)) ? String(v.fuel) : null,
-        transmission: VALID_TRANS.has(String(v.transmission)) ? String(v.transmission) : null,
+        fuel: enumValue(v.fuel, VALID_FUELS, FUEL_ALIASES),
+        transmission: enumValue(v.transmission, VALID_TRANS, TRANS_ALIASES),
         km: numOrNull(v.km),
       },
       report: {
@@ -297,7 +329,7 @@ export function coerceGeminiJson(input: unknown): unknown {
           .map((s) => ({
             system: inferObdSystem(s.system, String(s.unitName ?? "")),
             unitName: String(s.unitName ?? ""),
-            hasFault: strictBool(s.hasFault, false),
+            hasFault: faultBool(s.hasFault),
           })),
         rawFaults: (Array.isArray(obd.rawFaults) ? obd.rawFaults : [])
           .filter((f): f is Record<string, unknown> => Boolean(f && typeof f === "object"))

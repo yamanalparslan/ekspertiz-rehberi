@@ -49,6 +49,12 @@ const DOWNGRADE: Row[] = [
   ["ust_motor", "Şasi düzgün mü?", "Hayır", "saglam", "diger"],
   ["ust_motor", "Airbag sistemi çalışıyor mu?", "Hayır", "calisiyor", "diger"],
   ["ust_motor", "Conta kaçak var mı?", "Evet", "saglam", "diger"],
+  // "air bag" (iki kelime) ve çıplak "fişek/fişeği" airbag parçasıdır: "Yok" yanıtı temiz değildir.
+  ["ust_motor", "Air Bag İkaz Lambası", "Yok", "saglam", "diger"],
+  ["ust_motor", "Fişek Arıza Lambası", "Yok", "saglam", "diger"],
+  // "-sız" değeri yalnız bir sorun kökünün yokluğunu söylüyorsa olumludur.
+  ["kaporta_boya", "Tavan", "Boyasız değil", "orijinal", "diger"],
+  ["ic_dis_donanim", "Stepne", "Yağsız", "saglam", "diger"],
 ];
 
 const KEEP: Row[] = [
@@ -77,6 +83,10 @@ const KEEP: Row[] = [
   ["conta_kacak", "Conta kaçak testi (CO/HC)", "Negatif - Kaçak Yok", "saglam", "keep"],
   ["motor_alt_mekanik", "Arazi Şanzımanı", "Orijinalinde Yok", "orijinalinde_yok", "keep"],
   ["ic_dis_donanim", "Far Yıkama", "Orijinalinde Yok", "orijinalinde_yok", "keep"],
+  // Değer olarak "Boyasız/İşlemsiz" (öznede değil): olumlu; orijinal kalabilir.
+  ["kaporta_boya", "Motor Kaputu", "Boyasız", "orijinal", "keep"],
+  ["kaporta_boya", "Sol Ön Kapı", "Boyasız", "saglam", "keep"],
+  ["kaporta_boya", "Sağ Arka Kapı", "İşlemsiz", "orijinal", "keep"],
   // Temiz olmayan etiketlere dokunulmaz.
   ["sasi", "Sol Ön Direk", "Boyalı", "boyali", "keep"],
   ["ust_motor", "Turbo", "Bozuk", "diger", "keep"],
@@ -180,6 +190,16 @@ test("okuma talimatı güvenlik parçaları için orijinalinde_yok/saglam istisn
   // R42 ile uyumlu: airbag satırında basılı "Orijinalinde Yok" ve lamba sorusuna "Hayır".
   expect(EXTRACTION_SYSTEM).toContain('airbag satırında raporda tam olarak "Orijinalinde Yok" yazıyorsa "orijinalinde_yok"');
   expect(EXTRACTION_SYSTEM).toContain('"Airbag arıza lambası yanıyor mu? Hayır" -> "saglam"');
+});
+
+test("okuma talimatı korumayla uyumlu: orijinalinde_yok yalnız basılı 'Orijinalinde yok'; değer olarak 'Boyasız' orijinal", () => {
+  expect(EXTRACTION_SYSTEM).toContain('"orijinalinde_yok" yalnız raporda açıkça "Orijinalinde yok" yazıyorsa');
+  expect(EXTRACTION_SYSTEM).toContain('Çıplak "Yok" ("Sunroof: Yok", "Turbo: Yok") -> "diger"');
+  expect(EXTRACTION_SYSTEM).not.toContain('"Sunroof: Yok", "Turbo: Yok", "Airmatik: Yok", "Arazi Şanzımanı: Yok") -> "orijinalinde_yok"');
+  expect(EXTRACTION_SYSTEM).toContain('Panel satırında DEĞER olarak "Boyasız" ya da "İşlemsiz" -> "orijinal"');
+  // Bu iki kural koruma tarafından da aynen uygulanır.
+  expect(confirmCleanStatus("orijinalinde_yok", "Yok", "Sunroof", "ic_dis_donanim")).toBe("diger");
+  expect(confirmCleanStatus("orijinal", "Boyasız", "Motor Kaputu", "kaporta_boya")).toBe("orijinal");
 });
 
 describe("Gemini yolu: dönüştürücü + normalizeExtraction aynı sonucu verir", () => {

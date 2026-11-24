@@ -1,20 +1,14 @@
-import type { Extraction, StatusKind } from "@/lib/schema/extraction";
+import type { Extraction } from "@/lib/schema/extraction";
 import {
   InterpretationSchema,
   type Group,
   type Interpretation,
 } from "@/lib/schema/interpretation";
 import type { Knowledge } from "@/lib/kb/match";
+// Raporda sorun görülmeyen durumlar: tabanı yoksa şablonla "normal" sayılır, modele gönderilmez.
+import { CLEAN_STATUS } from "@/lib/status-guard";
 import { runStructured, type ClaudeLike } from "./client";
 import { INTERPRETATION_SYSTEM } from "./prompts";
-
-// Raporda sorun görülmeyen durumlar: tabanı yoksa şablonla "normal" sayılır, modele gönderilmez.
-const CLEAN_STATUS: ReadonlySet<StatusKind> = new Set<StatusKind>([
-  "orijinal",
-  "saglam",
-  "orijinalinde_yok",
-  "calisiyor",
-]);
 
 type InterpretedItem = Interpretation["items"][number];
 

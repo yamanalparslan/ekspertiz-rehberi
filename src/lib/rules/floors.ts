@@ -1,6 +1,7 @@
-import type { Extraction, MeasurementTest, StatusKind } from "@/lib/schema/extraction";
+import type { Extraction, MeasurementTest } from "@/lib/schema/extraction";
 import type { Group } from "@/lib/schema/interpretation";
 import { DEFAULT_THRESHOLDS, type Thresholds } from "@/lib/rules/thresholds";
+import { CLEAN_STATUS, fold, isAirbagPart, isChassisPart } from "@/lib/status-guard";
 
 export const GROUP_RANK: Record<Group, number> = {
   normal: 0,
@@ -14,13 +15,6 @@ export function mergeGroup(model: Group, floor: Group | undefined): Group {
   if (floor === undefined) return model;
   return GROUP_RANK[floor] > GROUP_RANK[model] ? floor : model;
 }
-
-const ORIGINAL_LIKE: ReadonlySet<StatusKind> = new Set<StatusKind>([
-  "orijinal",
-  "saglam",
-  "orijinalinde_yok",
-  "calisiyor",
-]);
 
 type Limit = { kind: "max" | "min"; value: number; abs: boolean };
 
@@ -53,10 +47,12 @@ export function computeFloors(
   const floors = new Map<string, Group>();
   const add = (id: string, g: Group) => floors.set(id, mergeGroup(g, floors.get(id)));
 
+  // Şasi/airbag: bölümden ya da parça adından (model bölümü yanlış okusa da taban kaybolmaz).
   for (const item of e.items) {
-    if ((item.section === "sasi" || item.section === "airbag") && !ORIGINAL_LIKE.has(item.statusKind)) {
-      add(item.id, "dikkat");
-    }
+    const p = fold(item.part);
+    const structural =
+      item.section === "sasi" || item.section === "airbag" || isChassisPart(p) || isAirbagPart(p);
+    if (structural && !CLEAN_STATUS.has(item.statusKind)) add(item.id, "dikkat");
   }
 
   for (const f of e.obd.rawFaults) {

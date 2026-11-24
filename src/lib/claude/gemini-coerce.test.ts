@@ -115,6 +115,15 @@ describe("bölüm çıkarımı: bilinmeyen bölüm şasi/airbag tabanını kaybe
     ["Kaporta-Boya", "Ön Kaput", "kaporta_boya"],
     ["kaporta_boya", "Sol Ön Direk", "kaporta_boya"],
     ["xyz", "Ön Tampon", "diger"],
+    // "air bag" iki kelime ve çıplak "fişek/fişeği" airbag; "direği" şasi.
+    ["xyz", "Sol Perde Air Bag", "airbag"],
+    ["xyz", "Kaput Fişeği", "airbag"],
+    ["", "Fişek", "airbag"],
+    ["xyz", "Sol A Direği", "sasi"],
+    // Adı benzeyen ama taşıyıcı olmayan parçalar şasi sayılmaz.
+    ["xyz", "Direksiyon Kutusu", "diger"],
+    ["", "Sunroof Veya Cam Tavan", "diger"],
+    ["", "Sağ / Sol Kule Bilyaları", "diger"],
   ])("%s / %s -> %s", (section, part, want) => {
     expect(inferSection(section, part)).toBe(want);
   });
@@ -188,6 +197,44 @@ test("hasFault, performed ve QR alanları katı ayrıştırılır (\"false\" -> 
   expect(out.obd.summary[0].system).toBe("fren");
   expect(out.measurements[0].performed).toBe(false);
   expect(out.report.onlineReportQrPresent).toBe(false);
+});
+
+test("hasFault: Türkçe evet/var -> true, hayır/yok -> false, tanınmayan dolu metin -> true (kapalı hata)", () => {
+  const out = RawExtractionSchema.parse(
+    coerceGeminiJson({
+      ...rawBase,
+      isReport: true,
+      obd: {
+        summary: ["Evet", "VAR", "Mevcut", "Hayır", "yok", "Arıza kaydı var (2)", "", null, 0, 1].map((hasFault) => ({
+          system: "motor",
+          unitName: "DME",
+          hasFault,
+        })),
+        rawFaults: [],
+      },
+    }),
+  );
+  expect(out.obd.summary.map((s) => s.hasFault)).toEqual([true, true, true, false, false, true, false, false, false, true]);
+});
+
+test("yakıt ve vites: büyük/küçük harf ve Türkçe harf farkı gözetilmez; basılı değer korunur, tahmin edilmez", () => {
+  const parse = (vehicle: object) =>
+    normalizeExtraction(RawExtractionSchema.parse(coerceGeminiJson({ ...rawBase, isReport: true, vehicle }))).extraction;
+  const e = parse({ brand: "Fiat", model: "Egea", variant: "1.4 Fire", fuel: "Dizel", transmission: "Yarı Otomatik" });
+  expect(e.vehicle.fuel).toBe("dizel");
+  expect(e.vehicle.transmission).toBe("yari_otomatik");
+  expect(e.vehicleInferred?.fuel).toBeUndefined();
+  const f = parse({ brand: "Kia", model: "Picanto", fuel: "BENZİN", transmission: "OTOMATİK" });
+  expect([f.vehicle.fuel, f.vehicle.transmission]).toEqual(["benzin", "otomatik"]);
+  expect(parse({ brand: "Kia", model: "Picanto", fuel: "Elektrikli", transmission: "Manuel" }).vehicle).toMatchObject({
+    fuel: "elektrik",
+    transmission: "manuel",
+  });
+  // Tanınmayan değer null olur (uydurma yok).
+  expect(parse({ brand: "Kia", model: "Picanto", fuel: "su", transmission: "?" }).vehicle).toMatchObject({
+    fuel: null,
+    transmission: null,
+  });
 });
 
 test("uçtan uca: bilinmeyen bölüm/sistem ve tanınmayan durum taban kurallarına ulaşır", () => {

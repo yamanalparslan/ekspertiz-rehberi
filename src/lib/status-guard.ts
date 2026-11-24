@@ -73,8 +73,20 @@ const NEG_QUESTION_SUFFIX =
   /(var mi|mevcut mu|yaniyor mu|gerekli mi|yapilmis mi|yapildi mi|li mi|lu mu|goruluyor mu|tespit edildi mi)\s*\?*\s*$/;
 export const IS_QUESTION = /\?|\b(mi|mu)\s*$/;
 
-export const AIRBAG_PART = /\b(airbag|hava yastig|srs\b|emniyet kemeri fise|kemer fise|kemer gergi)/;
-export const SASI_PART = /\b(direk|sasi|sase|podye|tavan|bagaj havuz|havuz|kule|frangart|taban)/;
+// Katlanmış parça adında: "air bag" (iki kelime) ve çıplak "fişek/fişeği" de airbag sayılır.
+export const AIRBAG_PART = /\b(air ?bag|hava yastig|srs\b|fise[kg]|emniyet kemeri fise|kemer fise|kemer gergi)/;
+// "direk/direği"; "direksiyon" da eşleşir: koruma için sıkı (temiz durum doğrulaması), taban için
+// isChassisPart taşıyıcı olmayanları ayıklar.
+export const SASI_PART = /\b(dire[kg]|sasi|sase|podye|tavan|bagaj havuz|havuz|kule|frangart|taban)/;
+// Adı şasi parçasına benzeyen ama taşıyıcı olmayanlar (direksiyon, kule bilyası, cam tavan, döşeme...).
+const NOT_CHASSIS =
+  /\bdireksiyon|\bkule (bilya|rulman|takoz)|\b(cam|acilir) tavan|\btavan (doseme|lamba|isig|kaplama|konsol|cam|pencere|perde|ray|bar|bagaj)|\btaban (hali|paspas|doseme|kaplama)/;
+
+/** Katlanmış parça adı bir airbag/hava yastığı/fişek parçası mı? */
+export const isAirbagPart = (foldedPart: string): boolean => AIRBAG_PART.test(foldedPart);
+/** Katlanmış parça adı taşıyıcı bir şasi parçası mı (direk, şasi, podye, tavan, havuz...)? */
+export const isChassisPart = (foldedPart: string): boolean =>
+  SASI_PART.test(foldedPart) && !NOT_CHASSIS.test(foldedPart);
 // "orijinalinde_yok" hiçbir zaman kabul edilmeyen güvenlik donanımı (airbag/şasi dışında).
 const SAFETY_EQUIPMENT_PART = /\b(abs|esp|esc|fren|kemer)/;
 
@@ -111,6 +123,19 @@ export function splitStatus(rawStatus: string): { head: string; benign: boolean;
   return { head, benign, text };
 }
 
+/**
+ * Değer olarak tek bir "<sorun kökü>-sız/-suz" kelimesi mi? ("Boyasız", "İşlemsiz", "Kaynaksız").
+ * Özne olarak ("Hasarsız mı?") olumlu bir sorudur ve isProblemSubject onu dışlar; DEĞER olarak
+ * sorunun yokluğunu bildirir. Sorun kökü olmayan ("Yağsız") olumlu sayılmaz.
+ */
+function isPrivativeOfProblem(head: string): boolean {
+  if (!/^[a-z]+$/.test(head)) return false;
+  const m = /^(.+?)(siz|suz)$/.exec(head);
+  if (!m) return false;
+  const stem = m[1];
+  return PROBLEM_STEMS.some((s) => stem.startsWith(s)) || PROBLEM_WORDS.includes(stem);
+}
+
 /** "<sorun> yok" biçiminde tam bir ifade mi? ("Anlık Kaçak Yok", "Negatif - Kaçak Yok"). */
 function isNegativeStatement(head: string): boolean {
   const m = /^(.+?)\s+(yok|yoktur|mevcut degil|gorulmedi|tespit edilmedi|bulunmadi)$/.exec(head);
@@ -121,7 +146,8 @@ function isNegativeStatement(head: string): boolean {
  * Temiz bir statusKind'i yalnız ham durum doğruluyorsa korur; aksi hâlde "diger".
  * Temiz olmayan etiketler aynen döner. Doğrulama:
  * - Durum başı açık bir olumlu/orijinal/çalışıyor ifadesi ("İyi", "Sorunsuz (Yapıldı)",
- *   "Orijinal : 70-90 µ") ve nitelikleri yalnız ölçüm/birim.
+ *   "Orijinal : 70-90 µ") ya da değer olarak "<sorun>-sız" ("Boyasız", "İşlemsiz") ve
+ *   nitelikleri yalnız ölçüm/birim.
  * - Airbag dışında: "<sorun> yok" ifadesi ya da sorun öznesine olumsuz yanıt ("Ağır işlem
  *   var mı? = Hayır"). Şasi satırında olumsuz yanıt yalnız soru biçimindeki özneye geçerlidir.
  * - Airbag satırında yalnız sorun sorusuna "Hayır"/"Yanmıyor" ("Airbag arıza lambası yanıyor
@@ -152,6 +178,7 @@ export function confirmCleanStatus<K extends string>(
     if (FACTORY_ABSENT.has(head)) return kind;
   }
   if (POSITIVE_STATUS.has(head) || ORIGINAL_STATUS.has(head) || WORKING_STATUS.has(head)) return kind;
+  if (isPrivativeOfProblem(head)) return kind;
   if (airbag) {
     // R42: yalnız sorun sorusuna (ör. "Airbag ikaz lambası yanıyor mu?") "Hayır"/"Yanmıyor" temizdir.
     // Soru olmayan satırda ya da "Yok" yanıtında (ampul sökülmüş olabilir) temiz değildir.

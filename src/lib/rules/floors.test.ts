@@ -118,3 +118,57 @@ test("airbag calisiyor kural tetiklemez", () => {
   const id = n.items.find((i) => i.part === "Sürücü Hava Yastığı")!.id;
   expect(computeFloors(n).get(id)).toBeUndefined();
 });
+
+// Parça adı da taban kuralını tetikler: bölüm yanlış okunsa da şasi/airbag parçası dikkat alır.
+type RawItem = RawExtraction["items"][number];
+const row = (section: RawItem["section"], part: string, rawStatus: string, statusKind: RawItem["statusKind"]): RawItem => ({
+  section,
+  part,
+  rawStatus,
+  statusKind,
+  note: null,
+});
+function floorsFor(items: RawItem[]) {
+  const raw = clone();
+  raw.items = items;
+  const n = normalizeExtraction(raw).extraction;
+  const f = computeFloors(n);
+  return (part: string) => f.get(n.items.find((i) => i.part === part)!.id);
+}
+
+test("yanlış bölümdeki şasi/airbag parçası parça adından dikkat tabanı alır", () => {
+  const floorOf = floorsFor([
+    row("kaporta_boya", "Sol Ön Direk", "Değişen", "degisen"),
+    row("kaporta_boya", "Sol A Direği", "Boyalı", "boyali"),
+    row("diger", "Sağ Podye", "Kaynaklı", "diger"),
+    row("ic_dis_donanim", "Yolcu hava yastığı", "Yok", "orijinalinde_yok"),
+    row("ust_motor", "Air Bag Lambası", "Yanıyor", "ariza"),
+    row("ic_dis_donanim", "Kaput Fişeği", "Patlamış", "diger"),
+    row("kaporta_boya", "Tavan", "Lokal Boyalı", "lokal_boyali"),
+  ]);
+  for (const part of ["Sol Ön Direk", "Sol A Direği", "Sağ Podye", "Yolcu hava yastığı", "Air Bag Lambası", "Kaput Fişeği", "Tavan"]) {
+    expect(floorOf(part), part).toBe("dikkat");
+  }
+});
+
+test("adı benzeyen taşıyıcı olmayan parçalar (direksiyon, kule bilyası, cam tavan, tavan döşemesi) taban almaz", () => {
+  const floorOf = floorsFor([
+    row("ic_dis_donanim", "Direksiyon Simidi Kontrol", "Deforme", "deforme"),
+    row("motor_alt_mekanik", "Direksiyon Kutusu", "Sızıntı", "sizinti"),
+    row("ust_motor", "Sağ / Sol Kule Bilyaları", "Orta", "asinmis"),
+    row("ic_dis_donanim", "Sunroof Veya Cam Tavan", "Fitilleri Deforme", "deforme"),
+    row("ic_dis_donanim", "Tavan Döşemesi", "Yırtık", "deforme"),
+    row("ic_dis_donanim", "Taban Halısı", "Kirli", "diger"),
+  ]);
+  for (const part of ["Direksiyon Simidi Kontrol", "Direksiyon Kutusu", "Sağ / Sol Kule Bilyaları", "Sunroof Veya Cam Tavan", "Tavan Döşemesi", "Taban Halısı"]) {
+    expect(floorOf(part), part).toBeUndefined();
+  }
+});
+
+test("BMW örneği: parça adı kuralı şasi/airbag bölümü dışında yeni taban eklemez", () => {
+  const outside = [...floors.keys()].filter((id) => {
+    const it = extraction.items.find((i) => i.id === id);
+    return it !== undefined && it.section !== "sasi" && it.section !== "airbag";
+  });
+  expect(outside).toEqual([]);
+});
