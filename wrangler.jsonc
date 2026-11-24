@@ -21,5 +21,9 @@
   },
   "limits": {
     "cpu_ms": 30000
+  },
+  // Workers Logs: console.log olay satırları (kod, süre, harcama, sağlayıcı) saklanır.
+  "observability": {
+    "enabled": true
   }
 }
