@@ -129,15 +129,11 @@
       "cost": null,
       "chronic": {
         "issueId": "bmw-g20-yag-filtre-yuvasi-kacagi",
-        "confidence": "yuksek",
+        "confidence": "dusuk",
         "sources": [
           {
             "url": "https://www.carcomplaints.com/news/2026/bmw-oil-filter-housing-lawsuit-b46-b48-b58-engines.shtml",
             "title": "BMW oil filter housing lawsuit: B46, B48, B58 engines (CarComplaints, 16.02.2026)"
-          },
-          {
-            "url": "https://www.bimmerworld.com/Engine/BMW-Oil-System/URO-Oil-Filter-Housing-B46-B48.html",
-            "title": "Oil Filter Housing with Cap Filter and Gaskets - B46 B48 Engine (BimmerWorld)"
           }
         ]
       },
